@@ -1,0 +1,62 @@
+/* common */
+
+.btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    border-radius: 8px;
+}
+
+.btn:hover {}
+
+.card {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    border: 1px solid black;
+    width: 50%;
+    border-radius: 5px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+}
+
+
+/* init base */
+
+.base {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+
+/* header */
+
+.header-base {
+    top: 0px;
+    display: flex;
+    flex-direction: column;
+    height: 6vh;
+}
+
+.nav-options-medico {
+    display: flex;
+    flex-direction: row;
+    height: 6vh;
+    border: 1px solid black;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.nav-options-medico a {
+    text-decoration: none;
+    width: 13vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

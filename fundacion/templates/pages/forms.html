@@ -1,0 +1,17 @@
+{% extends 'pages/base.html' %}
+
+{% load crispy_forms_tags %}
+{% load static %}
+{% block script_css %}
+    <link rel="stylesheet" href="{% static 'css/form/forms.css' %} ">
+{% endblock script_css %}
+{% block body %}
+    <article class="form">
+        <form action="" method="post">
+            {% csrf_token %}
+            {{form|crispy}}
+            <br>
+            <button class="btn" type="submit">Guardar</button>
+        </form>
+    </article>
+{% endblock body %}

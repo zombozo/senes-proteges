@@ -1,0 +1,29 @@
+{% extends 'pages/base.html' %}
+{% block body %}
+    <section>
+        <article>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>medicamento</th>
+                        <th>Descripcion</th>
+                        <th>Fecha</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    {% for solicitud in solicitudCitaDetalle %}
+                        <td>{{solicitud.id_solicitudCita.id_expediente.get_nombreCompleto}}</td>
+                        <td>{{solicitud.id_especialidad.nombre}}</td>
+                        <td>{{solicitud.descripcion}}</td>
+                        <td>{{solicitud.fecha_hora}}</td>
+                        <td></td>
+                    {% endfor %}
+                </tr>
+                </tbody>
+            </table>
+        </article>
+    </section>
+{% endblock body %}

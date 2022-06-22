@@ -1,0 +1,51 @@
+{% extends 'pages/base.html' %}
+{% block body %}
+{% load static %}
+{%load crispy_forms_tags %} 
+<link rel="stylesheet" href="{% static 'css/medico/ficha.css' %}">
+    <article class="card detalle solicitud">
+        <label for="">Nombre:</label>
+        <span>{{solicitud.id_expediente.get_nombreCompleto}}</span>
+        <label for="">Enfermero: </label>
+        <span>{{solicitud.id_enfermero.id_datosPersonales.primer_nombre}}</span>
+        <label for="">Descripcion:</label>
+        <span>{{solicitud.descripcion}}</span>
+        <label for="">Fecha de la solicitud: </label>
+        <span>{{solicitud.creado_en}}</span>
+        
+    </article>
+    
+    {% if fichas %}
+        <article class="detallar-formulario">
+        {% else %}
+        <article class="detallar-formulario" style="display: flex;justify-content: center; width: 50%; align-self: center;">
+    {% endif %}
+        <form action="" class="form-ficha" method="post">
+            {% csrf_token %}
+            {{form|crispy}}
+            <button class="btn enviar" type="submit">Enviar</button>
+        </form>
+        
+        {% if fichas %}
+            <section class="historial">
+                {% for ficha in fichas %}
+                    {{ficha.fecha}}
+                    {% for laboratorio in ficha.laboratorio_ficha.all %}
+                        {{laboratorio.resultado}}
+                    {% endfor %}
+                    {% for consult in ficha.consulta_ficha.all %}
+                        {{ consult.diagnostico }}
+                    {% endfor %}
+                {% endfor %}
+            </section>
+        {% endif %}
+            
+        
+    </article>
+    {% if fichas %}
+        <nav class="options">
+            <a href="#" class="btn">Solicitar laboratorio</a>
+            <a href="{% url 'fundacion:crear-tratamiento' solicitud.solicitudCitaDetalle %}" class="btn">Agregar tratamiento</a>
+        </nav>
+    {% endif %}
+{% endblock body %}

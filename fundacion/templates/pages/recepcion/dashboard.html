@@ -1,0 +1,99 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+{% block body %}
+<link rel="stylesheet" href="{% static 'css/medico/dashboard.css' %}">
+<div class="base-dashboard-medico">
+    <nav class="options">
+        <a href="#" class="btn">Consulta medica</a>
+        <a href="#" class="btn">Solicitar laboratorio</a>
+        <a href="#" class="btn">Agregar tratamiento</a>
+    </nav>
+    <section class="citas">
+        <table class="tabla-citas-medicas">
+            <thead>
+                <tr>
+                    <th>Paciente</th>
+                    <th>Edad</th>
+                    <th>Enfermero</th>
+                    <th>Descripcion General</th>
+                    <th>Solicitado el</th>
+                    <th>Estado</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if citas %}
+                    {% for cita in citas %}
+                        <tr>
+                            <td>{{cita.id_expediente.id_datosPersonales.get_nombreCompleto }}</td>
+                            <td>{{cita.id_expediente.id_datosPersonales.fecha_nacimiento}}</td>
+                            <td>{{cita.id_enfermero}}</td>
+                            <td>{{cita.descripcion}}</td>
+                            <td>{{cita.creado_en}}</td>
+                            <td>
+                                
+                                {% if cita.solicitud_finalizada %}
+                                    Confirmada
+                                    {% else %}
+                                    No confirmada
+                                {% endif %}
+                                    
+                            </td>
+                            <td>
+                            
+                            {% if cita.soclitud_finalizada  %}
+                                {% else %}
+                                <form action="{% url 'fundacion:actualizar-solicitud-cita' cita.id_solicitudCita %}" method="POST">
+                                    {% csrf_token %}
+                                    <button class="btn" name="solicitud_finalizada" id="solicitud_finalizada" value="True" type="submit">Confirmar</button>
+                                </form>
+                            {% endif %}
+                                
+                            <a class="btn btn-crear-consulta" href="{% url 'fundacion:crear-consulta' cita.id_expediente.id_expediente %}?solicitud={{cita.id_solicitudCita}}">Atender</a>
+                            </td>
+                        </tr>
+                        
+                        {% if cita.detalle_cita.all|length > 0 %}
+                            <tr>
+                                <th>Especialidad</th>
+                                <th>Motivo</th>
+                                <th>Asignar fecha</th>
+                                <th>Estado</th>
+                            </tr>
+                            {% for detalle in cita.detalle_cita.all %}
+                                <tr>
+                                    <td>{{detalle.id_especialidad}}</td>
+                                    <td>{{detalle.descripcion}}</td>
+                                    <td>
+                                        {% if detalle.fecha_hora == None %}
+                                            <form class="datetime" action="{% url 'fundacion:actualizar-detalle-solicitud' detalle.solicitudCitaDetalle %}" method="post">
+                                            {% csrf_token %}
+                                                <input type="date" name="fecha_hora" id="fecha_hora">
+                                                <input type="time" name="fecha_hora" id="fecha_hora">
+                                                <button type="submit">asignar</button>
+                                            </form>
+                                            {% else %}
+                                            {{detalle.fecha_hora}}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                    {% if detalle.aceptado %}
+                                        Aceptado
+                                        {% else %}
+                                        Pendiente
+                                    {% endif %}
+                                        </td>
+                                </tr>
+                                {% endfor %}
+                        {% endif %}
+                            
+                        
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </section>
+    
+</div>
+
+{% endblock body %}

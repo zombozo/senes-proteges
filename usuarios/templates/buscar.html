@@ -1,0 +1,26 @@
+
+    <section class="lista-expedientes">
+        <table>
+                <thead>
+                    <tr>
+                        <th>Expediente</th>
+                        <th>Nombre</th>
+                        <th>Edad</th>
+                        <th>DPI</th>
+                        <th>opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   {% for expediente in expedientes %}
+                        <tr>
+                            <td></td>
+                            <td>{{expediente.id_datosPersonales.get_nombreCompleto}}</td>
+                            <td>{{expediente.id_datosPersonales.fecha_nacimiento}}</td>
+                            <td>{{expediente.id_datosPersonales.dni}}</td>
+                            <td><a class="btn" href="{% url 'asilo:crear-solicitud' expediente.id_expediente %}">Solicitar cita</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        
+    </section>
