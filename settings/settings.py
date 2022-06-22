@@ -24,9 +24,9 @@ SECRET_KEY = 'django-insecure-e5mb0*h01@f+1h!)(4k-dkr8%uozi#i8^u(2n4cgu%(($w&jgq
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
-
+CSRF_TRUSTED_ORIGINS = ["http://877d-45-229-41-75.ngrok.io"]
+ALLOWED_HOSTS = ["*", "http://877d-45-229-41-75.ngrok.io"]
+CORS_ORIGIN_WHITELIST = ["http://877d-45-229-41-75.ngrok.io"]
 
 # Application definition
 
@@ -37,6 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'fundacion',
+    'reportes',
+    'usuarios',
+    'asilo',
+    'crispy_forms',
+    'bootstrap4',
+    "bootstrap_datepicker_plus"
 ]
 
 MIDDLEWARE = [
@@ -110,7 +117,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
