@@ -119,7 +119,7 @@ class ficha(models.Model):
     id_expediente = models.ForeignKey('asilo.expediente', related_name='Expediente', on_delete=models.CASCADE)
     fecha = models.DateField( auto_now=True, unique=True)
     id_solicitudCita = models.ForeignKey('fundacion.solicitudCita', related_name='ficha_solicitud', on_delete=models.CASCADE)
-    
+
     def get_ficha(form=None, _solicitudCitaDetalle=None):
         _ficha = ficha()
         if _solicitudCitaDetalle != None:

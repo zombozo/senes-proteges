@@ -17,7 +17,8 @@ urlpatterns = [
     path("actualizar-detalle-solicitud/<int:pk>/", view=solicitudDetalleUpdateDatetimeView.as_view(), name="actualizar-detalle-solicitud"),
     path("actualizar-solicitud-cita/<int:pk>/", view=solicitudUpdateView.as_view(), name='actualizar-solicitud-cita'),
     path("dashboard-laboratorio/", view=dashboardLaboratorio.as_view(), name="dashboard-laboratorio"),
-    path("dashboard-farmacia/", view=dashboardFarmacia.as_view(), name="dashboard-farmacia")
+    path("dashboard-farmacia/", view=dashboardFarmacia.as_view(), name="dashboard-farmacia"),
+    path("actualizar-tratamiento/<int:pk>/", view=tratamientoUpdateview.as_view(), name="actualizar-tratamiento")
 ]
 
 # <int:id_cliente>/

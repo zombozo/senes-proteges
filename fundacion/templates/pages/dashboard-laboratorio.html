@@ -5,7 +5,17 @@
 {% endblock script_css %}
 {% block body %}
     <section class="base">
+    <article class="elementos-inline buscar">
+        <select name="tipo" id="tipo">
+            <option value="1">Expediente</option>
+            <option value="2">Codigo de laboratorio</option>
+        </select>
+        <input type="search" name="codigo" id="codigo">
+        <a class="btn" href="http://">Buscar Laboratorio</a>
+    </article>
+        
         <article class="detalle-citas">
+        
             <table class="table">
                 <thead>
                     <tr>
@@ -17,7 +27,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                
                     {% for cita in citas %}
                         <tr>
                         <td>{{cita.id_solicitudCita.id_expediente.id_datosPersonales.get_nombreCompleto}}</td>

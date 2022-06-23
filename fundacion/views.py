@@ -121,6 +121,13 @@ class tratamientoCreateView(CreateView):
         self.success_url = self.success_url+f"{solicitud.id_solicitudCita.id_expediente}"
         return super().form_valid(form)
 
+class tratamientoUpdateview(UpdateView):
+    model = tratamiento
+    fields = ["estado"]
+    success_url= "/fundacion/dashboard-farmacia/"
+    
+    
+    
 class solicitudDetalleUpdateDatetimeView(UpdateView):
     template_name="pages/recepcion/dashboard.html"
     model = solicitudCitaDetalle

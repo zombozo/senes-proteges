@@ -2,26 +2,45 @@
 {% block body %}
     <section>
         <article>
-            <table>
+            <table class="table">
                 <thead>
                     <tr>
                         <th>Cliente</th>
                         <th>medicamento</th>
+                        <th>dosis</th>
                         <th>Descripcion</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
                         <th>Fecha</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    {% for solicitud in solicitudCitaDetalle %}
-                        <td>{{solicitud.id_solicitudCita.id_expediente.get_nombreCompleto}}</td>
-                        <td>{{solicitud.id_especialidad.nombre}}</td>
-                        <td>{{solicitud.descripcion}}</td>
-                        <td>{{solicitud.fecha_hora}}</td>
-                        <td></td>
+                
+                    {% for tratamiento in tratamientos %}
+                        <tr>
+                            <td>{{tratamiento.id_ficha.id_expediente.id_datosPersonales.get_nombreCompleto}}</td>
+                            <td>{{tratamiento.medicamento.nombre}}</td>
+                            <td>{{tratamiento.medicamento.dosis}}</td>
+                            <td>{{tratamiento.descripcion}}</td>
+                            <td>{{tratamiento.cantidad}}</td>
+                            <td>{{tratamiento.medicamento.precio}}</td>
+                            <td>{{tratamiento.fecha}}</td>
+                            <td>
+                                <form class="elementos-inline" action="{% url 'fundacion:actualizar-tratamiento' tratamiento.id_tratamiento %}" method="post">
+                                {% csrf_token %}
+                                <select class="btn" name="estado" id="estado">
+                                    <option value="1">Pendiente</option>
+                                    <option value="2">Entregado</option>
+                                    <option value="3">Sin existencia</option>
+                                    <option value="4">No se presento</option>
+                                </select>
+                                    <button class="btn" type="submit">Entregado</button>
+                                </form>
+                            </td>
+                         </tr>
                     {% endfor %}
-                </tr>
+               
                 </tbody>
             </table>
         </article>

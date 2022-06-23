@@ -13,8 +13,8 @@ class datosPersonales(models.Model):
     creado_en = models.DateTimeField(auto_now=True)
     def __str__(self):
         return self.primer_nombre
-        
-        
+
+
     def get_nombreCompleto(self):
         return f"{self.primer_nombre} {self.segundo_nombre} {self.primer_apellido} {self.segundo_apellido}"
 

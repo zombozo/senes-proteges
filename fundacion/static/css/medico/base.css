@@ -60,3 +60,13 @@ form {
     justify-content: center;
     align-items: center;
 }
+
+
+/* mods */
+
+.elementos-inline {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+}
