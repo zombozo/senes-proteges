@@ -1,18 +1,20 @@
 import datetime
+from multiprocessing import context
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
-from django.views.generic import TemplateView, CreateView, UpdateView
+from django.views.generic import TemplateView, CreateView, UpdateView, ListView
 from django.contrib import messages
 from asilo.models import expediente
+from fundacion.mixins import facturaMixin
 
 from .forms import  consultaMedicaForm, solicitudCitaDetalleFechaForm, tratamientoForm
 
-from .models import consultaMedica, ficha, laboratorio, solicitudCita, solicitudCitaDetalle, tratamiento
+from .models import consultaMedica, factura, ficha, laboratorio, solicitudCita, solicitudCitaDetalle, tratamiento
 
 # Create your views here.
 
 class dashboardMedico(TemplateView):
     template_name = "pages/medico/dashboard_medico.html"
-    
     def get(self, request, *args, **kwargs):
         _solicitudes = solicitudCitaDetalle.objects.filter(id_especialidad__id_area__id_area=1, id_solicitudCita__solicitud_finalizada=True)
         context = {
@@ -32,7 +34,7 @@ class dashboardRecepcion(TemplateView):
 
 class dashboardFarmacia(TemplateView):
     template_name="pages/dashboard-farmacia.html"
-    
+
     def get(self, request, *args, **kwargs):
         tratamientos = tratamiento.objects.filter(estado=1)
         context = {
@@ -125,9 +127,7 @@ class tratamientoUpdateview(UpdateView):
     model = tratamiento
     fields = ["estado"]
     success_url= "/fundacion/dashboard-farmacia/"
-    
-    
-    
+
 class solicitudDetalleUpdateDatetimeView(UpdateView):
     template_name="pages/recepcion/dashboard.html"
     model = solicitudCitaDetalle
@@ -161,3 +161,30 @@ class solicitudUpdateView(UpdateView):
         _ficha.save()
         return redirect("/fundacion")
 
+class fichasListView(ListView):
+    template_name = "pages/recepcion/fichas.html"
+    model = ficha
+    
+    def get(self, request, *args, **kwargs):
+        fichas = ficha.objects.all()
+        context = {
+            "fichas":fichas
+        }
+        return render(request, self.template_name,context )
+
+class facturaCrear(facturaMixin, CreateView):
+    template_name = "pages/recepcion/generar_factura.html"
+    model = factura
+    fields = ["direccion", "nit"]
+    success_url = "/fundacion/fichas/"
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(facturaCrear, self).get_context_data(*args, **kwargs)
+        context["ficha"] = ficha.objects.get(id_ficha=self.kwargs['id_ficha'])
+        return context
+
+    def form_valid(self, form) -> HttpResponse:
+        form.instance.id_ficha = ficha.objects.get(id_ficha=self.kwargs['id_ficha'])
+        form.save()
+        self.crear_detalle(form.instance.id_factura, self.kwargs['id_ficha'])
+        return super().form_valid(form)

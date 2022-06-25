@@ -11,6 +11,7 @@ class datosPersonales(models.Model):
     fecha_nacimiento = models.DateField(blank=False, null=False)
     dni = models.BigIntegerField(blank=False, null=False)
     creado_en = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return self.primer_nombre
 

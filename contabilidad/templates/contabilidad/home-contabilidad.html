@@ -1,0 +1,83 @@
+{% extends 'contabilidad/base.html' %}
+{% block scripts_css %}
+
+{% endblock scripts_css %}
+{% block content %}
+    <nav>
+        <a href="http://">Hacer donacion</a>
+    </nav>
+    <article class="facturas-pendientes">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Paciente</th>
+                    <th>Codigo expediente</th>
+                    <th>Edad</th>
+                    <th>correo de contacto</th>
+                    <th>opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for factura in facturas %}
+                    <tr>
+                        <td>{{factura.id_ficha.id_expediente.id_datosPersonales.get_nombreCompleto}}</td>
+                        <td>{{factura.id_ficha.id_expediente.codigo_expediente}}</td>
+                        <td>{{factura.id_ficha.id_expediente.id_datosPersonales.fecha_nacimiento}}</td>
+                        <td>{{factura.correo}}</td>
+                        <td>
+                            <a class="btn" href="http://">Pagar factura</a>
+                            <a href="http://">Notificar por correo</a>
+                        </td>
+                    </tr>
+                    
+                    {% if factura.factura_detalle.all %}
+                        <tr>
+                            <th>Especialidad</th>
+                            <th>costo</th>
+                        </tr>
+                    {% for especialidad in factura.factura_detalle.all %}
+                        <tr>
+                            <td>{{especialidad.id_especialidad}}</td>
+                            <td>{{especialidad.costo}}</td>
+                        </tr>
+                    {% endfor %}
+                    {% endif %}
+                    
+                    {% if factura.farmacia_detalle.all %}
+                        <tr>
+                            <th>Medicamento</th>
+                            <th>Cantidad</th>
+                            <th>Precio</th>
+                        </tr>
+                    {% for detalle in factura.farmacia_detalle.all %}
+                        <tr>
+                            <td>{{detalle.id_medicamento.nombre}}</td>
+                            <td>{{detalle.cantidad}}</td>
+                            <td>{{detalle.precio_unitario}}</td>
+                        </tr>
+                    {% endfor %}
+                    {% endif %}
+                    
+                    {% if factura.transaccion_factura.all %}
+                        <tr>
+                            <th>Cuenta</th>
+                            <th>Monto</th>
+                            <th>Descripcion</th>
+                        </tr>
+                        {% for transaccion in factura.transaccion_factura.all %}
+                            <tr>
+                                <td>{{transaccion.id_cuenta}}</td>
+                                <td>{{transaccion.monto}}</td>
+                                <td>{{transaccion.descripcion}}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                        
+                    
+                    
+                {% endfor %}
+            </tbody>
+        </table>
+    </article>
+
+{% endblock content %}

@@ -24,9 +24,7 @@ SECRET_KEY = 'django-insecure-e5mb0*h01@f+1h!)(4k-dkr8%uozi#i8^u(2n4cgu%(($w&jgq
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-CSRF_TRUSTED_ORIGINS = ["http://877d-45-229-41-75.ngrok.io"]
-ALLOWED_HOSTS = ["*", "http://877d-45-229-41-75.ngrok.io"]
-CORS_ORIGIN_WHITELIST = ["http://877d-45-229-41-75.ngrok.io"]
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -42,8 +40,7 @@ INSTALLED_APPS = [
     'usuarios',
     'asilo',
     'crispy_forms',
-    'bootstrap4',
-    "bootstrap_datepicker_plus"
+    'contabilidad'
 ]
 
 MIDDLEWARE = [
@@ -128,3 +125,15 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+# EMAIL_HOST_USER = "gerson.olivares543@gmail.com"
+# EMAIL_HOST_PASSWORD = "accesorestringido 1417"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+# CAMBIARA A .ENV PARA OCULTAR LOS SIGUIENTES DATOS
+EMAIL_HOST_USER = "gerson.olivares543@gmail.com"
+EMAIL_HOST_PASSWORD = "iswmjaaentxorncc" #iswmjaaentxorncc

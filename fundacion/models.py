@@ -1,7 +1,7 @@
 
 from django.db import models
 
-from asilo.models import expediente
+from asilo.models import expediente, transaccion
 
 # Create your models here.
 
@@ -14,19 +14,29 @@ class factura(models.Model):
 
 
     def __str__(self):
-        return self.id_factura
+        return f"{self.nit} {self.fecha}"
+        
+    def get_facturas_por_cliente(_expediente):
+        pass
+    
+    def pendiente_de_pagar(self):
+        transacciones = transaccion.objects.filter(id_factura=self.id_factura)
 
 class facturaDetalleEspecialidad(models.Model):
     id_facturaDetalle = models.AutoField(primary_key=True)
-    id_factura = models.ForeignKey("fundacion.factura", verbose_name=("factura_detalle"), on_delete=models.CASCADE)
+    id_factura = models.ForeignKey("fundacion.factura", related_name=("factura_detalle"), on_delete=models.CASCADE)
     id_especialidad = models.ForeignKey("fundacion.especialidad", verbose_name=("especialidad"), on_delete=models.CASCADE)
     costo = models.FloatField()
+    
+    def __str__(self) -> str:
+        return f"{self.id_especialidad.especialidad} Q.{self.costo}"
 
 class facturaDetalleFarmacia(models.Model):
     id_facturaDetalleFarmacia = models.AutoField(primary_key=True)
-    id_factura = models.ForeignKey("fundacion.factura", verbose_name=("factura_detalle"), on_delete=models.CASCADE)
+    id_factura = models.ForeignKey("fundacion.factura", related_name=("farmacia_detalle"), on_delete=models.CASCADE)
     id_medicamento = models.ForeignKey("fundacion.medicamento", verbose_name=("medicamento"), on_delete=models.CASCADE)
-    costo = models.FloatField()
+    cantidad = models.IntegerField()
+    precio_unitario = models.FloatField()
 
 estados = [
         (1,"Pendiente"),
@@ -34,6 +44,8 @@ estados = [
         (3,"Sin existencia"),
         (4,"No se presento ")
         ]
+
+
 class tratamiento(models.Model):
         id_tratamiento = models.AutoField(primary_key=True)
         id_ficha = models.ForeignKey("fundacion.ficha", related_name="tratamiento_ficha", on_delete=models.CASCADE)
@@ -78,7 +90,7 @@ class area(models.Model):
     id_area = models.AutoField(primary_key=True)
     nombre = models.CharField(("nombre"), max_length=50)
     
-    def __str__(self) -> str:
+    def __str__(self):
         return self.nombre
 
 class especialidad(models.Model):
@@ -116,11 +128,11 @@ class solicitudLaboratorio(models.Model):
 
 class ficha(models.Model):
     id_ficha = models.AutoField(primary_key=True)
-    id_expediente = models.ForeignKey('asilo.expediente', related_name='Expediente', on_delete=models.CASCADE)
+    id_expediente = models.ForeignKey('asilo.expediente', related_name='ficha_expediente', on_delete=models.CASCADE)
     fecha = models.DateField( auto_now=True, unique=True)
     id_solicitudCita = models.ForeignKey('fundacion.solicitudCita', related_name='ficha_solicitud', on_delete=models.CASCADE)
 
-    def get_ficha(form=None, _solicitudCitaDetalle=None):
+    def get_ficha(self,form=None, _solicitudCitaDetalle=None):
         _ficha = ficha()
         if _solicitudCitaDetalle != None:
             try:
@@ -140,6 +152,13 @@ class ficha(models.Model):
                 _ficha.id_expediente =_expediente
                 _ficha.save()
         return _ficha
+
+    def get_factura(self):
+        return factura.objects.filter(id_ficha=self.id_ficha)
+
+    def get_facturas_pendientes(self):
+        facturas = factura.objects.filter(id_ficha=self.id_ficha)
+        return [factura for factura in facturas if factura.pendiente_de_pagar()]
 
 class solicitudCita(models.Model):
     id_solicitudCita = models.AutoField(primary_key=True)

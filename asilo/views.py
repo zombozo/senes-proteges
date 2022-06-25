@@ -1,7 +1,9 @@
+from django.conf import settings
 from django.shortcuts import render
 from asilo.models import expediente, contacto
 from fundacion.forms import solicitudCitaDetalleForm, solicitudCitaForm
 from fundacion.models import solicitudCita, solicitudCitaDetalle
+from reportes.correoElectronico import correo
 from usuarios.forms import datosPersonalesForm
 
 from usuarios.models import datosPersonales
@@ -103,6 +105,15 @@ class solicitudCitaDetalleCreateView(CreateView):
             _solicitudCita= solicitudCita.objects.get(id_solicitudCita=form.instance.id_solicitudCita.id_solicitudCita)
             _solicitudCita.solicitud_finalizada=True
             _solicitudCita.save()
+            _correo = correo()
+            contenido = {}
+            _correo.set_contenidoCorreo(
+                destinatario=settings.EMAIL_HOST_USER,
+                subject="Test",
+                contexto=contenido,
+                to=["weowulft02@gmail.com"]
+            )
+            _correo.enviar(contexto=contenido)
         
         return super().form_valid(form)
 
