@@ -24,9 +24,8 @@ SECRET_KEY = 'django-insecure-e5mb0*h01@f+1h!)(4k-dkr8%uozi#i8^u(2n4cgu%(($w&jgq
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-CSRF_TRUSTED_ORIGINS = ["http://877d-45-229-41-75.ngrok.io"]
-ALLOWED_HOSTS = ["*", "http://877d-45-229-41-75.ngrok.io"]
-CORS_ORIGIN_WHITELIST = ["http://877d-45-229-41-75.ngrok.io"]
+ALLOWED_HOSTS = ["*"]
+
 
 # Application definition
 
@@ -42,8 +41,6 @@ INSTALLED_APPS = [
     'usuarios',
     'asilo',
     'crispy_forms',
-    'bootstrap4',
-    "bootstrap_datepicker_plus"
 ]
 
 MIDDLEWARE = [

@@ -23,7 +23,7 @@ class dashboardMedico(TemplateView):
 class dashboardRecepcion(TemplateView):
     template_name = "pages/recepcion/dashboard.html"
     def get(self, request, *args, **kwargs):
-        _solicitudes = solicitudCita.objects.filter(solicitud_finalizada=False)
+        _solicitudes = solicitudCita.objects.filter(aceptada=False)
         context = {
             "citas": _solicitudes,
             "form": solicitudCitaDetalleFechaForm()
@@ -72,14 +72,16 @@ class consultaMedicaCreateView(CreateView):
     def get(self, request, *args, **kwargs):
         id_expediente = kwargs["id_expediente"]
         id_detalle = request.GET.get("detalle")
-        _solicitud = solicitudCitaDetalle.objects.get(solicitudCitaDetalle=id_detalle)
+        _solicitud = solicitudCitaDetalle.objects.get(id_solicitudCita__id_expediente=id_expediente)
         data ={'id_solicitudCitaDetalle':_solicitud}
         form  = consultaMedicaForm(initial=data)
+        tratamientos = tratamiento.objects.filter(id_ficha__id_expediente=id_expediente)
         fichas = ficha.objects.filter(id_expediente_id=id_expediente)
         context= {
             "solicitud":_solicitud,
             "fichas":fichas,
             "form":form,
+            "tratamientos":tratamientos,
             "id_expediente": id_expediente
         }
         print(context)
@@ -118,7 +120,7 @@ class tratamientoCreateView(CreateView):
         solicitud = solicitudCitaDetalle.objects.get(solicitudCitaDetalle=id_solicitud)
         _ficha = ficha()
         form.instance.id_ficha = _ficha.get_ficha(_solicitudCitaDetalle=solicitud)
-        self.success_url = self.success_url+f"{solicitud.id_solicitudCita.id_expediente}"
+        self.success_url = self.success_url+f"{solicitud.id_solicitudCita.id_expediente.id_expediente}"
         return super().form_valid(form)
 
 class tratamientoUpdateview(UpdateView):
@@ -152,12 +154,12 @@ class solicitudDetalleUpdateDatetimeView(UpdateView):
 class solicitudUpdateView(UpdateView):
     template_name = "pages/recepcion/dashboard.html"
     model = solicitudCita
-    fields = ["solicitud_finalizada"]
+    fields = ["aceptada"]
     def form_valid(self, form) :
         form.save()
         _ficha = ficha()
         _ficha.id_expediente=form.instance.id_expediente
         _ficha.id_solicitudCita= form.instance
         _ficha.save()
-        return redirect("/fundacion")
+        return redirect("/fundacion/recepcion/")
 

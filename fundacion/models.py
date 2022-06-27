@@ -39,7 +39,7 @@ class tratamiento(models.Model):
         id_ficha = models.ForeignKey("fundacion.ficha", related_name="tratamiento_ficha", on_delete=models.CASCADE)
         fecha = models.DateField(("Fecha de Inicio"), auto_now=True)
         medicamento =models.ForeignKey("fundacion.medicamento", verbose_name=("Seleccionar el medicamento"), on_delete=models.CASCADE)
-        cantidad = models.IntegerField()
+        cantidad = models.IntegerField(blank=True, null=True)
         id_enfermedad = models.ForeignKey("fundacion.enfermedad", blank=True, null=True, verbose_name=("Seleccione la enfermedad"), on_delete=models.CASCADE)
         descripcion = models.TextField(null=False, blank=False)
         estado = models.IntegerField(choices=estados, default=1)
@@ -117,7 +117,7 @@ class solicitudLaboratorio(models.Model):
 class ficha(models.Model):
     id_ficha = models.AutoField(primary_key=True)
     id_expediente = models.ForeignKey('asilo.expediente', related_name='Expediente', on_delete=models.CASCADE)
-    fecha = models.DateField( auto_now=True, unique=True)
+    fecha = models.DateField( auto_now=True)
     id_solicitudCita = models.ForeignKey('fundacion.solicitudCita', related_name='ficha_solicitud', on_delete=models.CASCADE)
 
     def get_ficha(form=None, _solicitudCitaDetalle=None):
@@ -133,7 +133,7 @@ class ficha(models.Model):
                 _ficha.save()
         elif form != None:
             try:
-                _ficha = ficha.objects.get(id_solicitudCita=form.instance.id_solicitudCitaDetalle.id_solicitudCita.id_solicitudCita)
+                _ficha = ficha.objects.get(id_expediente=form.instance.id_solicitudCitaDetalle.id_solicitudCita.id_expediente.id_expediente)
             except Exception as e:
                 _expediente = expediente.objects.get(id_expediente=form.instance.id_solicitudCitaDetalle.id_solicitudCita.id_expediente.id_expediente)
                 _ficha.id_solicitudCita=form.instance.id_solicitudCitaDetalle.id_solicitudCita
@@ -148,6 +148,7 @@ class solicitudCita(models.Model):
     descripcion = models.TextField(verbose_name="Descripcion de la consulta General: ")
     creado_en = models.DateTimeField(auto_now=True)
     solicitud_finalizada = models.BooleanField(default=False)
+    aceptada = models.BooleanField(default=False)
 
 class solicitudCitaDetalle(models.Model):
     solicitudCitaDetalle = models.AutoField(primary_key=True)

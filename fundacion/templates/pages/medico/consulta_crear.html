@@ -15,6 +15,30 @@
         
     </article>
     
+    {% if tratamientos %}
+            <article>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>medicamento</th>
+                        <th>descripcion</th>
+                        <th>estado</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for tratamiento in  tratamientos %}
+                            <tr>
+                                <td>{{tratamiento.medicamento.nombre}}</td>
+                                <td>{{tratamiento.descripcion}}</td>
+                                <td>{{tratamiento.estado}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </article>
+    {% endif %}
+        
+    
     {% if fichas %}
         <article class="detallar-formulario">
         {% else %}

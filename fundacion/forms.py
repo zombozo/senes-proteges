@@ -1,5 +1,4 @@
 from django import forms
-from bootstrap_datepicker_plus.widgets import DateTimePickerInput
 from .models import consultaMedica,  solicitudCita, solicitudCitaDetalle, tratamiento
 
 
@@ -13,7 +12,7 @@ class consultaMedicaForm( forms.ModelForm):
 class tratamientoForm( forms.ModelForm):
     class Meta:
         model = tratamiento
-        fields = ["medicamento","id_enfermedad", "descripcion"]
+        fields = ["medicamento", "id_enfermedad", "descripcion"]
     def __init__(self, *args, **kwargs):
         super(tratamientoForm, self).__init__(*args, **kwargs)
         
@@ -52,4 +51,3 @@ class solicitudCitaDetalleFechaForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(solicitudCitaDetalleFechaForm, self).__init__(*args, **kwargs)
-        self.fields["fecha_hora"].widget = DateTimePickerInput()

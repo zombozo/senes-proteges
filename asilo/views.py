@@ -15,7 +15,7 @@ class datosPersonalesCreateView(CreateView):
     model = datosPersonales
     template_name  = "includes/forms.html"
     fields = "__all__"
-    success_url = "/contacto/"
+    success_url = "/asilo/contacto/"
     form = datosPersonalesForm()
 
     def form_valid(self, form):
@@ -28,7 +28,7 @@ class contactoCreateView(CreateView):
     model = contacto
     template_name = "includes/forms.html"
     fields = "__all__"
-    success_url = "/expediente/"
+    success_url = "/asilo/expediente/"
 
     def form_valid(self, form):
         form.save()
@@ -44,7 +44,7 @@ class expedienteDetailView(DetailView):
         context = {}
         _expediente = expediente.objects.get(id_expediente=kwargs['pk'])
         context['expediente'] = _expediente
-        context['contacto'] = contacto.objects.get(id_expediente=_expediente)
+        context['contacto'] = contacto.objects.filter(id_expediente=_expediente.id_expediente)
         return render(request, self.template_name, context)
 
 class medicoGeneralView(TemplateView):
