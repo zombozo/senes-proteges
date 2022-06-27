@@ -1,0 +1,38 @@
+
+{% load static %}
+{% load recepcion %}
+    <article class="expedientes">
+            <h4>Clientes</h4>
+            <a class="btn btn-outline-success" href="{% url 'asilo:datos-personales' %}">
+                <img src="{% static 'imagenes/person-add.svg' %}" alt=""> 
+                    Agregar un cliente
+            </a>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Expediente</th>
+                        <th>Nombre</th>
+                        <th>Edad</th>
+                        <th>DNI</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cliente in clientes %}
+                        <tr>
+                            <td>{{cliente.expediente}}</td>
+                            <td>{{cliente.id_datosPersonales.get_nombreCompleto}}</td>
+                            <td>{{cliente.id_datosPersonales.fecha_nacimiento}}</td>
+                            <td>{{cliente.id_datosPersonales.dni}}</td>
+                            <td>
+                                <a href="{% url 'asilo:expediente' cliente.id_expediente %}" title="Expediente clinico del cliente" ><img src="{% static 'imagenes/repo.svg' %}" alt=""></a>
+                                {% if request.user.pk|especialidad:request.user.pk == "recepcionista" %}
+                                    <a href="{% url 'asilo:crear-solicitud' cliente.id_expediente %}" title="Crear Consulta Medica" ><img src="{% static 'imagenes/link-external.svg' %}" alt=""></a>
+                                {% endif %}
+                                    
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </article>

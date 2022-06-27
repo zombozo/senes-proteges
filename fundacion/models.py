@@ -45,7 +45,6 @@ estados = [
         (4,"No se presento ")
         ]
 
-
 class tratamiento(models.Model):
         id_tratamiento = models.AutoField(primary_key=True)
         id_ficha = models.ForeignKey("fundacion.ficha", related_name="tratamiento_ficha", on_delete=models.CASCADE)

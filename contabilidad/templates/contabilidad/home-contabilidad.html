@@ -1,13 +1,17 @@
-{% extends 'contabilidad/base.html' %}
+{% extends 'asilo/base_asilo.html' %}
 {% block scripts_css %}
 
 {% endblock scripts_css %}
-{% block content %}
+{% load static %}
+{% block aside %}
+    <a href="http://"><img class="ico" src="{% static 'imagenes/note.svg' %}" alt="">facturas</a>
+{% endblock aside %}
+{% block section %}
     <nav>
         <a href="http://">Hacer donacion</a>
     </nav>
     <article class="facturas-pendientes">
-        <table class="table">
+        <table class="table table-hover">
             <thead>
                 <tr>
                     <th>Paciente</th>
@@ -80,4 +84,12 @@
         </table>
     </article>
 
-{% endblock content %}
+{% endblock section %}
+
+{% block script_js %}
+    $(document).ready(()=> {
+        $(".table").DataTable({
+                "language": {"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"}
+            })
+        })
+{% endblock script_js %}

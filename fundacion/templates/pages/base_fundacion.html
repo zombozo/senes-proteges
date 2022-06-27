@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/preconstrucciones.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fundacion/base_fundacion.css' %}">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    {% block script_css %}
+    
+    {% endblock script_css %}
+    <title>Senes</title>
+</head>
+<body>
+    <header class="header-base">
+        <nav class="nav-options-medico">
+            <a href="/asilo/">dashboard asilo</a>
+            <a href="/fundacion/">dashboard fundacion</a>
+            
+            <aside class="cuenta">
+                Acceder a la cuenta
+            </aside>
+        </nav>
+    </header>
+    <div class="body-recepcion">
+        <aside class="aside-recepcion">
+            <a  href="{% url 'fundacion:dashboard-medico' %}">Clinica Medica</a>
+            <a href="{% url 'fundacion:dashboard-recepcion' %}">Recepcion</a>
+            <a href="{% url 'fundacion:dashboard-laboratorio' %}">Laboratorios</a>
+            <a href="{% url 'fundacion:dashboard-farmacia' %}">Farmacia</a>
+            <a href="http://">Facturas</a>
+        </aside>
+        <section class="principal">
+            {% block body %}
+                    
+            {% endblock body %}
+    </section>
+    </div>
+</body>
+
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    
+<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<script type="text/javascript">
+        $(document).ready(()=> {
+        $(".table").DataTable({
+                "language": {"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"}
+            })
+        })
+        
+</script>
+{% block script_js %}
+            
+{% endblock script_js %}
+</html>

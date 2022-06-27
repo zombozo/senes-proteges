@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -103,7 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+STATICFILES_DIRS = ( os.path.join('static'), )
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -114,12 +115,11 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -137,3 +137,6 @@ EMAIL_USE_TLS = True
 # CAMBIARA A .ENV PARA OCULTAR LOS SIGUIENTES DATOS
 EMAIL_HOST_USER = "gerson.olivares543@gmail.com"
 EMAIL_HOST_PASSWORD = "iswmjaaentxorncc" #iswmjaaentxorncc
+LOGIN_URL = "/usuarios/iniciar-sesion/"
+
+AUTH_USER_MODEL = "usuarios.usuario"

@@ -1,15 +1,10 @@
-{% extends 'pages/base.html' %}
+{% extends 'pages/base_fundacion.html' %}
 {% load static %}
 {% block body %}
-<link rel="stylesheet" href="{% static 'css/medico/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/fundacion/medico/dashboard.css' %}">
 <div class="base-dashboard-medico">
-    <nav class="options">
-        <a href="#" class="btn">Consulta medica</a>
-        <a href="#" class="btn">Solicitar laboratorio</a>
-        <a href="#" class="btn">Agregar tratamiento</a>
-    </nav>
     <section class="citas">
-        <table class="tabla-citas-medicas">
+        <table class=" table tabla-citas-medicas">
             <thead>
                 <tr>
                     <th>paciente</th>

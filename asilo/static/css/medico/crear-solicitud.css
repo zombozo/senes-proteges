@@ -1,0 +1,64 @@
+.solicitud {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 1rem;
+}
+
+.sectionA {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0px 2rem;
+}
+
+.sectionB {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.form-solicitud {
+    height: 65vh;
+}
+
+.card-solicitud {
+    width: 40vh;
+    font-size: small;
+    display: flex;
+    height: 18rem;
+}
+
+strong {
+    color: gray;
+    display: block;
+}
+
+.form-section {}
+
+.options-card {
+    display: flex;
+    flex-direction: row;
+}
+
+.options-card button {
+    font-size: small;
+}
+
+.btn-edit {
+    border: 1px solid var(--secciones-info);
+}
+
+.select {
+    width: 90%;
+}
+
+.descripcion-general {
+    padding: 1rem;
+}
+
+.descripcion-general label {
+    font-weight: bold;
+    display: block;
+    color: gray;
+}

@@ -1,3 +1,4 @@
+from asilo.models import expediente
 from fundacion.models import consultaMedica, factura, facturaDetalleEspecialidad, facturaDetalleFarmacia, ficha, tratamiento
 
 
@@ -46,5 +47,15 @@ class facturaMixin:
             pass
         
     
-    
-    
+class recepcionMixin(object):
+        def get_contexto(self):
+            contexto = {}
+            print(self.request.GET)
+            if self.request.GET.get("pagina"):
+                if self.request.GET.get("pagina") == "clientes":
+                    contexto['pagina']="clientes"
+                    contexto["clientes"]= expediente.objects.all()
+            else:
+                contexto['pagina']="clientes"
+                contexto["clientes"]= expediente.objects.all()
+            return contexto

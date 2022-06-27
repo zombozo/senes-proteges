@@ -1,0 +1,32 @@
+{% extends 'asilo/base_asilo.html' %}
+{% load static %}
+{% block css_script %}
+    <link rel="stylesheet" href="{% static 'css/recepcion/dashboard.css' %}">
+{% endblock css_script %}
+{% block section %}
+    <section class="dashboard">
+        
+        {% if pagina == "clientes" %}
+            {% include 'asilo/clientes.html' with clientes=clientes %}
+        {% endif %}
+            
+    </section>
+{% endblock section %}
+{% block script_js %}
+    
+    {% if pagina == "clientes" %}
+        $(document).ready(()=>{
+            $(".clientes").addClass("selected");
+        })
+    {% endif %}
+    {% if pagina == "solicitudes" %}
+        $(document).ready(()=>{
+            $(".solicitudes").addClass("selected");
+        })
+    {% endif %}
+    {% if pagina == "empleados" %}
+        $(document).ready(()=>{
+            $(".empleados").addClass("selected");
+        })
+    {% endif %}
+{% endblock script_js %}

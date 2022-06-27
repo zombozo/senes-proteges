@@ -1,8 +1,13 @@
+from audioop import reverse
 from curses.ascii import NUL
+from django.http import HttpResponseRedirect
 from django.views.generic import ListView
 from django.shortcuts import render
+from django.contrib.auth.views import LoginView
 
 from asilo.models import expediente
+from asilo.views import dashboardRecepcionView
+from usuarios.models import empleado
 
 # Create your views here.
 
@@ -30,3 +35,13 @@ class expedienteSearch(ListView):
         }
         print(context)
         return render(request, self.template_name, context)
+        
+class AdminLogin(LoginView):
+    template_name = "usuarios/iniciar-sesion.html"
+    
+    def get_success_url(self) -> str:
+        print("Usuario logeado exitosamente")
+        _empleado = empleado.objects.get(usuario=self.request.user)
+        if _empleado.empresa=="2" and _empleado.id_empleado_especialidad==2:
+            return HttpResponseRedirect(reverse(dashboardRecepcionView,args=[self.request.user]))
+        return super().get_success_url()

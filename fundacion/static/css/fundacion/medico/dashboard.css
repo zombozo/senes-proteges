@@ -1,0 +1,49 @@
+.base-dashboard-medico {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    padding-top: 4vh;
+}
+
+.options {
+    display: flex;
+    height: 6vh;
+    flex: 1;
+    justify-content: space-around;
+}
+
+.options .btn {
+    height: 6vh;
+    width: 15vw;
+}
+
+.citas {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.btn-crear-consulta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+}
+
+.tabla-citas-medicas {
+    width: 90%;
+}
+
+.tabla-citas-medicas tr {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    border-bottom: 1px solid black;
+}
+
+.tabla-citas-medicas tr td,
+.tabla-citas-medicas tr th {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

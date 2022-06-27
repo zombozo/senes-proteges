@@ -1,0 +1,18 @@
+<div>
+<fieldset>
+<legend>Nueva cita medica</legend>
+<h4>Paciente: {{solicitudes.id_expediente.id_datosPersonales.get_nombreCompleto}}</h4>
+    {% for solicitud in solicitudes.detalle_cita.all %}
+        <ul>
+            <li><strong>Especialidad: </strong> {{solicitud.id_especialidad.especialidad}}</li>
+            <li><strong>Descripcion: </strong>{{solicitud.descripcion}}</li>
+            <li> <strong>Area: </strong> {{solicitud.id_especialidad.id_area.nombre}}</li>
+            <li><strong>Precio del Servicio</strong> {{solicitud.id_especialidad.costo}}</li>
+        </ul>
+    {% endfor %}
+    <small>Creada en: {{solicitudes.creado_en}}</small>
+    <small>- Pendiente de confirmar en la clinica medica -</small>
+</fieldset>
+   
+    
+</div>

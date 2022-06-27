@@ -7,7 +7,7 @@ from django.db import models
 
 class expediente(models.Model):
     id_expediente = models.AutoField(primary_key=True)
-    id_datosPersonales = models.ForeignKey("usuarios.datosPersonales", related_name="expediente_datosPersonales", on_delete=models.CASCADE)
+    id_datosPersonales = models.ForeignKey("usuarios.datosPersonales", unique=True, related_name="expediente_datosPersonales", on_delete=models.CASCADE)
     codigo_expediente = models.CharField(max_length=50, null=True, blank=True)
 
     def __str__(self):

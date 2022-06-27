@@ -7,7 +7,7 @@ from django.conf import settings
 
 class correo:
     def __init__(self) -> None:
-        self.html_content = get_template('NuevaSolicitudMedica.html')
+        self.html_content = get_template('asilo/NuevaSolicitudMedica.html')
         self.text_content = get_template('email.txt')
         self.contexto = None
         self.from_email = None # destinatario
