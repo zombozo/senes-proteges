@@ -109,7 +109,3 @@
 .sections-tabs .selected {
     border-bottom: 1px solid var(--border-page);
 }
-
-.selected {
-    border-bottom: 1px solid var(--border-page);
-}

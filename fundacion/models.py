@@ -50,7 +50,7 @@ class tratamiento(models.Model):
         id_ficha = models.ForeignKey("fundacion.ficha", related_name="tratamiento_ficha", on_delete=models.CASCADE)
         fecha = models.DateField(("Fecha de Inicio"), auto_now=True)
         medicamento =models.ForeignKey("fundacion.medicamento", verbose_name=("Seleccionar el medicamento"), on_delete=models.CASCADE)
-        cantidad = models.IntegerField()
+        cantidad = models.IntegerField(null=True, blank=True)
         id_enfermedad = models.ForeignKey("fundacion.enfermedad", blank=True, null=True, verbose_name=("Seleccione la enfermedad"), on_delete=models.CASCADE)
         descripcion = models.TextField(null=False, blank=False)
         estado = models.IntegerField(choices=estados, default=1)
@@ -131,7 +131,7 @@ class ficha(models.Model):
     fecha = models.DateField( auto_now=True, unique=True)
     id_solicitudCita = models.ForeignKey('fundacion.solicitudCita', related_name='ficha_solicitud', on_delete=models.CASCADE)
 
-    def get_ficha(self,form=None, _solicitudCitaDetalle=None):
+    def get_ficha(form=None, _solicitudCitaDetalle=None):
         _ficha = ficha()
         if _solicitudCitaDetalle != None:
             try:

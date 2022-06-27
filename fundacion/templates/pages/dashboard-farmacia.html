@@ -1,8 +1,12 @@
 {% extends 'pages/base_fundacion.html' %}
+{% load static %}
+{% block script_css %}
+    <link rel="stylesheet" href="{% static 'css/fundacion/farmacia/dashboard_farmacia.css' %}">
+{% endblock script_css %}
 {% block body %}
-    <section>
-        <article>
-            <table class="table">
+    <section class="seccion-principal">
+        <article class="medicamentos-pendientes">
+            <table class="table tabla-medicamentos">
                 <thead>
                     <tr>
                         <th>Cliente</th>
@@ -35,7 +39,10 @@
                                     <option value="3">Sin existencia</option>
                                     <option value="4">No se presento</option>
                                 </select>
-                                    <button class="btn" type="submit">Entregado</button>
+                                    <button class="btn btn-ico" type="submit">
+                                        <img src="{% static 'imagenes/check.svg' %}" alt="">
+                                        <span>Confirmar</span>
+                                        </button>
                                 </form>
                             </td>
                          </tr>

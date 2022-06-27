@@ -1,9 +1,11 @@
 {% extends 'pages/base_fundacion.html' %}
 {% load static %}
+{% block script_css %}
+    <link rel="stylesheet" href="{% static 'css/fundacion/medico/dashboard.css' %}">
+{% endblock script_css %}
 {% block body %}
-<link rel="stylesheet" href="{% static 'css/fundacion/medico/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/medico/dashboard.css' %}">
 <div class="base-dashboard-medico">
-    <section class="citas">
         <table class=" table tabla-citas-medicas">
             <thead>
                 <tr>
@@ -37,7 +39,7 @@
                 {% endif %}
             </tbody>
         </table>
-    </section>
+
     
 </div>
 
