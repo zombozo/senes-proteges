@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    
+    {% block css_script %}{% endblock css_script %}
+    <title>
+        {% block tile_page %}Asilo{% endblock tile_page %}
+    </title>
+    <link rel="stylesheet" href="{% static 'css/preconstrucciones.css' %}">
+    <link rel="stylesheet" href="{% static 'css/recepcion/base.css' %}">
+</head>
+<body>
+    <div class="base">
+        {% block nav %}
+            <nav class="options-dashboard">
+                <a href="/asilo/" class="">dashboard asilo</a>
+                <a href="/fundacion/" class="">dashboard fundacion</a>
+                <article class="search">
+                    <form action="{% url 'usuarios:buscar-expediente' %}" method="get">
+                        <select name="opcion" class="options-search">
+                            <option value="1">DPI</option>
+                            <option value="2">Nombre</option>
+                            <option value="3">Primer Apellido</option>
+                            <option value="4">Codigo Expediente</option>
+                        </select>
+                        <input type="search" name="search" id="search">
+                        <button class="btn" type="submit">buscar</button>
+                    </form>
+                </article>
+                <a href="{% url 'asilo:dashboard-medico' %}" class="">dashboard Medico</a>
+                <a href="{% url 'contabilidad:dashboard-contabilidad' %}" class="">Contabilidad</a>
+                <a href="" class="">reportes</a>
+            </nav>
+        {% endblock nav %}
+        <section class="dashboard-sections">
+            <aside class="dashboard-aside">
+                <a class="clientes " href="{% url 'asilo:dashboard-recepcion' %}?pagina=clientes"><img class="ico" src="{% static 'imagenes/people.svg' %}" alt="">  clientes</a>
+                <a class="solicitudes" href="http://"><img class="ico" src="{% static 'imagenes/paste.svg' %}" alt="">solicitudes</a>
+                <a class="empleados" href="http://"><img class="ico" src="{% static 'imagenes/people.svg' %}" alt="">empleados</a>
+                {% block aside %}
+                
+                {% endblock aside %}
+            </aside>
+            <article class="dashboard-body">
+                {% block section %}
+                    
+                {% endblock section %}
+            </article>
+        
+        </section>
+        
+    </div>
+    
+    
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    
+<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<script type="text/javascript">
+        $(document).ready(()=> {
+        $(".table").DataTable({
+                "language": {"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"}
+            })
+        })
+        {% block script_js %}
+            
+        {% endblock script_js %}
+</script>
+</html>

@@ -1,0 +1,50 @@
+.lista-expedientes {
+    padding: 3vh;
+}
+
+.lista-expedientes {
+    margin-top: 5vh;
+}
+
+.options-dashboard {
+    display: flex;
+    flex-direction: row;
+    height: 12vh;
+    background: var(--text-color);
+    align-items: center;
+    justify-content: space-around;
+}
+
+.options-dashboard a {
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.search {
+    justify-self: center;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+}
+
+.card {
+    padding: 1rem;
+    border: 1px solid var(--verde);
+}
+
+.fa-ul {
+    list-style-type: square;
+}
+
+.grillo {
+    transform: translateX(-9rem);
+}
+
+.grillo img {
+    height: 50vh;
+    bottom: 4px;
+}

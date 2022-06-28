@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static '/css/preconstrucciones.css' %} ">
+    <link rel="stylesheet" href="{% static '/css/usuarios/base.css' %}">
+    {% block css_script %}
+    
+    {% endblock css_script %}
+    <title>
+        {% block title %}
+            Senes Proteges
+        {% endblock title %}
+    </title>
+    <header class=" header-login">
+        <span class="enlinea iconSenes"><img src="{% static '/imagenes/gh_icon.svg' %}" alt="CriIco"><h4>Senes Proteges</h4></span>
+    </header>
+</head>
+<body>
+    <div class="base">
+        {% block content %}
+                
+        {% endblock content %}
+    </div>
+</body>
+<footer>
+    
+</footer>
+</html>

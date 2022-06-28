@@ -1,0 +1,41 @@
+{% extends 'pages/base.html' %}
+{% load crispy_forms_tags %}
+{% block body %}
+    <article class="card">
+        <form action="" method="post">
+            {% csrf_token %}
+            {{form|crispy}}
+            <br>
+            <button class="btn" type="submit">Finalizar</button>
+        </form>
+    </article>
+    <article class="card">
+        <table>
+            <thead>
+                <th>Servicio</th>
+                <th>Costo</th>
+            </thead>
+            <tbody>
+                {% for consulta in ficha.consulta_ficha.all %}
+                    <tr>
+                        <td>{{consulta.id_solicitudCitaDetalle.id_especialidad.especialidad}}</td>
+                        <td>{{consulta.id_solicitudCitaDetalle.id_especialidad.costo}}</td>
+                    </tr>
+                {% endfor %}
+                {% for laboratorio in ficha.laboratorio_ficha.all %}
+                    <tr>
+                        <td>{{laboratorio.id_especialidad.especialidad}}</td>
+                        <td>{{laboratorio.id_especialidad.costo}}</td>
+                    </tr>
+                {% endfor %}
+                {% for medicamento in ficha.tratamiento_ficha.all  %}
+                    <tr>
+                        <td>{{medicamento.medicamento.nombre}}</td>
+                        <td>{{medicamento.medicamento.precio}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+    </article>
+{% endblock body %}

@@ -4,7 +4,8 @@ from .views import *
 
 app_name= "asilo"
 urlpatterns = [
-    path("", view=dashboardRecepcionView.as_view(), name="dashboard-recepcion"),
+    path("",view=HomeTemplateView.as_view(), name="home"),
+    path("recepcion/", view=dashboardRecepcionView.as_view(), name="dashboard-recepcion"),
     path('datos-personales/',view=datosPersonalesCreateView.as_view(), name="datos-personales"),
     path('contacto/<int:pk>/', view=contactoCreateView.as_view(), name="contacto"),
     path('expediente/<int:pk>/', view=expedienteDetailView.as_view(), name="expediente"),

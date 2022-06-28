@@ -1,0 +1,49 @@
+{% extends 'pages/base_fundacion.html' %}
+
+{% block body %}
+        <article class="fichas">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Expediente</th>
+                        <th>Nombre</th>
+                        <th>Fecha</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ficha in fichas %}
+                        <tr>
+                            <td>{{ficha.id_expediente.codigo_expediente}}</td>
+                            <td>{{ficha.id_expediente.id_datosPersonales.get_nombreCompleto}}</td>
+                            <td>{{ficha.fecha}}</td>
+                            <td>
+                                <span class="btn">Ver detalles</span>
+                                
+                                {% if ficha.factura_ficha.all %}
+                                        <a href="#" class="btn">Ver factura</a>
+                                    {% else %}
+                                        <a href="{% url 'fundacion:crear-factura' ficha.id_ficha %}" class="btn">Generar factura</a>
+                                {% endif %}
+                                
+                            </td>
+                            {% if ficha.consulta_ficha.all %}
+                                <tr class="head-consultas">
+                                    <th>Especialidad medica</th>
+                                    <th>Descripcion</th>
+                                    <th>Estado</th>
+                                </tr>
+                                {% for consulta in ficha.consulta_ficha.all %}
+                                    <tr>
+                                        <td>{{consulta.id_solicitudCitaDetalle.id_especialidad.nombre}}</td>
+                                        <td>{{consulta.id_solicitudCitaDetalle.descripcion}}</td>
+                                        <td>{{consulta.id_solicitudCitaDetalle.aceptado}}</td>
+                                    </tr>
+                                {% endfor %}
+                                {% endif %}
+                            </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </article>
+{% endblock body %}

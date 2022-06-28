@@ -1,7 +1,4 @@
-
-
 from django.urls import path
-
 from fundacion.views import *
 
 
@@ -18,7 +15,9 @@ urlpatterns = [
     path("actualizar-solicitud-cita/<int:pk>/", view=solicitudUpdateView.as_view(), name='actualizar-solicitud-cita'),
     path("dashboard-laboratorio/", view=dashboardLaboratorio.as_view(), name="dashboard-laboratorio"),
     path("dashboard-farmacia/", view=dashboardFarmacia.as_view(), name="dashboard-farmacia"),
-    path("actualizar-tratamiento/<int:pk>/", view=tratamientoUpdateview.as_view(), name="actualizar-tratamiento")
+    path("actualizar-tratamiento/<int:pk>/", view=tratamientoUpdateview.as_view(), name="actualizar-tratamiento"),
+    path("fichas/", view=fichasListView.as_view(), name="fichas"),
+    path("crear-factura/<int:id_ficha>/", view=facturaCrear.as_view(), name="crear-factura")
 ]
 
 # <int:id_cliente>/
