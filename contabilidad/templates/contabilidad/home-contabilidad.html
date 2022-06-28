@@ -4,7 +4,9 @@
 {% endblock scripts_css %}
 {% load static %}
 {% block aside %}
-    <a href="http://"><img class="ico" src="{% static 'imagenes/note.svg' %}" alt="">facturas</a>
+<a href="http://"><img class="ico"  src="{% static 'imagenes/gift.svg' %}" alt=""> Donaciones</a>
+<a href="http://"><img class="ico"  src="{% static 'imagenes/arrow-switch.svg' %}" alt=""> Pagos</a>
+<a href="http://"><img class="ico" src="{% static 'imagenes/note.svg' %}" alt="">facturas</a>
 {% endblock aside %}
 {% block section %}
     <nav>
@@ -87,9 +89,9 @@
 {% endblock section %}
 
 {% block script_js %}
-    $(document).ready(()=> {
+    {% comment %} $(document).ready(()=> {
         $(".table").DataTable({
                 "language": {"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"}
             })
-        })
+        }) {% endcomment %}
 {% endblock script_js %}

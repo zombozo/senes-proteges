@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.shortcuts import render
+from asilo.mixins import medicoMixin
 from asilo.models import expediente, contacto
 from fundacion.forms import solicitudCitaDetalleForm, solicitudCitaForm
 from fundacion.mixins import recepcionMixin
@@ -21,7 +22,6 @@ class dashboardRecepcionView(LoginRequiredMixin,recepcionMixin, TemplateView):
         contexto = self.get_contexto()
         return render(request, self.template_name, contexto)
         
-        
 class datosPersonalesCreateView(LoginRequiredMixin, CreateView):
     model = datosPersonales
     template_name  = "asilo/includes/forms.html"
@@ -34,7 +34,7 @@ class datosPersonalesCreateView(LoginRequiredMixin, CreateView):
         context['titulo'] = "Agregar datos personales"
         return context
         
-        
+
     def form_valid(self, form):
         form.save()
         _expediente= expediente.objects.create(id_datosPersonales=form.instance)
@@ -94,7 +94,7 @@ class solicitudCreateView(LoginRequiredMixin, CreateView):
         self.success_url = self.success_url+ f"{form.instance.id_solicitudCita}/"
         return super().form_valid(form)
 
-class solicitudCitaDetalleCreateView(LoginRequiredMixin, CreateView):
+class solicitudCitaDetalleCreateView(LoginRequiredMixin,medicoMixin, CreateView):
     template_name = "asilo/medico/crear_solicitud.html"
     model = solicitudCitaDetalle
     fields = ["id_especialidad","descripcion"]
@@ -127,17 +127,7 @@ class solicitudCitaDetalleCreateView(LoginRequiredMixin, CreateView):
             _solicitudCita= solicitudCita.objects.get(id_solicitudCita=form.instance.id_solicitudCita.id_solicitudCita)
             _solicitudCita.solicitud_finalizada=True
             _solicitudCita.save()
-            _correo = correo()
-            contenido = {
-                "solicitudes":_solicitudCita
-            }
-            _correo.set_contenidoCorreo(
-                destinatario=settings.EMAIL_HOST_USER,
-                subject="Test",
-                contexto=contenido,
-                to=["weowulft02@gmail.com"]
-            )
-            _correo.enviar(contexto=contenido)
+            self.enviar_correo(_solicitudCita)
         
         return super().form_valid(form)
 

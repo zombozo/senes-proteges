@@ -32,7 +32,10 @@ height: 100vh;
     display: flex;
     align-items: center;
 }
+.aside-recepcion a img {
+    margin-right: 1rem;
 
+}
 
 /* header */
 
@@ -69,7 +72,9 @@ height: 100vh;
 
 .elementos-inline {
     display: flex;
-    align-items: center;
-    flex-direction: row;
-    justify-content: space-between;
+align-items: center;
+flex-direction: row;
+justify-content: space-between;
+width: 60%;
+align-self: center;
 }

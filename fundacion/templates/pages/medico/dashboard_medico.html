@@ -4,8 +4,10 @@
     <link rel="stylesheet" href="{% static 'css/fundacion/medico/dashboard.css' %}">
 {% endblock script_css %}
 {% block body %}
+<span class="pagina-activa" data-pagina="clinica" hidden></span>
 <link rel="stylesheet" href="{% static 'css/medico/dashboard.css' %}">
 <div class="base-dashboard-medico">
+        <h4>Citas del dia</h4>
         <table class=" table tabla-citas-medicas">
             <thead>
                 <tr>
