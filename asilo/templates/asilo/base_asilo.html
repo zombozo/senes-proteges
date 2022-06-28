@@ -18,8 +18,11 @@
     <div class="base">
         {% block nav %}
             <nav class="options-dashboard">
-                <a href="/asilo/" class="">dashboard asilo</a>
-                <a href="/fundacion/" class="">dashboard fundacion</a>
+                <a class="logo" href="{% url 'asilo:home' %}">
+                    <img src="{% static 'imagenes/gh_icon.svg' %}" alt="">
+                    <span>senes proteges</span>
+                </a>
+                <a href="/fundacion/" class="">Fundacion</a>
                 <article class="search">
                     <form action="{% url 'usuarios:buscar-expediente' %}" method="get">
                         <select name="opcion" class="options-search">
@@ -34,7 +37,7 @@
                 </article>
                 <a href="{% url 'asilo:dashboard-medico' %}" class="">dashboard Medico</a>
                 <a href="{% url 'contabilidad:dashboard-contabilidad' %}" class="">Contabilidad</a>
-                <a href="" class="">reportes</a>
+
             </nav>
         {% endblock nav %}
         <section class="dashboard-sections">

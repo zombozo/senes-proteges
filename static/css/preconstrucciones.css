@@ -7,6 +7,24 @@
     --text-color: #00324b;
 }
 
+.logo {
+    display: flex !important;
+    width: 14rem !important;
+
+}
+.logo span {
+    font-size: 20px;
+    font-weight: bold;
+}
+.logo:hover {
+    color:white;
+}
+.logo img {
+
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
 .enlinea {
     display: flex;
     flex-direction: row;
