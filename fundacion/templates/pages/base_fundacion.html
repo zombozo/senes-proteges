@@ -35,11 +35,11 @@
     </header>
     <div class="body-recepcion">
         <aside class="aside-recepcion">
-            <a  href="{% url 'fundacion:dashboard-medico' %}">Clinica Medica</a>
-            <a href="{% url 'fundacion:dashboard-recepcion' %}">Recepcion</a>
-            <a href="{% url 'fundacion:dashboard-laboratorio' %}">Laboratorios</a>
-            <a href="{% url 'fundacion:dashboard-farmacia' %}">Farmacia</a>
-            <a href="http://">Facturas</a>
+            <a class="clinica"  href="{% url 'fundacion:dashboard-medico' %}"><img src="{% static 'imagenes/repo-forked.svg' %}" alt=""> Clinica Medica</a>
+            <a class="recepcion" href="{% url 'fundacion:dashboard-recepcion' %}"><img src="{% static 'imagenes/history.svg' %}" alt=""> Recepcion</a>
+            <a class="laboratorio" href="{% url 'fundacion:dashboard-laboratorio' %}"><img src="{% static 'imagenes/beaker.svg' %}" alt=""> Laboratorio</a>
+            <a class="farmacia" href="{% url 'fundacion:dashboard-farmacia' %}"><img src="{% static 'imagenes/container.svg' %}" alt=""> Farmacia</a>
+            <a class="Laboratorio" href="http://"><img src="{% static 'imagenes/note.svg' %}" alt="">  Facturas</a>
         </aside>
         <section class="principal">
             {% block body %}
@@ -48,7 +48,7 @@
     </section>
     </div>
 </body>
-
+<script src="{% static 'js/fundacion/base_fundacion.js' %}"></script>
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
     

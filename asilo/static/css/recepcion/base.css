@@ -29,8 +29,8 @@
 }
 
 .options-dashboard button {
-    border: 1px solid white;
-    color: white;
+    border: 1px solid white !important;
+    color: var(--text-color);
 }
 
 .options-dashboard button:hover {
@@ -47,6 +47,11 @@
     border-radius: 5px;
 }
 
+
+.search button {
+    color:white;
+    border:1px solid white;
+}
 
 /* dashboard */
 

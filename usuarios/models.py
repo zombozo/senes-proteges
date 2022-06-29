@@ -1,4 +1,5 @@
 from datetime import datetime
+from email.policy import default
 import logging
 from random import choices
 from django.utils import timezone
@@ -8,7 +9,7 @@ from django.contrib.auth.models import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 # Create your models here.
 class datosPersonales(models.Model):
-    id_datosPersonales = models.AutoField(primary_key=True)
+    id_datosPersonales = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
     primer_nombre = models.CharField(max_length=20, blank=False, null=False)
     segundo_nombre = models.CharField(max_length=20, blank=True, null=True)
     primer_apellido = models.CharField(max_length=20, blank=False, null=False)
@@ -29,7 +30,7 @@ empresas = (
     ("2","asilo")
 )
 class empleado(models.Model):
-    id_empleado = models.AutoField(primary_key=True)
+    id_empleado = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
     id_datos_personales = models.ForeignKey("usuarios.datosPersonales", verbose_name=("Datos personales"), on_delete=models.CASCADE)
     id_empleado_especialidad = models.ForeignKey("usuarios.empleadoEspecialidad", verbose_name=("Especialidad"), on_delete=models.CASCADE)
     empresa = models.CharField(max_length=80, choices=empresas)
@@ -41,7 +42,7 @@ class empleado(models.Model):
 
 
 class empleadoEspecialidad(models.Model):
-    id_empleado_especialidad = models.AutoField(primary_key=True)
+    id_empleado_especialidad = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
     nombre = models.CharField(max_length=50)
     actividades = models.TextField(("Actividades de la especialialidad"))
 
@@ -94,7 +95,7 @@ class UserManager(BaseUserManager):
         return user
 
 class usuario(AbstractBaseUser, PermissionsMixin):
-    id_usuario = models.AutoField(primary_key=True)
+    id_usuario = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
     email = models.EmailField( max_length=254, unique=True)
     username = models.CharField(
         max_length=254, null=True, blank=True, unique=True
