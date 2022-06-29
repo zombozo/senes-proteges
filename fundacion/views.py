@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 from django.views.generic import TemplateView, CreateView, UpdateView, ListView
 from django.contrib import messages
 from asilo.models import expediente
-from fundacion.mixins import facturaMixin
+from fundacion.mixins import consultaMedicaMixin, facturaMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import  consultaMedicaForm, solicitudCitaDetalleFechaForm, tratamientoForm
 
@@ -58,6 +58,13 @@ class examenLaboratorioCreateView(LoginRequiredMixin, CreateView):
     fields = ["descripcion_muestra","resultado"]
     success_url = "/fundacion/dashboard-laboratorio/"
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["titulo"] = "Examen de laboratorio"
+        return context
+        
+        return super().get_context_data(**kwargs)
+    
     def form_valid(self, form):
         id_solicitudCitaDetalle = solicitudCitaDetalle.objects.get(solicitudCitaDetalle=self.kwargs["id_solicitudDetalle"])
         
@@ -65,27 +72,14 @@ class examenLaboratorioCreateView(LoginRequiredMixin, CreateView):
         form.instance.id_ficha = ficha.get_ficha(_solicitudCitaDetalle=id_solicitudCitaDetalle)
         return super().form_valid(form)
 
-class consultaMedicaCreateView(LoginRequiredMixin, CreateView):
+class consultaMedicaCreateView(LoginRequiredMixin,consultaMedicaMixin, CreateView):
     model = consultaMedica
     fields = ["diagnostico"]
     template_name = "pages/medico/consulta_crear.html"
     success_url = "/fundacion/dashboard-medico/"
 
     def get(self, request, *args, **kwargs):
-        id_expediente = kwargs["id_expediente"]
-        id_detalle = request.GET.get("detalle")
-        _solicitud = solicitudCitaDetalle.objects.get(id_solicitudCita=id_detalle)
-        data ={'id_solicitudCitaDetalle':_solicitud}
-        form  = consultaMedicaForm(initial=data)
-        tratamientos = tratamiento.objects.filter(id_ficha__id_expediente=id_expediente)
-        fichas = ficha.objects.filter(id_expediente_id=id_expediente)
-        context= {
-            "solicitud":_solicitud,
-            "fichas":fichas,
-            "form":form,
-            "tratamientos":tratamientos,
-            "id_expediente": id_expediente
-        }
+        context = self.get_contexto()
         print(context)
         return render(request, self.template_name, context)
         

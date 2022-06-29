@@ -1,3 +1,9 @@
+.base_crear_consulta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 2rem;
+}
+
 .detallar-formulario {
     margin-top: 5vh;
     display: grid;
@@ -6,11 +12,30 @@
     margin-right: 2vw;
 }
 
+.sectionA,
+.sectionB {
+    display: flex;
+    flex-direction: column;
+}
+
+.sectionA {
+    align-items: center;
+}
+
+
+/* sectionA */
+
 .detallar-formulario .historial {}
+
+.detalle-solicitud,
+.form-ficha {
+    width: 38vw;
+}
 
 .textarea {
     width: 100%;
     border-radius: 8px;
+    border: 1px solid gray;
 }
 
 .select {
@@ -36,7 +61,7 @@
     margin-top: 5vh;
 }
 
-.card {
+.detalle-solicitud {
     margin-top: 3vh;
     align-self: center;
     padding: 10px;
@@ -47,4 +72,83 @@
 .card label {
     margin-top: 10px;
     font-weight: bold;
+}
+
+.card-solicitudes {
+    width: 10vw;
+}
+
+
+/* sectionB */
+
+.sectionB {
+    padding-top: 1rem;
+}
+
+.card-medicamentos,
+.card-laboratorios {
+    width: 40vw;
+    height: 35vh;
+    margin-bottom: 1rem;
+}
+
+.body-card {
+    padding: 1rem;
+    overflow: scroll;
+}
+
+.header-card {
+    height: 8vh;
+    border-bottom: 1px solid gray;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.icon-add {
+    background-color: var(--verde-opaco);
+    border: 1px solid gray;
+    border-radius: 5px 0px 0px 5px;
+    border-right: none;
+}
+
+.icon-add:hover {
+    background-color: var(--verde);
+}
+
+.icon-card {
+    margin-left: 1em;
+}
+
+.header-card .text {
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+
+/* medicamentos */
+
+.sections, .tratamiento {
+    font-size: 10px;
+    display: grid;
+    grid-template-columns:  119px 75px 102px 139px 56px;
+}
+
+.sections {
+height: 7vh;
+font-weight: bold;
+}
+.sections span, .tratamiento span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+
+.tratamiento{
+    border:1px solid var(--text-color);
+    margin-bottom: 10px;
+    border-radius: 5px;
 }

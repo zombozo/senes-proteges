@@ -20,8 +20,9 @@ body {
 
 .aside-recepcion {
     display: flex;
-    flex-direction: column;
-    border-right: 1px solid var(--border-page);
+flex-direction: column;
+border-right: 1px solid var(--border-page);
+height: 100vh;
 }
 
 .aside-recepcion a {

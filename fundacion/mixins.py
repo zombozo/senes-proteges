@@ -1,5 +1,11 @@
+from cgitb import handler
+import logging
 from asilo.models import expediente
-from fundacion.models import consultaMedica, factura, facturaDetalleEspecialidad, facturaDetalleFarmacia, ficha, tratamiento
+from fundacion.forms import consultaMedicaForm
+from fundacion.models import consultaMedica, factura, facturaDetalleEspecialidad, facturaDetalleFarmacia, ficha, solicitudCitaDetalle, tratamiento
+from reportes.controlErrores import get_loggerSenes
+
+
 
 
 class medicoMixin(object):
@@ -59,3 +65,30 @@ class recepcionMixin(object):
                 contexto['pagina']="clientes"
                 contexto["clientes"]= expediente.objects.all()
             return contexto
+            
+
+class consultaMedicaMixin(object):
+
+    def get_contexto(self):
+        id_expediente = self.kwargs["id_expediente"]
+        id_detalle = self.request.GET.get("detalle")
+        _solicitud = solicitudCitaDetalle.objects.get(solicitudCitaDetalle=id_detalle)
+        data ={'id_solicitudCitaDetalle':_solicitud}
+        form  = consultaMedicaForm(initial=data)
+        
+        context= {
+            "solicitud":_solicitud,
+            "form":form,
+            "id_expediente": id_expediente
+        }
+        try:
+            _ficha = ficha.objects.get(id_solicitudCita=_solicitud.id_solicitudCita.id_solicitudCita)
+            tratamientos = tratamiento.objects.filter(id_ficha=_ficha.id_ficha)
+            context["tratamientos"] = tratamientos
+            context["ficha"] = _ficha
+        except Exception as e:
+            logerSenes = get_loggerSenes()
+            logerSenes.debug(e)
+        
+        return context
+        

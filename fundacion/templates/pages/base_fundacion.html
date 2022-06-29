@@ -21,7 +21,11 @@
 <body>
     <header class="header-base">
         <nav class="nav-options-medico">
-            <a href="/asilo/">dashboard asilo</a>
+             <a class="logo" href="{% url 'asilo:home' %}">
+                    <img src="{% static 'imagenes/gh_icon.svg' %}" alt="">
+                    <span>senes proteges</span>
+                </a>
+            <a href="{% url 'asilo:home' %}">dashboard asilo</a>
             <a href="/fundacion/">dashboard fundacion</a>
             
             <aside class="cuenta">

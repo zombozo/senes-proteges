@@ -7,6 +7,24 @@
     --text-color: #00324b;
 }
 
+.logo {
+    display: flex !important;
+    width: 14rem !important;
+
+}
+.logo span {
+    font-size: 20px;
+    font-weight: bold;
+}
+.logo:hover {
+    color:white;
+}
+.logo img {
+
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
 .enlinea {
     display: flex;
     flex-direction: row;
@@ -61,6 +79,9 @@ a {
 .btn {
     height: 6vh;
     border-radius: 15px;
+    border: 1px solid var(--text-color) !important;
+    margin-left: 2px;
+    margin-right: 2px;
 }
 
 .btn-guardar {
@@ -98,4 +119,31 @@ a {
 
 ul {
     list-style: none;
+}
+
+.options-medico {
+    height: 6vh;
+    display: flex;
+    border-bottom: 1px solid var(--border-page);
+}
+
+.options-medico a {
+    height: 6vh;
+    text-decoration: none;
+    display: flex;
+    padding-left: 2rem;
+    align-items: flex-end;
+}
+
+.selected {
+    border-bottom: 2px solid var(--border-page) !important;
+}
+
+.btn-ico {
+    display: flex !important;
+flex-direction: row;
+justify-content: space-between;
+font-size: 12px !important;
+align-items: center;
+
 }

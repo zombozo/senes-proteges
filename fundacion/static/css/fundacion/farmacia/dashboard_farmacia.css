@@ -1,0 +1,21 @@
+
+
+
+
+.seccion-principal {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.medicamentos-pendientes { 
+    height: 95%;
+
+}
+
+.tabla-medicamentos {
+
+    width: 100%;
+}
+
