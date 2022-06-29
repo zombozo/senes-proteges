@@ -1,0 +1,46 @@
+{% extends 'pages/base_fundacion.html' %}
+{% load static %}
+{% block script_css %}
+    <link rel="stylesheet" href="{% static 'css/fundacion/laboratorio/laboratorio.css' %} ">
+{% endblock script_css %}
+{% block body %}
+<span class="pagina-activa" data-pagina="laboratorio" hidden></span>
+    <section class="base">
+        <article class="elementos-inline buscar">
+            <select name="tipo" id="tipo">
+                <option value="1">Expediente</option>
+                <option value="2">Codigo de laboratorio</option>
+            </select>
+            <input type="search" name="codigo" id="codigo">
+            <a class="btn" href="http://">Buscar Laboratorio</a>
+        </article>
+        
+        <article class="detalle-citas">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Tipo</th>
+                        <th>Descripcion</th>
+                        <th>Fecha</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cita in citas %}
+                        <tr>
+                        <td>{{cita.id_solicitudCita.id_expediente.id_datosPersonales.get_nombreCompleto}}</td>
+                        <td>{{cita.id_especialidad.especialidad}}</td>
+                        <td>{{cita.descripcion}}</td>
+                        <td>{{cita.fecha_hora}}</td>
+                        <td>
+                            <a class="btn" href="{% url 'fundacion:crear-laboratorio' cita.solicitudCitaDetalle %}">Atender</a>
+                        </td>
+                        </tr>
+                    {% endfor %}
+                
+                </tbody>
+            </table>
+        </article>
+    </section>
+{% endblock body %}

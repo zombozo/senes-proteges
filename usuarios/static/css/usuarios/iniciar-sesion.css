@@ -1,0 +1,44 @@
+.login {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    align-self: center;
+    align-items: center;
+    justify-content: space-around;
+    width: 90vw;
+}
+
+.card {
+    padding: 4vh;
+}
+
+.login article {}
+
+.text {
+    font-size: 44px;
+    width: 40vw;
+    font-weight: bold;
+}
+
+.img-protect {
+    position: absolute;
+    width: 40vw;
+    right: 258px;
+    z-index: 1;
+    top: 12vh;
+}
+
+.form {
+    position: relative;
+    z-index: 10;
+    background: #ffffffd1;
+    max-width: 24vw;
+}
+
+.btn {
+    margin-top: 2vh;
+}
+
+.alert {
+    background: var(--bs-card-border-color);
+}

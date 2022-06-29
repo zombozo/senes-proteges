@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    {% load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar</title>
+   <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static '/css/preconstrucciones.css' %} ">
+    <link rel="stylesheet" href="{% static 'css/usuarios/search.css'  %}">
+</head>
+<body>
+<nav class="options-dashboard">
+                <a href="/asilo/" class="">dashboard asilo</a>
+                
+                <article class="search">
+                    <form action="{% url 'usuarios:buscar-expediente' %}" method="get">
+                        <select name="opcion" class="options-search">
+                            <option value="1">DPI</option>
+                            <option value="2">Nombre</option>
+                            <option value="3">Primer Apellido</option>
+                            <option value="4">Codigo Expediente</option>
+                        </select>
+                        <input type="search" name="search" id="search">
+                        <button class="btn" type="submit">buscar</button>
+                    </form>
+                </article>
+                <a href="/fundacion/" class="">dashboard fundacion</a>
+            </nav>
+     <section class="lista-expedientes">
+        <section class="cards">
+        {% for expediente in  expedientes %}
+        
+            <article class='card'>
+            <ul class="fa-ul">
+                <li>{{expediente.id_datosPersonales.get_nombreCompleto}}</li>
+                <li>{{expediente.id_datosPersonales.fecha_nacimiento}}</li>
+                <li>{{expediente.id_datosPersonales.dni}}</li>
+                <li><a class="btn btn-outline-success" href="{% url 'asilo:crear-solicitud' expediente.id_expediente %}">Solicitar cita</a></li>
+            </ul>
+                
+            </article>
+        {% endfor %}
+        </section>
+    </section>
+    <span class="personaje grillo">
+        <img src="{% static 'imagenes/hero__grasshopper.svg' %}" alt="">
+    </span>
+</body>
+</html>
+   

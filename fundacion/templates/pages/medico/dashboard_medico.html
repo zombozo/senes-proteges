@@ -1,0 +1,48 @@
+{% extends 'pages/base_fundacion.html' %}
+{% load static %}
+{% block script_css %}
+    <link rel="stylesheet" href="{% static 'css/fundacion/medico/dashboard.css' %}">
+{% endblock script_css %}
+{% block body %}
+<span class="pagina-activa" data-pagina="clinica" hidden></span>
+<link rel="stylesheet" href="{% static 'css/medico/dashboard.css' %}">
+<div class="base-dashboard-medico">
+        <h4>Citas del dia</h4>
+        <table class=" table tabla-citas-medicas">
+            <thead>
+                <tr>
+                    <th>paciente</th>
+                    <th>Especialidad</th>
+                    <th>edad</th>
+                    <th>Descripcion</th>
+                    <th>hora y fecha</th>
+                    <th>opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if citas %}
+                    {% for cita in citas %}
+                        <tr>
+                            <td>{{cita.id_solicitudCita.id_expediente.id_datosPersonales.get_nombreCompleto}}</td>
+                            <td>{{cita.id_especialidad}}</td>
+                            <td>{{cita.id_solicitudCita.id_expediente.id_datosPersonales.fecha_nacimiento}}
+                            <td>{{cita.descripcion}}</td>
+                            <td>{{cita.fecha_hora}}</td>
+                            <td>
+                                {% for consulta in cita.consulta_SolicitudDetalle.all  %}
+                                    <a class="btn" href="">Ver</a>
+                                {% endfor %}
+                                <a class="btn btn-crear-consulta" href="{% url 'fundacion:crear-consulta' cita.id_solicitudCita.id_expediente.id_expediente %}?detalle={{cita.solicitudCitaDetalle}}">
+                                    Atender
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+
+    
+</div>
+
+{% endblock body %}

@@ -1,0 +1,80 @@
+/* common */
+
+
+/* init base */
+
+body {
+    background-color: var(--background) !important;
+}
+
+.body-recepcion {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+}
+
+.principal {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.aside-recepcion {
+    display: flex;
+flex-direction: column;
+border-right: 1px solid var(--border-page);
+height: 100vh;
+}
+
+.aside-recepcion a {
+    text-decoration: none;
+    padding-left: 2vw;
+    height: 6vh;
+    display: flex;
+    align-items: center;
+}
+.aside-recepcion a img {
+    margin-right: 1rem;
+
+}
+
+/* header */
+
+.header-base {
+    top: 0px;
+    display: flex;
+    flex-direction: column;
+    height: 10vh;
+    background: var(--text-color);
+    color: white;
+}
+
+.nav-options-medico {
+    display: flex;
+    flex-direction: row;
+    height: 10vh;
+    border: 1px solid black;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.nav-options-medico a {
+    text-decoration: none;
+    width: 13vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: large;
+}
+
+
+/* mods */
+
+.elementos-inline {
+    display: flex;
+align-items: center;
+flex-direction: row;
+justify-content: space-between;
+width: 60%;
+align-self: center;
+}

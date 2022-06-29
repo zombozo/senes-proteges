@@ -1,0 +1,70 @@
+{% extends 'asilo/base_asilo.html' %}
+
+{% load crispy_forms_tags %}
+{% load static %}
+{% block css_script %}
+    <link rel="stylesheet" href="{% static 'css/medico/crear-solicitud.css' %}">
+{% endblock css_script %}
+{% block section %}
+    <nav class="sections-tabs">
+        <a class="selected" href="http://">Creando Solicitud</a>
+        <a  class="" href="http://">Historial medico </a>
+    </nav>
+    <div class="solicitud">
+        <section class="sectionA">
+                {% if solicitud %}
+                    <article class="card ">
+                        <ul class="list-group descripcion-general">
+                            <li class=""><label>Cliente: </label><span>{{solicitud.id_expediente.id_datosPersonales.get_nombreCompleto}}</span></li>
+                            <li class=""><label>Enfermero asignado: </label><span>{{solicitud.id_enfermero}}</span></li>
+                            <li class=""><label>Descripcion general: </label><span>{{solicitud.descripcion}}</span></li>
+                        </ul>
+                    </article>
+                {% endif %}
+            {% if form %}
+                <form class="card form-solicitud" action="" method="post">
+                    {% csrf_token %}
+                    {{form|crispy}}
+                    
+                    {% if pagina %}
+                        <br>
+                        <div class="btns-options">
+                            <button class="btn btn-guardar" name="proximo_paso" value="guardar_y_repetir" type="submit">Guardar y Agregar otra</button>
+                            <button class="btn btn-guardar" name="proximo_paso" value="guardar_y_enviar" type="submit">Guardar y enviar</button>
+                        {% else %}
+                        <br>
+                        <button class="btn" type="submit">Siguiente</button>
+                        </div>
+                    {% endif %}
+                </form>
+            {% endif %}
+        </section>
+        <section class="sectionB">
+                {% if detalles %}
+                        {% for detalle in detalles %}
+                            <article class="card card-solicitud">
+                                
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <form class="close-card" action="{% url 'asilo:eliminar-detalle-solicitud' detalle.solicitudCitaDetalle %}" method="post">
+                                            {% csrf_token %}
+                                            <button class="btn-card" name="id_solicitudCitaDetalle" value="{{detalle.solicitudCitaDetalle}}" type="submit"><img src="{% static 'imagenes/x.svg' %}" alt=""></button>
+                                        </form>
+                                    </li>
+                                    <li class="list-group-item"> <strong>Especialidad: </strong> {{detalle.id_especialidad}}</li>
+                                    <li class="list-group-item"> <strong>Descripcion: </strong> {{detalle.descripcion}}</li>
+                                    <li class="list-group-item"><strong>Fecha Asignada: </strong> {{detalle.fecha_hora}}</li>
+                                    <li class="list-group-item options-card">
+                                        
+                                        <form action="" method="post">
+                                            {% csrf_token %}
+                                            <button class="btn btn-edit" name="id_solicitudCitaDetalle" value="{{detalle.solicitudCitaDetalle}}" type="submit">Editar</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </article>
+                        {% endfor %}
+                {% endif %}
+        </section>
+    </div>
+{% endblock section %}

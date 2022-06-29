@@ -1,0 +1,56 @@
+{% extends 'pages/base_fundacion.html' %}
+{% load static %}
+{% block script_css %}
+    <link rel="stylesheet" href="{% static 'css/fundacion/farmacia/dashboard_farmacia.css' %}">
+{% endblock script_css %}
+{% block body %}
+<span class="pagina-activa" data-pagina="farmacia" hidden></span>
+    <section class="seccion-principal">
+        <article class="medicamentos-pendientes">
+            <table class="table tabla-medicamentos">
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>medicamento</th>
+                        <th>dosis</th>
+                        <th>Descripcion</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Fecha</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                
+                    {% for tratamiento in tratamientos %}
+                        <tr>
+                            <td>{{tratamiento.id_ficha.id_expediente.id_datosPersonales.get_nombreCompleto}}</td>
+                            <td>{{tratamiento.medicamento.nombre}}</td>
+                            <td>{{tratamiento.medicamento.dosis}}</td>
+                            <td>{{tratamiento.descripcion}}</td>
+                            <td>{{tratamiento.cantidad}}</td>
+                            <td>{{tratamiento.medicamento.precio}}</td>
+                            <td>{{tratamiento.fecha}}</td>
+                            <td>
+                                <form class="elementos-inline" action="{% url 'fundacion:actualizar-tratamiento' tratamiento.id_tratamiento %}" method="post">
+                                {% csrf_token %}
+                                <select class="btn" name="estado" id="estado">
+                                    <option value="1">Pendiente</option>
+                                    <option value="2">Entregado</option>
+                                    <option value="3">Sin existencia</option>
+                                    <option value="4">No se presento</option>
+                                </select>
+                                    <button class="btn btn-ico" type="submit">
+                                        <img src="{% static 'imagenes/check.svg' %}" alt="">
+                                        <span>Confirmar</span>
+                                        </button>
+                                </form>
+                            </td>
+                         </tr>
+                    {% endfor %}
+               
+                </tbody>
+            </table>
+        </article>
+    </section>
+{% endblock body %}

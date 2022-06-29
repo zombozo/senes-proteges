@@ -1,0 +1,91 @@
+{% extends 'pages/base_fundacion.html' %}
+{% load static %}
+{% block script_css %}
+    <link rel="stylesheet" href="{% static 'css/fundacion/recepcion/dashboard-recepcion.css' %}">
+{% endblock script_css %}
+{% block body %}
+<span class="pagina-activa" data-pagina="recepcion" hidden></span>
+<div class="base-dashboard-medico">
+    <h4>Solicitudes pendientes de confirmar</h4>
+    <section class="citas">
+        <nav class="citas-options">
+            <span>Paciente</span>
+            <span>Edad</span>
+            <span>Enfermero</span>
+            <span>Descripcion General</span>
+            <span>Solicitado el</span>
+            <span>Confirmada</span>
+            <span>Opciones</span>
+        </nav>
+{% if citas %}
+    {% for cita in citas %}
+        <section class="solicitud">
+            <article class="solicitud-general" data-id="{{cita.id_solicitudCita}}">
+                <span>{{cita.id_expediente.id_datosPersonales.get_nombreCompleto }}</span>
+                <span>{{cita.id_expediente.id_datosPersonales.fecha_nacimiento}}</span>
+                <span>{{cita.id_enfermero}}</span>
+                <span>{{cita.descripcion}}</span>
+                <span>{{cita.creado_en}}</span>
+                <span>
+                    {% if cita.solicitud_finalizada %}
+                        Confirmada
+                        {% else %}
+                        pendiente
+                        <form action="{% url 'fundacion:actualizar-solicitud-cita' cita.id_solicitudCita %}" method="POST">
+                            {% csrf_token %}
+                            <button class="btn btn-aceptar" name="solicitud_finalizada" id="solicitud_finalizada" value="True" type="submit">
+                                <img src="{% static 'imagenes/check.svg' %}" alt="">confirmar
+                            </button>
+                        </form>
+                    {% endif %}
+                </span>
+                <span class="last options">
+                    
+                    <span class="ver-especialidades" data-id="{{cita.id_solicitudCita}}"  href="">
+                       <img src="{% static 'imagenes/chevron-down.svg' %}" alt=""> Ver
+                    </span>
+                </span>
+            </article>
+            {% if cita.detalle_cita.all|length > 0 %}
+            <article class= "card card-general {{cita.id_solicitudCita}}" style="display:none">
+                {% for detalle in cita.detalle_cita.all %}
+                    <div class= "card card-especialidad" >
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><strong>Especialidad:</strong> {{detalle.id_especialidad}}</li>
+                            <li class="list-group-item"> <strong>Motivo: </strong> {{detalle.descripcion}}</li>
+                            <li class="list-group-item">
+                                {% if detalle.fecha_hora == None %}
+                                    <form class="datetime" action="{% url 'fundacion:actualizar-detalle-solicitud' detalle.solicitudCitaDetalle %}" method="post">
+                                    {% csrf_token %}
+                                        <input class="" type="date" name="fecha_hora" id="fecha_hora">
+                                        <input class="" type="time" name="fecha_hora" id="fecha_hora">
+                                        <button class="  asignar-fecha" type="submit"><img src="{% static 'imagenes/check.svg' %}" alt=""></button>
+                                    </form>
+                                    {% else %}
+                                    {{detalle.fecha_hora}}
+                                {% endif %}
+                            </li>
+                            <li class="list-group-item">
+                            {% if detalle.aceptado %}
+                                <span class="text-success">
+                                    Aceptado
+                                </span>
+                                
+                                {% else %}
+                                <span class="text-warning">Pendiente</span>
+                            {% endif %}
+                            </li>
+                        </ul>
+                    </div>
+                {% endfor %}
+            </article>
+            {% endif %}
+        </section>
+    {% endfor %}
+{% endif %}
+    </section>
+</div>
+{% endblock body %}
+{% block script_js %}
+    <script src="{% static 'js/fundacion/dashboard_fundacion.js' %}"></script>
+{% endblock script_js %}

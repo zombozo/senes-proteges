@@ -1,0 +1,149 @@
+:root {
+    --verde: #45c14e;
+    --verde-opaco: #dff8eb;
+    --border-page: #00AA83;
+    --secciones-info: #4ee8e2;
+    --background: #E2FAEB;
+    --text-color: #00324b;
+}
+
+.logo {
+    display: flex !important;
+    width: 14rem !important;
+
+}
+.logo span {
+    font-size: 20px;
+    font-weight: bold;
+}
+.logo:hover {
+    color:white;
+}
+.logo img {
+
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+.enlinea {
+    display: flex;
+    flex-direction: row;
+}
+
+body {
+    display: block;
+    margin: 0px 0px auto 0px;
+    background: var(--background) !important;
+}
+
+.table thead {
+    background-color: var(--verde);
+}
+
+input {
+    height: 5vh;
+    border-radius: 5px;
+    margin-top: 1vh;
+}
+
+a {
+    text-decoration: None;
+}
+
+.btns-options {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 2vh;
+    width: 100%;
+}
+
+
+/* reconstrucciones de boostrap */
+
+.btn-card {
+    background-color: transparent;
+    border: none;
+}
+
+.close-card {
+    float: right;
+}
+
+.btn-card:hover {
+    border: 1px solid gray;
+    border-radius: 5px;
+    background-color: transparent;
+}
+
+.btn {
+    height: 6vh;
+    border-radius: 15px;
+    border: 1px solid var(--text-color) !important;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.btn-guardar {
+    background-color: var(--verde-opaco);
+}
+
+.btn-outline-success:hover {
+    background-color: var(--verde);
+}
+
+.personaje {
+    position: fixed;
+}
+
+.grillo {
+    transform: translateX(-9rem);
+}
+
+.grillo img {
+    height: 50vh;
+    bottom: 4px;
+}
+
+.select {
+    height: 6vh;
+    border-radius: 10px;
+    border: 1px solid black;
+}
+
+.select:hover {
+    border: var(--secciones-info)
+}
+
+.card {}
+
+ul {
+    list-style: none;
+}
+
+.options-medico {
+    height: 6vh;
+    display: flex;
+    border-bottom: 1px solid var(--border-page);
+}
+
+.options-medico a {
+    height: 6vh;
+    text-decoration: none;
+    display: flex;
+    padding-left: 2rem;
+    align-items: flex-end;
+}
+
+.selected {
+    border-bottom: 2px solid var(--border-page) !important;
+}
+
+.btn-ico {
+    display: flex !important;
+flex-direction: row;
+justify-content: space-between;
+font-size: 12px !important;
+align-items: center;
+
+}
