@@ -9,7 +9,7 @@ from django.contrib.auth.models import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 # Create your models here.
 class datosPersonales(models.Model):
-    id_datosPersonales = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    id_datosPersonales = models.BigAutoField(primary_key=True)
     primer_nombre = models.CharField(max_length=20, blank=False, null=False)
     segundo_nombre = models.CharField(max_length=20, blank=True, null=True)
     primer_apellido = models.CharField(max_length=20, blank=False, null=False)
@@ -30,7 +30,7 @@ empresas = (
     ("2","asilo")
 )
 class empleado(models.Model):
-    id_empleado = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    id_empleado = models.BigAutoField(primary_key=True)
     id_datos_personales = models.ForeignKey("usuarios.datosPersonales", verbose_name=("Datos personales"), on_delete=models.CASCADE)
     id_empleado_especialidad = models.ForeignKey("usuarios.empleadoEspecialidad", verbose_name=("Especialidad"), on_delete=models.CASCADE)
     empresa = models.CharField(max_length=80, choices=empresas)
@@ -42,7 +42,7 @@ class empleado(models.Model):
 
 
 class empleadoEspecialidad(models.Model):
-    id_empleado_especialidad = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    id_empleado_especialidad = models.BigAutoField(primary_key=True)
     nombre = models.CharField(max_length=50)
     actividades = models.TextField(("Actividades de la especialialidad"))
 
@@ -95,7 +95,7 @@ class UserManager(BaseUserManager):
         return user
 
 class usuario(AbstractBaseUser, PermissionsMixin):
-    id_usuario = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    id_usuario = models.BigAutoField(primary_key=True)
     email = models.EmailField( max_length=254, unique=True)
     username = models.CharField(
         max_length=254, null=True, blank=True, unique=True

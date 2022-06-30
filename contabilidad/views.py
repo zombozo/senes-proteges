@@ -23,4 +23,6 @@ class dashboardContabilidad(LoginRequiredMixin, TemplateView):
 # class DonacionCreateView(CreateView):
 #     model = donacion
         
+
+
  
