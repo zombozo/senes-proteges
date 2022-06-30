@@ -26,7 +26,7 @@ class datosPersonalesCreateView(LoginRequiredMixin, CreateView):
     model = datosPersonales
     template_name  = "asilo/includes/forms.html"
     fields = "__all__"
-    success_url = "/contacto/"
+    success_url = "/asilo/contacto/"
     form = datosPersonalesForm()
 
     def get_context_data(self, **kwargs):
@@ -68,7 +68,7 @@ class expedienteDetailView(LoginRequiredMixin, DetailView):
         context = {}
         _expediente = expediente.objects.get(id_expediente=kwargs['pk'])
         context['expediente'] = _expediente
-        context['contacto'] = contacto.objects.get(id_expediente=_expediente)
+        context['contacto'] = contacto.objects.filter(id_expediente=_expediente.id_expediente)
         return render(request, self.template_name, context)
 
 class medicoGeneralView(LoginRequiredMixin, TemplateView):

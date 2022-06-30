@@ -12,7 +12,7 @@ class consultaMedicaForm( forms.ModelForm):
 class tratamientoForm( forms.ModelForm):
     class Meta:
         model = tratamiento
-        fields = ["medicamento","id_enfermedad", "descripcion"]
+        fields = ["medicamento", "id_enfermedad", "descripcion"]
     def __init__(self, *args, **kwargs):
         super(tratamientoForm, self).__init__(*args, **kwargs)
         

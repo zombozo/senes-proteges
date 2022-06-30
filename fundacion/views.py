@@ -25,7 +25,7 @@ class dashboardMedico(LoginRequiredMixin, TemplateView):
 class dashboardRecepcion(LoginRequiredMixin, TemplateView):
     template_name = "pages/recepcion/dashboard.html"
     def get(self, request, *args, **kwargs):
-        _solicitudes = solicitudCita.objects.filter(solicitud_finalizada=False)
+        _solicitudes = solicitudCita.objects.filter(aceptada=False)
         context = {
             "citas": _solicitudes,
             "form": solicitudCitaDetalleFechaForm()
@@ -146,14 +146,14 @@ class solicitudDetalleUpdateDatetimeView(LoginRequiredMixin, UpdateView):
 class solicitudUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "pages/recepcion/dashboard.html"
     model = solicitudCita
-    fields = ["solicitud_finalizada"]
+    fields = ["aceptada"]
     def form_valid(self, form) :
         form.save()
         _ficha = ficha()
         _ficha.id_expediente=form.instance.id_expediente
         _ficha.id_solicitudCita= form.instance
         _ficha.save()
-        return redirect("/fundacion")
+        return redirect("/fundacion/recepcion/")
 
 class fichasListView(LoginRequiredMixin, ListView):
     template_name = "pages/recepcion/fichas.html"
