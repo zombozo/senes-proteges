@@ -79,7 +79,7 @@ class consultaMedicaMixin(object):
         context= {
             "solicitud":_solicitud,
             "form":form,
-            "id_expediente": id_expediente
+            "expediente": expediente.objects.get(id_expediente=id_expediente)
         }
         try:
             _ficha = ficha.objects.get(id_solicitudCita=_solicitud.id_solicitudCita.id_solicitudCita)

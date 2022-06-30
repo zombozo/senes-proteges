@@ -26,7 +26,7 @@ class factura(models.Model):
 class facturaDetalleEspecialidad(models.Model):
     id_facturaDetalle = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
     id_factura = models.ForeignKey("fundacion.factura", related_name=("factura_detalle"), on_delete=models.CASCADE)
-    id_especialidad = models.ForeignKey("fundacion.especialidad", verbose_name=("especialidad"), on_delete=models.CASCADE)
+    id_solicitudCitaDetalle = models.ForeignKey("fundacion.solicitudCitaDetalle", verbose_name=("especialidad"), related_name="detalleSolicitud_factura", on_delete=models.CASCADE)
     costo = models.FloatField()
     
     def __str__(self) -> str:
@@ -35,7 +35,7 @@ class facturaDetalleEspecialidad(models.Model):
 class facturaDetalleFarmacia(models.Model):
     id_facturaDetalleFarmacia = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
     id_factura = models.ForeignKey("fundacion.factura", related_name=("farmacia_detalle"), on_delete=models.CASCADE)
-    id_medicamento = models.ForeignKey("fundacion.medicamento", verbose_name=("medicamento"), on_delete=models.CASCADE)
+    id_tratamiento = models.ForeignKey("fundacion.tratamiento", verbose_name=("tratamiento"), related_name="facturaDetalle_tratamiento", on_delete=models.CASCADE)
     cantidad = models.IntegerField()
     precio_unitario = models.FloatField()
 
@@ -130,7 +130,7 @@ class ficha(models.Model):
     id_ficha = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
     id_expediente = models.ForeignKey('asilo.expediente', related_name='ficha_expediente', on_delete=models.CASCADE)
     fecha = models.DateField( auto_now=True, unique=True)
-    id_solicitudCita = models.ForeignKey('fundacion.solicitudCita', related_name='ficha_solicitud', on_delete=models.CASCADE)
+    id_solicitudCita = models.ForeignKey('fundacion.solicitudCita', related_name='ficha_solicitud', unique=True, on_delete=models.CASCADE)
 
     def get_ficha(form=None, _solicitudCitaDetalle=None):
         _ficha = ficha()

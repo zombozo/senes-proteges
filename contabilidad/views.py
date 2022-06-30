@@ -20,7 +20,9 @@ class dashboardContabilidad(LoginRequiredMixin, TemplateView):
         return render(request, self.template_name, context)
         
         
-# class DonacionCreateView(CreateView):
-#     model = donacion
+class DonacionCreateView(CreateView):
+    model = donacion
         
+
+
  

@@ -80,7 +80,6 @@ class consultaMedicaCreateView(LoginRequiredMixin,consultaMedicaMixin, CreateVie
 
     def get(self, request, *args, **kwargs):
         context = self.get_contexto()
-        print(context)
         return render(request, self.template_name, context)
         
     def form_valid(self, form):
