@@ -98,10 +98,8 @@ class tratamientoCreateView(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         id_solicitud = kwargs["solicitud"]
         solicitud = solicitudCitaDetalle.objects.get(solicitudCitaDetalle=id_solicitud)
-        data = {
-            'expediente': solicitud.id_solicitudCita.id_expediente
-        }
-        form  = tratamientoForm(initial=data)
+
+        form  = tratamientoForm()
         context= {
             "form":form,
             "solicitud":solicitud

@@ -52,7 +52,6 @@ class tratamiento(models.Model):
         fecha = models.DateField(("Fecha de Inicio"), auto_now=True)
         medicamento =models.ForeignKey("fundacion.medicamento", verbose_name=("Seleccionar el medicamento"), on_delete=models.CASCADE)
         cantidad = models.IntegerField(null=True, blank=True)
-        id_enfermedad = models.ForeignKey("fundacion.enfermedad", blank=True, null=True, verbose_name=("Seleccione la enfermedad"), on_delete=models.CASCADE)
         descripcion = models.TextField(null=False, blank=False)
         estado = models.IntegerField(choices=estados, default=1)
 
@@ -187,6 +186,3 @@ class consultaMedica(models.Model):
     id_solicitudCitaDetalle = models.ForeignKey("fundacion.solicitudCitaDetalle", verbose_name=("consulta_solicitudDetalle"), related_name='consulta_SolicitudDetalle', on_delete=models.CASCADE)
     diagnostico = models.TextField()
     creado_en = models.DateTimeField(auto_now=True)
-    
-    
-    

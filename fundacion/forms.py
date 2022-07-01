@@ -8,7 +8,6 @@ class consultaMedicaForm( forms.ModelForm):
         fields = ["diagnostico"]
         
         
-        
 class tratamientoForm( forms.ModelForm):
     class Meta:
         model = tratamiento
@@ -27,8 +26,6 @@ class solicitudCitaForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(solicitudCitaForm, self).__init__(*args, **kwargs)
         self.fields["pagina"].initial = "solicitud"
-
-
 
 
 class solicitudCitaDetalleForm(forms.ModelForm):

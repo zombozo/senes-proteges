@@ -135,8 +135,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 # CAMBIARA A .ENV PARA OCULTAR LOS SIGUIENTES DATOS
-EMAIL_HOST_USER = "gerson.olivares543@gmail.com"
-EMAIL_HOST_PASSWORD = "iswmjaaentxorncc" #iswmjaaentxorncc
+
 LOGIN_URL = "/usuarios/iniciar-sesion/"
 
 AUTH_USER_MODEL = "usuarios.usuario"
