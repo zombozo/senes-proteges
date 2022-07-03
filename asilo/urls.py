@@ -13,4 +13,5 @@ urlpatterns = [
     path("crear-solicitud/<int:id_expediente>/", view=solicitudCreateView.as_view(), name="crear-solicitud"),
     path("detalle-solicitud/<int:id_solicitud>/",  view=solicitudCitaDetalleCreateView.as_view(), name="detalle-solicitud"),
     path("eliminar-detalle-solicitud/<int:pk>/", view=solicitudDeleteView.as_view(), name="eliminar-detalle-solicitud"),
+    path("lista-solicitudes/", view=solicitudesListaView.as_view(), name="lista-solicitudes"),
 ]

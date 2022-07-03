@@ -2,6 +2,7 @@
 
 from django.conf import settings
 from asilo.models import contacto
+from reportes.controlErrores import get_loggerSenes
 from reportes.correoElectronico import correo
 
 
@@ -12,15 +13,19 @@ class medicoMixin(object):
     
     def enviar_correo(self, _solicitudCita):
         _correo = correo()
-        contacto = contacto.objects.get(id_expediente=_solicitudCita.id_expediente.id_expediente)
-        contenido = {
-            "solicitudes":_solicitudCita
-        }
-        _correo.set_contenidoCorreo(
-            destinatario=settings.EMAIL_HOST_USER,
-            subject="Consulta medica",
-            contexto=contenido,
-            to=[contacto.correo_electronico]
-        )
-        _correo.enviar(contexto=contenido)
+        try:
+            _contacto = contacto.objects.get(id_expediente=_solicitudCita.id_expediente.id_expediente)
+            contenido = {
+                "solicitudes":_solicitudCita
+            }
+            _correo.set_contenidoCorreo(
+                destinatario=settings.EMAIL_HOST_USER,
+                subject="Consulta medica",
+                contexto=contenido,
+                to=[_contacto.correo_electronico]
+            )
+            _correo.enviar(contexto=contenido)
+        except contacto.DoesNotExist as e:
+            logger = get_loggerSenes()
+            logger.info(e.__traceback__)
         pass

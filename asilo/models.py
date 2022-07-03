@@ -3,6 +3,8 @@ import uuid
 from django.db import models
 
 
+
+
 # Create your models here.
 
 
@@ -13,7 +15,7 @@ class expediente(models.Model):
 
     def __str__(self):
         return f"{self.id_datosPersonales.primer_nombre}"
-        
+
 
 class contacto(models.Model):
     id_contacto = models.BigAutoField(primary_key=True)

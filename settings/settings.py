@@ -137,5 +137,5 @@ EMAIL_USE_TLS = True
 # CAMBIARA A .ENV PARA OCULTAR LOS SIGUIENTES DATOS
 
 LOGIN_URL = "/usuarios/iniciar-sesion/"
-
+LOGOUT_REDIRECT_URL = "/usuarios/iniciar-sesion/"
 AUTH_USER_MODEL = "usuarios.usuario"

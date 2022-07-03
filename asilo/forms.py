@@ -12,3 +12,7 @@ class contactoForm(forms.ModelForm):
         model = contacto
         excludes = ["id_expediente"]
         
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["fecha_nacimiento"].widget = forms.widgets.DateTimeInput()

@@ -7,6 +7,15 @@
     --text-color: #00324b;
 }
 
+html, body {
+
+    height: 100%;
+    width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color:var(--text-color);
+}
 .logo {
     display: flex !important;
     width: 14rem !important;
