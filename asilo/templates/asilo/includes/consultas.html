@@ -1,0 +1,19 @@
+
+<div class="card consultas-medicas">
+    <div class="sections">
+        <span>Especialidad</span>
+        <span>diagnostico</span>
+    </div>
+    {% for ficha in fichas %}
+        {% for consulta in ficha.consulta_ficha.all %}
+            <div class="consultas">
+                <span>
+                    {{consulta.id_solicitudCitaDetalle.id_especialidad.especialidad}}
+                </span>
+                <span>
+                    {{consulta.diagnostico}}
+                </span>
+            </div>
+        {% endfor %}
+    {% endfor %}
+</div>

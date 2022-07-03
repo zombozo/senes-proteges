@@ -1,0 +1,22 @@
+<div class="card laboratorios">
+    <div class="sections-laboratorio">
+        <span>Especialidad</span>
+        <span>Descripcion de solicitud</span>
+        <span>Fecha</span>
+        <span>Muestra</span>
+        <span>Resultado</span>
+        <span>Descripcion</span>
+    </div>
+        {% for ficha in fichas %}
+                {% for laboratorio in ficha.laboratorio_ficha.all %}
+                    <div class="laboratorios-section">
+                        <span>{{laboratorio.id_solicitudCitaDetalle.id_especialidad.especialidad}}</span>
+                        <span>{{laboratorio.id_solicitudCitaDetalle.descripcion}}</span>
+                        <span>{{laboratorio.fecha_hora}}</span>
+                        <span>{{laboratorio.tipo_muestra.muestra}}</span>
+                        <span>{{laboratorio.resultado}}</span>
+                        <span>{{laboratorio.descripcion_resultado}}</span>
+                    </div>
+                {% endfor %}
+        {% endfor %}
+</div>

@@ -1,0 +1,48 @@
+{% load static %}
+{% block css_script_extra %}
+    <link rel="stylesheet" href="{% static 'css/includes/expediente.css' %}">
+    <link rel="stylesheet" href="{% static 'css/includes/consultas.css' %}">
+    <link rel="stylesheet" href="{% static 'css/includes/laboratorios.css' %}">
+{% endblock css_script_extra %}
+<section class="base-expediente">
+        <article class="expediente-detalle">
+            {% comment %} consultas {% endcomment %}
+                {% include 'asilo/includes/consultas.html' with fichas=expediente.ficha_expediente.all %}
+
+                {% include 'asilo/includes/laboratorios.html' with fichas=expediente.ficha_expediente.all %}
+
+                {% include 'asilo/includes/tratamientos.html' with tratamientos=expediente.ficha_expediente.all %}
+        </article>
+        <article class="expediente-opciones">
+            <div class="card">
+                <img src="" alt="">
+                <span>
+                    <h5>consultas medicas</h5>
+                </span>
+            </div>
+            <div class="card">
+                <img src="" alt="">
+                <span>
+                    <h5>Laboratorios</h5>
+                </span>
+            </div>
+            <div class="card">
+                <img src="" alt="">
+                <span>
+                    <h5>Tratamientos</h5>
+                </span>
+            </div>
+            <div class="card">
+                <img src="" alt="">
+                <span>
+                    <h5>Enfermedades</h5>
+                </span>
+            </div>
+            <div class="card">
+                <img src="" alt="">
+                <span>
+                    <h5>Facturas</h5>
+                </span>
+            </div>
+        </article >
+    </section>
