@@ -25,9 +25,6 @@
                     <img src="{% static 'imagenes/gh_icon.svg' %}" alt="">
                     <span>senes proteges</span>
                 </a>
-            <a href="{% url 'asilo:home' %}">dashboard asilo</a>
-            <a href="/fundacion/">dashboard fundacion</a>
-            
             <aside class="cuenta">
                 Acceder a la cuenta
             </aside>
@@ -64,4 +61,5 @@
 {% block script_js %}
             
 {% endblock script_js %}
+{% block script_js_extra %}{% endblock script_js_extra %}
 </html>

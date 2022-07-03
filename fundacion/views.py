@@ -1,22 +1,23 @@
 import datetime
 from multiprocessing import context
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView, CreateView, UpdateView, ListView
 from django.contrib import messages
 from asilo.models import expediente
+from django.urls import reverse
 from fundacion.mixins import consultaMedicaMixin, facturaMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import  consultaMedicaForm, solicitudCitaDetalleFechaForm, tratamientoForm
 
-from .models import consultaMedica, factura, ficha, laboratorio, solicitudCita, solicitudCitaDetalle, tratamiento
+from .models import consultaMedica, factura, ficha, laboratorio, motivoRechazo, solicitudCita, solicitudCitaDetalle, tratamiento
 
 # Create your views here.
 
 class dashboardMedico(LoginRequiredMixin, TemplateView):
     template_name = "pages/medico/dashboard_medico.html"
     def get(self, request, *args, **kwargs):
-        _solicitudes = solicitudCitaDetalle.objects.filter(id_especialidad__id_area__id_area=1, id_solicitudCita__solicitud_finalizada=True)
+        _solicitudes = solicitudCitaDetalle.objects.filter(id_especialidad__id_area__id_area=1, aceptada=True)
         context = {
             "citas": _solicitudes
         }
@@ -25,7 +26,7 @@ class dashboardMedico(LoginRequiredMixin, TemplateView):
 class dashboardRecepcion(LoginRequiredMixin, TemplateView):
     template_name = "pages/recepcion/dashboard.html"
     def get(self, request, *args, **kwargs):
-        _solicitudes = solicitudCita.objects.filter(aceptada=False)
+        _solicitudes = solicitudCita.objects.filter(solicitud_finalizada=True)
         context = {
             "citas": _solicitudes,
             "form": solicitudCitaDetalleFechaForm()
@@ -36,7 +37,7 @@ class dashboardFarmacia(LoginRequiredMixin, TemplateView):
     template_name="pages/dashboard-farmacia.html"
 
     def get(self, request, *args, **kwargs):
-        tratamientos = tratamiento.objects.filter(estado=1)
+        tratamientos = tratamiento.objects.filter(fecha=datetime.datetime.now())
         context = {
             "tratamientos": tratamientos
         }
@@ -46,37 +47,51 @@ class dashboardLaboratorio(LoginRequiredMixin, TemplateView):
     template_name = "pages/dashboard-laboratorio.html"
     
     def get(self, request, *args, **kwargs):
-        citas = solicitudCitaDetalle.objects.filter(id_especialidad__id_area__nombre="Laboratorio")
+        citas = solicitudCitaDetalle.objects.filter(id_especialidad__id_area__nombre="Laboratorio", aceptada=True)
         context = {
             "citas": citas
         }
         return render(request, self.template_name, context)
 
 class examenLaboratorioCreateView(LoginRequiredMixin, CreateView):
-    template_name = "pages/forms.html"
+    template_name = "pages/dashboard-laboratorio.html"
     model = laboratorio
-    fields = ["descripcion_muestra","resultado"]
-    success_url = "/fundacion/dashboard-laboratorio/"
+    fields = ["tipo_muestra","resultado", "descripcion_resultado"]
+    success_url = ""
+    
+    def get_success_url(self):
+        return reverse("fundacion:dashboard-laboratorio")
     
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        context = super(examenLaboratorioCreateView, self).get_context_data(**kwargs)
         context["titulo"] = "Examen de laboratorio"
+        context["detalle"] = solicitudCitaDetalle.objects.get(solicitudCitaDetalle=self.kwargs['id_solicitudDetalle'])
         return context
         
-        return super().get_context_data(**kwargs)
     
     def form_valid(self, form):
         id_solicitudCitaDetalle = solicitudCitaDetalle.objects.get(solicitudCitaDetalle=self.kwargs["id_solicitudDetalle"])
-        
-        form.instance.id_especialidad = id_solicitudCitaDetalle.id_especialidad
+        form.instance.id_solicitudCitaDetalle = id_solicitudCitaDetalle
         form.instance.id_ficha = ficha.get_ficha(_solicitudCitaDetalle=id_solicitudCitaDetalle)
         return super().form_valid(form)
 
+
+class editLaboratorioCreateView(LoginRequiredMixin, UpdateView):
+    model = laboratorio
+    template_name = "pages/dashboard-laboratorio.html"
+    fields = ["resultado", "descripcion_resultado"]
+    success_url= "/fundacion/dashboard-laboratorio/"
+    
+    
 class consultaMedicaCreateView(LoginRequiredMixin,consultaMedicaMixin, CreateView):
     model = consultaMedica
     fields = ["diagnostico"]
     template_name = "pages/medico/consulta_crear.html"
-    success_url = "/fundacion/dashboard-medico/"
+    success_url = ""
+
+
+    def get_success_url(self):
+        return reverse("fundacion:dashboard-medico")
 
     def get(self, request, *args, **kwargs):
         context = self.get_contexto()
@@ -84,24 +99,23 @@ class consultaMedicaCreateView(LoginRequiredMixin,consultaMedicaMixin, CreateVie
         
     def form_valid(self, form):
         id_detalle = self.request.GET.get("detalle")
-        form.instance.id_solicitudCitaDetalle=solicitudCitaDetalle.objects.get(solicitudCitaDetalle=id_detalle)
-        form.instance.id_ficha = ficha.get_ficha(form=form)
+        detalle=solicitudCitaDetalle.objects.get(solicitudCitaDetalle=id_detalle)
+        form.instance.id_solicitudCitaDetalle=detalle
+        form.instance.id_ficha = ficha.get_ficha(_solicitudCitaDetalle=detalle)
         
         return super().form_valid(form)
 
 class tratamientoCreateView(LoginRequiredMixin, CreateView):
     template_name = "pages/medico/consulta_crear.html"
-    success_url = "/fundacion/crear-consulta/"
-    fields = ["medicamento", "id_enfermedad","descripcion"]
+    success_url = "/crear-tratamiento/"
+    fields = ["medicamento", "cantidad","descripcion"]
     model = tratamiento
     # tratamientoForm
     def get(self, request, *args, **kwargs):
         id_solicitud = kwargs["solicitud"]
         solicitud = solicitudCitaDetalle.objects.get(solicitudCitaDetalle=id_solicitud)
-        data = {
-            'expediente': solicitud.id_solicitudCita.id_expediente
-        }
-        form  = tratamientoForm(initial=data)
+
+        form  = tratamientoForm()
         context= {
             "form":form,
             "solicitud":solicitud
@@ -117,12 +131,18 @@ class tratamientoCreateView(LoginRequiredMixin, CreateView):
         form.instance.id_ficha = _ficha.get_ficha(_solicitudCitaDetalle=solicitud)
         self.success_url = self.success_url+f"{solicitud.id_solicitudCita.id_expediente.id_expediente}/?detalle={solicitud.solicitudCitaDetalle}"
         return super().form_valid(form)
+    
+    
 
 class tratamientoUpdateview(LoginRequiredMixin, UpdateView):
     model = tratamiento
     fields = ["estado"]
-    success_url= "/fundacion/dashboard-farmacia/"
+    success_url= ""
 
+    def get_success_url(self):
+        return reverse("fundacion:dashboard-farmacia")
+    
+    
 class solicitudDetalleUpdateDatetimeView(LoginRequiredMixin, UpdateView):
     template_name="pages/recepcion/dashboard.html"
     model = solicitudCitaDetalle
@@ -137,23 +157,25 @@ class solicitudDetalleUpdateDatetimeView(LoginRequiredMixin, UpdateView):
         if form.is_valid():
             _solicitudCitaDetalle=solicitudCitaDetalle.objects.get(solicitudCitaDetalle=kwargs['pk'])
             _solicitudCitaDetalle.fecha_hora = form.cleaned_data["fecha_hora"]
+            _solicitudCitaDetalle.aceptada=True
             _solicitudCitaDetalle.save()
         else:
             print(f"errores: {form.errors}")
             messages.error(request, form.errors)
         return redirect('/fundacion')
 
-class solicitudUpdateView(LoginRequiredMixin, UpdateView):
+class rechazarDetalleRechazarView(LoginRequiredMixin, CreateView):
     template_name = "pages/recepcion/dashboard.html"
-    model = solicitudCita
-    fields = ["aceptada"]
+    model = motivoRechazo
+    fields = ["motivo"]
     def form_valid(self, form) :
+        detalle =solicitudCitaDetalle.objects.get(solicitudCitaDetalle=self.kwargs['pk'])
+        form.instance.id_solicitudCitaDetalle = detalle
         form.save()
-        _ficha = ficha()
-        _ficha.id_expediente=form.instance.id_expediente
-        _ficha.id_solicitudCita= form.instance
-        _ficha.save()
-        return redirect("/fundacion/recepcion/")
+        
+        detalle.aceptada=False
+        detalle.save()
+        return HttpResponseRedirect(reverse("fundacion:dashboard-recepcion"))
 
 class fichasListView(LoginRequiredMixin, ListView):
     template_name = "pages/recepcion/fichas.html"
@@ -170,8 +192,12 @@ class facturaCrear(LoginRequiredMixin, facturaMixin, CreateView):
     template_name = "pages/recepcion/generar_factura.html"
     model = factura
     fields = ["direccion", "nit"]
-    success_url = "/fundacion/fichas/"
+    success_url = ""
 
+    def get_absolute_url(self):
+        return reverse("fundacion:fichas")
+    
+    
     def get_context_data(self, *args, **kwargs):
         context = super(facturaCrear, self).get_context_data(*args, **kwargs)
         context["ficha"] = ficha.objects.get(id_ficha=self.kwargs['id_ficha'])

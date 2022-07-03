@@ -1,6 +1,8 @@
 from django.conf import settings
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from asilo.mixins import medicoMixin
+from django.urls import reverse
 from asilo.models import expediente, contacto
 from fundacion.forms import solicitudCitaDetalleForm, solicitudCitaForm
 from fundacion.mixins import recepcionMixin
@@ -9,7 +11,7 @@ from reportes.correoElectronico import correo
 from usuarios.forms import datosPersonalesForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from usuarios.models import datosPersonales
-from django.views.generic import TemplateView, CreateView, DetailView, DeleteView, UpdateView
+from django.views.generic import TemplateView, CreateView,ListView,  DetailView, DeleteView, UpdateView
 
 # Create your views here.
 
@@ -26,7 +28,7 @@ class datosPersonalesCreateView(LoginRequiredMixin, CreateView):
     model = datosPersonales
     template_name  = "asilo/includes/forms.html"
     fields = "__all__"
-    success_url = "/asilo/contacto/"
+    success_url = ""
     form = datosPersonalesForm()
 
     def get_context_data(self, **kwargs):
@@ -39,14 +41,14 @@ class datosPersonalesCreateView(LoginRequiredMixin, CreateView):
         form.save()
         _expediente= expediente.objects.create(id_datosPersonales=form.instance)
         print(f"{_expediente.id_expediente}")
-        self.success_url= self.success_url + f"{_expediente.id_expediente}/"
+        self.success_url= reverse('asilo:contacto', kwargs={'pk':_expediente.id_expediente})
         return super().form_valid(form)
 
 class contactoCreateView(LoginRequiredMixin, CreateView):
     model = contacto
     template_name = "asilo/includes/forms.html"
-    fields = ["nombre", "numero_telefono", "correo_electronico", "parentesco","estado"]
-    success_url = "/expediente/"
+    fields = ["nombre", "numero_telefono", "correo_electronico", "parentesco"]
+    success_url = ""
     
     def get_context_data(self, **kwargs):
         context = super(contactoCreateView, self).get_context_data(**kwargs)
@@ -57,7 +59,7 @@ class contactoCreateView(LoginRequiredMixin, CreateView):
         form.instance.id_expediente=expediente.objects.get(id_expediente=self.kwargs['pk'])
         form.save()
         print(self.kwargs['pk'])
-        self.success_url = self.success_url+f"{self.kwargs['pk']}/"
+        self.success_url = reverse("asilo:expediente", kwargs={'pk':self.kwargs['pk']})
         return super().form_valid(form)
 
 class expedienteDetailView(LoginRequiredMixin, DetailView):
@@ -84,6 +86,9 @@ class solicitudCreateView(LoginRequiredMixin, CreateView):
         id_expediente = kwargs["id_expediente"]
         form = solicitudCitaForm()
         context = {"form":form}
+        solicitud_pendiente, id_solicitud = solicitudCita.get_solicitud(id_expediente=id_expediente)
+        if solicitud_pendiente:
+            return HttpResponseRedirect(reverse('asilo:detalle-solicitud', kwargs={'id_solicitud':id_solicitud}))
         return render(request, self.template_name, context)
 
     def form_valid(self, form):
@@ -122,14 +127,14 @@ class solicitudCitaDetalleCreateView(LoginRequiredMixin,medicoMixin, CreateView)
         form.instance.id_solicitudCita = _solicitud
         proximo_paso = self.request.POST["proximo_paso"]
         if proximo_paso =="guardar_y_repetir":
-            self.success_url = f"/detalle-solicitud/{self.kwargs['id_solicitud']}/"
+            return HttpResponseRedirect(reverse('asilo:detalle-solicitud', kwargs={'id_solicitud':self.kwargs['id_solicitud']}))
         if proximo_paso =="guardar_y_enviar":
             _solicitudCita= solicitudCita.objects.get(id_solicitudCita=form.instance.id_solicitudCita.id_solicitudCita)
             _solicitudCita.solicitud_finalizada=True
             _solicitudCita.save()
             self.enviar_correo(_solicitudCita)
+            return HttpResponseRedirect('/dashboard-medico/')
         
-        return super().form_valid(form)
 
 class solicitudDeleteView(LoginRequiredMixin, DeleteView):
     model = solicitudCitaDetalle
@@ -141,3 +146,11 @@ class solicitudDeleteView(LoginRequiredMixin, DeleteView):
         self.success_url= self.success_url+f"{self.object.id_solicitudCita.id_solicitudCita}/"
         return super().form_valid(form)
 
+class solicitudesListaView(LoginRequiredMixin, ListView):
+    template_name = "asilo/medico/solicitudes.html"
+    model = solicitudCita
+
+    def get_context_data(self, **kwargs):
+        context = super(solicitudesListaView, self).get_context_data(**kwargs)
+        context["citas"] = solicitudCita.objects.filter(solicitud_finalizada=False)
+        return context

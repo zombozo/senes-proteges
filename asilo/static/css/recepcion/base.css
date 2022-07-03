@@ -4,8 +4,30 @@
     align-items: center;
     margin-top: 0px;
     background: var(--background);
+    height: 100%;
+
 }
 
+/* dropdown del perfil */
+.dropdown-perfil button{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+
+}
+
+
+.dropdown-perfil .menu-perfil {
+    position: absolute;
+z-index: 100;
+right: -26px;
+}
+
+.dropdown-perfil .menu-perfil a {
+    color: var(--border-page);
+}
+
+/* dashboard */
 .options-dashboard {
     width: 100vw;
     height: 10vh;
@@ -56,8 +78,11 @@
 /* dashboard */
 
 .dashboard-sections {
+    height: 100%;
     width: 100vw;
     display: grid;
+    position: relative;
+    z-index: 1;
     grid-template-columns: 1fr 6fr;
 }
 

@@ -14,7 +14,7 @@ body {
 
 .principal {
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
     flex-direction: column;
 }
 
@@ -53,7 +53,7 @@ height: 100vh;
     flex-direction: row;
     height: 10vh;
     border: 1px solid black;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 }
 

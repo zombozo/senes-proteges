@@ -7,6 +7,7 @@
 <span class="pagina-activa" data-pagina="farmacia" hidden></span>
     <section class="seccion-principal">
         <article class="medicamentos-pendientes">
+            <h5>Tratamientos Pendientes</h5>
             <table class="table tabla-medicamentos">
                 <thead>
                     <tr>
@@ -23,6 +24,8 @@
                 <tbody>
                 
                     {% for tratamiento in tratamientos %}
+                    
+                    {% if tratamiento.estado == 1 %}
                         <tr>
                             <td>{{tratamiento.id_ficha.id_expediente.id_datosPersonales.get_nombreCompleto}}</td>
                             <td>{{tratamiento.medicamento.nombre}}</td>
@@ -32,8 +35,9 @@
                             <td>{{tratamiento.medicamento.precio}}</td>
                             <td>{{tratamiento.fecha}}</td>
                             <td>
-                                <form class="elementos-inline" action="{% url 'fundacion:actualizar-tratamiento' tratamiento.id_tratamiento %}" method="post">
+                                <form class="form-tratamiento elementos-inline" action="{% url 'fundacion:actualizar-tratamiento' tratamiento.id_tratamiento %}" method="post">
                                 {% csrf_token %}
+                                <input class="cantidad"  name="cantidad" id="cantidad" value="{{tratamiento.cantidad}}" type="number">
                                 <select class="btn" name="estado" id="estado">
                                     <option value="1">Pendiente</option>
                                     <option value="2">Entregado</option>
@@ -45,6 +49,50 @@
                                         <span>Confirmar</span>
                                         </button>
                                 </form>
+                            </td>
+                         </tr>
+                    {% endif %}
+                        
+                        
+                    {% endfor %}
+               
+                </tbody>
+            </table>
+        </article>
+
+
+        <article class="medicamentos-entregados">
+            <h5>Tratamientos Entregados</h5>
+            <table class="table tabla-medicamentos">
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>medicamento</th>
+                        <th>dosis</th>
+                        <th>Descripcion</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                
+                    {% for tratamiento in tratamientos %}
+                        <tr>
+                            <td>{{tratamiento.id_ficha.id_expediente.id_datosPersonales.get_nombreCompleto}}</td>
+                            <td>{{tratamiento.medicamento.nombre}}</td>
+                            <td>{{tratamiento.medicamento.dosis}}</td>
+                            <td>{{tratamiento.descripcion}}</td>
+                            <td>{{tratamiento.cantidad}}</td>
+                            <td>{{tratamiento.medicamento.precio}}</td>
+                            <td>{{tratamiento.fecha}}</td>
+                            <td>
+                                
+                                {% if tratamiento.estado == 2 %}
+                                    Entregado
+                                {% endif %}
+                                    
                             </td>
                          </tr>
                     {% endfor %}
