@@ -27,6 +27,7 @@ class correo:
         html_content = self.html_content.render(contexto)
         mensaje = EmailMultiAlternatives(self.subject, texto_plano, self.from_email,self.to)
         mensaje.attach_alternative(html_content, "text/html")
-        mensaje.send()
+        print("envio ficticio de correo")
+        # mensaje.send()
     
     

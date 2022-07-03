@@ -12,7 +12,7 @@ class medicoMixin(object):
     
     def enviar_correo(self, _solicitudCita):
         _correo = correo()
-        contacto = contacto.objects.get(id_expediente=_solicitudCita.id_expediente.id_expediente)
+        _contacto = contacto.objects.get(id_expediente=_solicitudCita.id_expediente.id_expediente)
         contenido = {
             "solicitudes":_solicitudCita
         }
@@ -20,7 +20,7 @@ class medicoMixin(object):
             destinatario=settings.EMAIL_HOST_USER,
             subject="Consulta medica",
             contexto=contenido,
-            to=[contacto.correo_electronico]
+            to=[_contacto.correo_electronico]
         )
         _correo.enviar(contexto=contenido)
         pass
