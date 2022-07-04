@@ -1,4 +1,8 @@
 {% extends 'asilo/base_asilo.html' %}
+{% load static %}
 {% block section %}
     {% include 'asilo/includes/expediente.html' with expediente=expediente  %}
 {% endblock section %}
+    {% block script_js_extra %}
+        <script src="{% static 'js/asilo/expediente.js' %}"></script>
+    {% endblock script_js_extra %}

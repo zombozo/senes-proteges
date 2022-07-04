@@ -6,7 +6,7 @@
     </div>
     {% for ficha in fichas %}
         {% for consulta in ficha.consulta_ficha.all %}
-            <div class="consultas">
+            <div class="consulta-detalle">
                 <span>
                     {{consulta.id_solicitudCitaDetalle.id_especialidad.especialidad}}
                 </span>

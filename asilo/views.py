@@ -86,6 +86,7 @@ class solicitudCreateView(LoginRequiredMixin, CreateView):
         id_expediente = kwargs["id_expediente"]
         form = solicitudCitaForm()
         context = {"form":form}
+        context['expediente'] = expediente.objects.get(id_expediente=id_expediente)
         solicitud_pendiente, id_solicitud = solicitudCita.get_solicitud(id_expediente=id_expediente)
         if solicitud_pendiente:
             return HttpResponseRedirect(reverse('asilo:detalle-solicitud', kwargs={'id_solicitud':id_solicitud}))
