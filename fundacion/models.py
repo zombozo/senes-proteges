@@ -109,7 +109,7 @@ class especialidad(models.Model):
     
     
     def __str__(self):
-        return f"{self.especialidad}"
+        return f"{self.id_area.nombre} - {self.especialidad}"
 
 class laboratorio(models.Model):
     id_laboratorio = models.BigAutoField(primary_key=True)

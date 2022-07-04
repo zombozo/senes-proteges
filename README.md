@@ -39,7 +39,6 @@ sudo nano /etc/nginx/sites-available/myproject
 
 sudo ln -s /etc/nginx/sites-available/senes-proteges /etc/nginx/sites-enabled
 
-sites-availablsenes-protegesct
 
  /etc/nginx/sites-enabled
 

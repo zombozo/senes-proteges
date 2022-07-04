@@ -14,7 +14,7 @@ class medicoMixin(object):
     def enviar_correo(self, _solicitudCita):
         _correo = correo()
         try:
-            _contacto = contacto.objects.get(id_expediente=_solicitudCita.id_expediente.id_expediente)
+            _contacto = contacto.objects.filter(id_expediente=_solicitudCita.id_expediente.id_expediente)[0:1].get()
             contenido = {
                 "solicitudes":_solicitudCita
             }

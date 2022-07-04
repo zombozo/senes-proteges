@@ -125,6 +125,7 @@ class solicitudCitaDetalleCreateView(LoginRequiredMixin,medicoMixin, CreateView)
         id_solicitud = self.kwargs["id_solicitud"]
         _solicitud = solicitudCita.objects.get(id_solicitudCita=id_solicitud)
         form.instance.id_solicitudCita = _solicitud
+        form.save()
         proximo_paso = self.request.POST["proximo_paso"]
         if proximo_paso =="guardar_y_repetir":
             return HttpResponseRedirect(reverse('asilo:detalle-solicitud', kwargs={'id_solicitud':self.kwargs['id_solicitud']}))
