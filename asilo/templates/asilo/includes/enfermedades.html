@@ -1,0 +1,20 @@
+
+<div class="card card-enfermedades">
+    <div class="sections-header-enfermedades">
+        <span>Nombre</span>
+        <span>Descripcion</span>
+        <span>fecha</span>
+    </div>
+    {% for ficha in fichas %}
+        {% for enfermedad in ficha.expediente_enfermedad.all %}
+            <div class="sections-body-enfermedades">
+                <span>
+                    {{consulta.id_solicitudCitaDetalle.id_especialidad.especialidad}}
+                </span>
+                <span>
+                    {{consulta.diagnostico}}
+                </span>
+            </div>
+        {% endfor %}
+    {% endfor %}
+</div>

@@ -7,11 +7,11 @@
 {% endblock script_css %}
 {% block body %}
         <nav class="options-medico">
-            <a class="selected" href="">Crear consulta medica</a>
-            <a class=" " href="">Expediente clinico</a>
+            <a class="selected" href="http://" data-item="base_crear_consulta">Crear consulta medica</a>
+            <a class=" " href="http://" data-item="section-solicitud">Expediente clinico</a>
         </nav>
 
-    <section class="base_crear_consulta">
+    <section class="base_crear_consulta options">
         
         <article class="sectionA">
             <article class="card detalle-solicitud">
@@ -122,5 +122,19 @@
             </section>
         </article>
     </section>
-
+    <div class="section-solicitud expediente options" style="display:none">
+        {% include 'asilo/includes/expediente.html' with expediente=expediente  %}
+    </div>
 {% endblock body %}
+{% block js_code %}
+   $('.options-medico a').click(function(){
+        var item = $(this).data("item");
+        $('.options-medico a').removeClass('selected');
+        $(this).addClass('selected');
+        $('.options').hide();
+        $('.'+item).slideToggle();
+   })
+{% endblock js_code %}
+{% block script_js_extra %}
+        <script src="{% static 'js/asilo/expediente.js' %}"></script>
+    {% endblock script_js_extra %}

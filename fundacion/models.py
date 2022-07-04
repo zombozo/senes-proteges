@@ -60,10 +60,17 @@ class tratamiento(models.Model):
             return self.medicamento.nombre
         
 
+class clienteEnfermedad(models.Model):
+    id_clienteEnfermedad = models.BigAutoField(primary_key=True)
+    id_expediente = models.ForeignKey("asilo.expediente", related_name=("expediente_enfermedad"), on_delete=models.CASCADE)
+    id_enfermedad = models.ForeignKey("fundacion.enfermedad", related_name="enfermedad_expediente", verbose_name=("enfermedad:"), on_delete=models.CASCADE)
+    descripcion = models.TextField(null=True, blank=True)
+    fecha = models.DateTimeField(auto_now=True)
+    
 class enfermedad(models.Model):
     id_enfermedad = models.BigAutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
-    descripcion = models.TextField()
+    descripcion = models.TextField(null=True, blank=True)
 
 class medicamento(models.Model):
         id_medicamento = models.BigAutoField(primary_key=True)

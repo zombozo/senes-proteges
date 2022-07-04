@@ -7,10 +7,10 @@
 {% endblock css_script %}
 {% block section %}
     <nav class="sections-tabs">
-        <a class="selected" href="http://">Creando Solicitud</a>
-        <a  class="" href="http://">Historial medico </a>
+        <a  class="section-solicitud-tab selected" href="http://" data-item="solicitud">Creando Solicitud</a>
+        <a class="section-solicitud-tab" href="http://" data-item="expediente">Historial medico </a>
     </nav>
-    <div class="solicitud">
+    <div class="section-solicitud solicitud">
         <section class="sectionA">
                 {% if solicitud %}
                     <article class="card ">
@@ -67,4 +67,19 @@
                 {% endif %}
         </section>
     </div>
+    <div class="section-solicitud expediente" style="display:none">
+        {% include 'asilo/includes/expediente.html' with expediente=expediente  %}
+    </div>
 {% endblock section %}
+{% block script_js %}
+   $('.section-solicitud-tab').click(function(){
+        var item = $(this).data("item");
+        $('.section-solicitud-tab').removeClass('selected');
+        $(this).addClass('selected');
+        $('.section-solicitud').hide();
+        $('.'+item).slideToggle();
+   })
+{% endblock script_js %}
+{% block script_js_extra %}
+        <script src="{% static 'js/asilo/expediente.js' %}"></script>
+    {% endblock script_js_extra %}
