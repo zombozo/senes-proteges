@@ -7,6 +7,9 @@
     --text-color: #00324b;
 }
 
+.bg {
+    background-color: var(--border-page);
+}
 html, body {
 
     height: 100%;
@@ -37,6 +40,8 @@ h1, h2, h3, h4, h5, h6 {
 .enlinea {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
 }
 
 body {
@@ -91,6 +96,7 @@ a {
     border: 1px solid var(--text-color) !important;
     margin-left: 2px;
     margin-right: 2px;
+    width: auto !important;
 }
 
 .btn-guardar {
@@ -155,4 +161,24 @@ justify-content: space-between;
 font-size: 12px !important;
 align-items: center;
 
+}
+
+/* dropdown del perfil */
+.dropdown-perfil button{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+
+}
+
+
+.dropdown-perfil .menu-perfil {
+    position: absolute;
+z-index: 100;
+right: -26px;
+}
+
+.dropdown-perfil .menu-perfil a {
+    background-color: var( --text-color);
+    color:white;
 }

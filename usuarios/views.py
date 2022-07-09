@@ -5,6 +5,8 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView
 from django.shortcuts import render
 from django.contrib.auth.views import LoginView
+from notifications.signals import notify
+from django.contrib import messages
 
 from asilo.models import expediente
 from asilo.views import HomeTemplateView, dashboardRecepcionView
@@ -22,9 +24,10 @@ class expedienteSearch(ListView):
         expedientes = {}
         if opcion == "1":
             _search = int(search)
-            print(f"-- {_search}")
-            expedientes = expediente.objects.filter(id_datosPersonales__dni=_search)
-            print(expedientes)
+            try:
+                expedientes = expediente.objects.filter(id_datosPersonales__dni=_search)
+            except Exception as e:
+                messages.debug(request, "los parametros ingresados no son un Numero de DPI valido, intente ingresando solo numeros! ")
         if opcion == "2":
             expedientes = expediente.objects.filter(id_datosPersonales__primer_nombre__startswith=search )
         if opcion == "3":
@@ -34,7 +37,6 @@ class expedienteSearch(ListView):
         context = {
             "expedientes": expedientes
         }
-        print(context)
         return render(request, self.template_name, context)
         
 class AdminLogin(LoginView):

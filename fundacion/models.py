@@ -10,10 +10,12 @@ from reportes.controlErrores import get_loggerSenes
 class factura(models.Model):
     id_factura = models.BigAutoField(primary_key=True)
     fecha = models.DateTimeField(auto_now=True)
-    id_ficha = models.ForeignKey("fundacion.ficha", verbose_name=("ficha"), related_name="factura_ficha", on_delete=models.CASCADE)
+    id_ficha = models.ForeignKey("fundacion.ficha", verbose_name=("ficha"), unique=True, related_name="factura_ficha", on_delete=models.CASCADE)
     direccion = models.CharField(max_length=50, blank=True, null=True)
     nit = models.CharField(max_length=50, blank=True, null=True)
 
+    def get_factura(id_ficha):
+        return factura.objects.get_or_create(id_ficha=id_ficha)
 
     def __str__(self):
         return f"{self.nit} {self.fecha}"
@@ -27,11 +29,19 @@ class factura(models.Model):
 class facturaDetalleEspecialidad(models.Model):
     id_facturaDetalle = models.BigAutoField(primary_key=True)
     id_factura = models.ForeignKey("fundacion.factura", related_name=("factura_detalle"), on_delete=models.CASCADE)
-    id_solicitudCitaDetalle = models.ForeignKey("fundacion.solicitudCitaDetalle", verbose_name=("especialidad"), related_name="detalleSolicitud_factura", on_delete=models.CASCADE)
+    id_solicitudCitaDetalle = models.ForeignKey("fundacion.solicitudCitaDetalle", unique=True, verbose_name=("especialidad"), related_name="detalleSolicitud_factura", on_delete=models.CASCADE)
     costo = models.FloatField()
     
     def __str__(self) -> str:
-        return f"{self.id_especialidad.especialidad} Q.{self.costo}"
+        return f"{self.id_solicitudCitaDetalle.id_especialidad.especialidad} Q.{self.costo}"
+
+    def save_factura_detalle(consulta):
+        _factura, status=factura.get_factura(consulta.id_ficha)
+        factura_detalle = facturaDetalleEspecialidad()
+        factura_detalle.id_factura = _factura
+        factura_detalle.id_solicitudCitaDetalle = consulta.id_solicitudCitaDetalle
+        factura_detalle.costo = consulta.id_solicitudCitaDetalle.id_especialidad.costo
+        factura_detalle.save()
 
 class facturaDetalleFarmacia(models.Model):
     id_facturaDetalleFarmacia = models.BigAutoField(primary_key=True)
@@ -39,6 +49,16 @@ class facturaDetalleFarmacia(models.Model):
     id_tratamiento = models.ForeignKey("fundacion.tratamiento", verbose_name=("tratamiento"), related_name="facturaDetalle_tratamiento", on_delete=models.CASCADE)
     cantidad = models.IntegerField()
     precio_unitario = models.FloatField()
+
+    def set_detalleFactura(tratamiento):
+        _factura, status= factura.get_factura(tratamiento.id_ficha)
+        _ficha = ficha.get_factura(tratamiento.id_ficha)
+        detalle = facturaDetalleFarmacia()
+        detalle.id_factura = _factura
+        detalle.id_tratamiento = tratamiento
+        detalle.cantidad = tratamiento.cantidad
+        detalle.precio_unitario = tratamiento.medicamento.precio
+        detalle.save()
 
 estados = [
         (1,"Pendiente"),
@@ -59,7 +79,6 @@ class tratamiento(models.Model):
         def __str__(self):
             return self.medicamento.nombre
         
-
 class clienteEnfermedad(models.Model):
     id_clienteEnfermedad = models.BigAutoField(primary_key=True)
     id_expediente = models.ForeignKey("asilo.expediente", related_name=("expediente_enfermedad"), on_delete=models.CASCADE)
@@ -88,7 +107,6 @@ class viaAdministracion(models.Model):
     def __str__(self):
         return self.nombre
     
-
 class horarioAtencion(models.Model):
     id_horarioAtencion = models.BigAutoField(primary_key=True)
     id_especialidad = models.ForeignKey("fundacion.especialidad", verbose_name=("Especialidad: "), on_delete=models.CASCADE)
@@ -131,7 +149,6 @@ class laboratorio(models.Model):
     def __str__(self):
         return self.resultado
 
-
 class tipoMuestra(models.Model):
     id_tipoMuestra = models.BigAutoField(primary_key=True)
     muestra = models.CharField(max_length=50)
@@ -156,7 +173,7 @@ class ficha(models.Model):
     id_solicitudCita = models.ForeignKey('fundacion.solicitudCita', related_name='ficha_solicitud', unique=True, on_delete=models.CASCADE)
 
     def get_ficha(_solicitudCitaDetalle=None):
-        _ficha = ficha
+        _ficha = ficha()
         if _solicitudCitaDetalle != None:
             try:
                 _ficha = ficha.objects.get(id_solicitudCita=_solicitudCitaDetalle.id_solicitudCita)

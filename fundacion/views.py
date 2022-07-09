@@ -10,7 +10,7 @@ from fundacion.mixins import consultaMedicaMixin, facturaMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import  consultaMedicaForm, solicitudCitaDetalleFechaForm, tratamientoForm
 
-from .models import consultaMedica, factura, ficha, laboratorio, motivoRechazo, solicitudCita, solicitudCitaDetalle, tratamiento
+from .models import *
 
 # Create your views here.
 
@@ -73,15 +73,20 @@ class examenLaboratorioCreateView(LoginRequiredMixin, CreateView):
         id_solicitudCitaDetalle = solicitudCitaDetalle.objects.get(solicitudCitaDetalle=self.kwargs["id_solicitudDetalle"])
         form.instance.id_solicitudCitaDetalle = id_solicitudCitaDetalle
         form.instance.id_ficha = ficha.get_ficha(_solicitudCitaDetalle=id_solicitudCitaDetalle)
+        form.save()
+        facturaDetalleEspecialidad.save_factura_detalle(form.instance)
         return super().form_valid(form)
-
 
 class editLaboratorioCreateView(LoginRequiredMixin, UpdateView):
     model = laboratorio
     template_name = "pages/dashboard-laboratorio.html"
-    fields = ["resultado", "descripcion_resultado"]
+    fields = ["resultado", "descripcion_resultado", "finalizado"]
     success_url= "/fundacion/dashboard-laboratorio/"
-    
+
+    def form_valid(self, form):
+        if form.instance.resultado !="" or form.instance.resultado != None:
+            form.finalizado=True
+        return super(editLaboratorioCreateView, self).form_valid(form)
     
 class consultaMedicaCreateView(LoginRequiredMixin,consultaMedicaMixin, CreateView):
     model = consultaMedica
@@ -99,15 +104,18 @@ class consultaMedicaCreateView(LoginRequiredMixin,consultaMedicaMixin, CreateVie
         
     def form_valid(self, form):
         id_detalle = self.request.GET.get("detalle")
-        detalle=solicitudCitaDetalle.objects.get(solicitudCitaDetalle=id_detalle)
-        form.instance.id_solicitudCitaDetalle=detalle
-        form.instance.id_ficha = ficha.get_ficha(_solicitudCitaDetalle=detalle)
         
+        detalle=solicitudCitaDetalle.objects.get(solicitudCitaDetalle=id_detalle)
+        _ficha = ficha.get_ficha(_solicitudCitaDetalle=detalle)
+        form.instance.id_solicitudCitaDetalle=detalle
+        form.instance.id_ficha = _ficha
+        form.save()
+        facturaDetalleEspecialidad.save_factura_detalle(form.instance)
         return super().form_valid(form)
 
 class tratamientoCreateView(LoginRequiredMixin, CreateView):
     template_name = "pages/medico/consulta_crear.html"
-    success_url = "/crear-tratamiento/"
+    success_url = "/crear-consulta/"
     fields = ["medicamento", "cantidad","descripcion"]
     model = tratamiento
     # tratamientoForm
@@ -118,7 +126,7 @@ class tratamientoCreateView(LoginRequiredMixin, CreateView):
         form  = tratamientoForm()
         context= {
             "form":form,
-            "solicitud":solicitud
+            "solicitud_detalle":solicitud
         }
 
         return render(request, self.template_name, context)
@@ -127,21 +135,22 @@ class tratamientoCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form, **kwargs):
         id_solicitud = self.kwargs["solicitud"]
         solicitud = solicitudCitaDetalle.objects.get(solicitudCitaDetalle=id_solicitud)
-        _ficha = ficha()
-        form.instance.id_ficha = _ficha.get_ficha(_solicitudCitaDetalle=solicitud)
+        form.instance.id_ficha = ficha.get_ficha(_solicitudCitaDetalle=solicitud)
         self.success_url = self.success_url+f"{solicitud.id_solicitudCita.id_expediente.id_expediente}/?detalle={solicitud.solicitudCitaDetalle}"
         return super().form_valid(form)
     
-    
-
 class tratamientoUpdateview(LoginRequiredMixin, UpdateView):
     model = tratamiento
-    fields = ["estado"]
+    fields = ["estado", "cantidad"]
     success_url= ""
 
     def get_success_url(self):
         return reverse("fundacion:dashboard-farmacia")
     
+    def form_valid(self, form):
+        form.save()
+        facturaDetalleFarmacia.set_detalleFactura(form.instance)
+        return super(tratamientoUpdateview, self).form_valid(form)
     
 class solicitudDetalleUpdateDatetimeView(LoginRequiredMixin, UpdateView):
     template_name="pages/recepcion/dashboard.html"

@@ -39,10 +39,9 @@
                 </div>
                 <div class="body-card">
                     {% if tratamientos %}
-                            <div class="sections">
+                            <div class="sections-medicamento">
                                 <span>Medicamento</span>
                                 <span>Cantidad</span>
-                                <span>Enfermedad</span>
                                 <span>Descripcion</span>
                                 <span>Estado</span>
                             </div>
@@ -55,13 +54,16 @@
                                         {{tratamiento.cantidad}}
                                     </span>
                                     <span>
-                                        {{tratamiento.id_enfermedad.nombre}}
-                                    </span>
-                                    <span>
                                         {{tratamiento.descripcion}}
                                     </span>
                                     <span>
-                                        {{tratamiento.estado}}
+                                        
+                                        {% if tratamiento.estado == 1 %}
+                                            Pendiente
+                                            {% else %}
+                                            Entregado
+                                        {% endif %}
+                                            
                                     </span>
                                 </div>
                             {% endfor %}
@@ -78,13 +80,13 @@
                 </div>
                 <div class="body-card">
                     
-                    {% if solicitud.get_solicitudes_de_laboratorio|length > 0 %}
+                    {% if solicitud_detalle.get_solicitudes_de_laboratorio|length > 0 %}
                         <div class='section-laboratorios'>
                             <span>Especialidad</span>
                             <span>Descripcion</span>
                             <span></span>
                         </div>
-                        {% for detalle in solicitud.get_solicitudes_de_laboratorio %}
+                        {% for detalle in solicitud_detalle.get_solicitudes_de_laboratorio %}
                             <div class="detalle-solicitudes">
                                 <span>{{detalle.id_especialidad}}</span>
                                 <span>{{detalle.descripcion}}</span>
@@ -112,7 +114,7 @@
                             <span>Descripcion</span>
                             <span></span>
                         </div>
-                    {% for consulta in solicitud.get_solicitudes_consulta_medica %}
+                    {% for consulta in solicitud_detalle.get_solicitudes_consulta_medica %}
                         <div class="detalle-solicitudes">
                                 <span>{{consulta.id_especialidad}}</span>
                                 <span>{{consulta.descripcion}}</span>

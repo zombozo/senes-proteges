@@ -3,4 +3,8 @@ $(document).ready(()=>{
     $('.aside-recepcion a').removeClass("selected");
 
     $('.'+pagina_activa).addClass("selected");
+
+    $(".toggle-perfil").click(() => {
+      $(".menu-perfil").slideToggle();
+    });
 })

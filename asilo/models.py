@@ -19,7 +19,7 @@ class expediente(models.Model):
 
 class contacto(models.Model):
     id_contacto = models.BigAutoField(primary_key=True)
-    id_expediente = models.ForeignKey("asilo.expediente", verbose_name=("expediente"), on_delete=models.CASCADE)
+    id_expediente = models.ForeignKey("asilo.expediente", related_name="contacto_expediente", verbose_name=("expediente"), on_delete=models.CASCADE)
     nombre = models.CharField(max_length=50, null=False, blank=False)
     numero_telefono = models.CharField(max_length=8)
     correo_electronico = models.EmailField(max_length=254, blank=True, null=True)

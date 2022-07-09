@@ -130,7 +130,7 @@
 
 /* medicamentos */
 
-.sections, .tratamiento {
+.sections-medicamento, .tratamiento {
     font-size: 10px;
     display: grid;
     grid-template-columns:  119px 75px 102px 139px 56px;

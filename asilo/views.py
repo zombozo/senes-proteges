@@ -17,6 +17,7 @@ from django.views.generic import TemplateView, CreateView,ListView,  DetailView,
 
 class HomeTemplateView(LoginRequiredMixin, TemplateView):
     template_name = "asilo/home.html"
+
 class dashboardRecepcionView(LoginRequiredMixin,recepcionMixin, TemplateView):
     template_name = "asilo/recepcion/dashboard.html"
 
@@ -104,7 +105,7 @@ class solicitudCitaDetalleCreateView(LoginRequiredMixin,medicoMixin, CreateView)
     template_name = "asilo/medico/crear_solicitud.html"
     model = solicitudCitaDetalle
     fields = ["id_especialidad","descripcion"]
-    success_url = "/asilo/dashboard-medico/"
+    success_url = "/detalle-solicitud/"
     
     def get(self, request, *args, **kwargs):
         id_solicitud = kwargs["id_solicitud"]
@@ -127,17 +128,30 @@ class solicitudCitaDetalleCreateView(LoginRequiredMixin,medicoMixin, CreateView)
         _solicitud = solicitudCita.objects.get(id_solicitudCita=id_solicitud)
         form.instance.id_solicitudCita = _solicitud
         form.save()
-        proximo_paso = self.request.POST["proximo_paso"]
-        if proximo_paso =="guardar_y_repetir":
+        if self.request.POST["proximo_paso"]:
+            proximo_paso = self.request.POST["proximo_paso"]
+            if proximo_paso =="guardar_y_repetir":
+                return HttpResponseRedirect(reverse('asilo:detalle-solicitud', kwargs={'id_solicitud':self.kwargs['id_solicitud']}))
+            if proximo_paso =="guardar_y_enviar":
+                _solicitudCita= solicitudCita.objects.get(id_solicitudCita=form.instance.id_solicitudCita.id_solicitudCita)
+                _solicitudCita.solicitud_finalizada=True
+                _solicitudCita.save()
+                self.enviar_correo(_solicitudCita)
+                return HttpResponseRedirect('/dashboard-medico/')
+        else:
             return HttpResponseRedirect(reverse('asilo:detalle-solicitud', kwargs={'id_solicitud':self.kwargs['id_solicitud']}))
-        if proximo_paso =="guardar_y_enviar":
-            _solicitudCita= solicitudCita.objects.get(id_solicitudCita=form.instance.id_solicitudCita.id_solicitudCita)
-            _solicitudCita.solicitud_finalizada=True
-            _solicitudCita.save()
-            self.enviar_correo(_solicitudCita)
-            return HttpResponseRedirect('/dashboard-medico/')
-        
 
+class solicitudCitaDetalleUpdateView(LoginRequiredMixin,medicoMixin, UpdateView):
+    template_name = "asilo/medico/crear_solicitud.html"
+    model = solicitudCitaDetalle
+    fields = ["id_especialidad","descripcion"]
+    success_url = "/detalle-solicitud/"
+
+    def form_valid(self, form):
+        form.save()
+        # self.success_url = self.success_url+ f"{form.instance.id_solicitudCita}/"
+        return HttpResponseRedirect(reverse('asilo:detalle-solicitud', kwargs={'id_solicitud':form.instance.id_solicitudCita.id_solicitudCita}))
+        
 class solicitudDeleteView(LoginRequiredMixin, DeleteView):
     model = solicitudCitaDetalle
     success_url = success_url = "/detalle-solicitud/"

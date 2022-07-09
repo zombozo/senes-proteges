@@ -12,3 +12,10 @@
 {% block script_js_extra %}
 <script type='text/javascript' src="{% static 'js/fundacion/includes/lista_solicitudes.js' %}"></script>
 {% endblock %}
+
+{% block script_js %}
+    
+        $(document).ready(()=>{
+            $(".solicitudes").addClass("selected");
+        })
+{% endblock script_js %}

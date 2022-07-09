@@ -55,11 +55,7 @@
                                     <li class="list-group-item"> <strong>Descripcion: </strong> {{detalle.descripcion}}</li>
                                     <li class="list-group-item"><strong>Fecha Asignada: </strong> {{detalle.fecha_hora}}</li>
                                     <li class="list-group-item options-card">
-                                        
-                                        <form action="" method="post">
-                                            {% csrf_token %}
-                                            <button class="btn btn-edit" name="id_solicitudCitaDetalle" value="{{detalle.solicitudCitaDetalle}}" type="submit">Editar</button>
-                                        </form>
+                                        <a class="btn btn-edit" href="{% url 'asilo:editar-solicitud' detalle.solicitudCitaDetalle %}"  type="submit">Editar</a>
                                     </li>
                                 </ul>
                             </article>

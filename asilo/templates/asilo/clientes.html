@@ -1,4 +1,3 @@
-
 {% load static %}
 {% load recepcion %}
     <article class="expedientes">
@@ -29,7 +28,6 @@
                                 {% if request.user.pk|especialidad:request.user.pk == "recepcionista" %}
                                     <a href="{% url 'asilo:crear-solicitud' cliente.id_expediente %}" title="Crear Consulta Medica" ><img src="{% static 'imagenes/link-external.svg' %}" alt=""></a>
                                 {% endif %}
-                                    
                             </td>
                         </tr>
                     {% endfor %}

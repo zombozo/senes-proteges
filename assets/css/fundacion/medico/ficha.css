@@ -53,7 +53,7 @@
 
 .options a {
     height: 5vh;
-    width: 20vw;
+    width:2vw;
     text-decoration: none;
 }
 
@@ -130,7 +130,7 @@
 
 /* medicamentos */
 
-.sections, .tratamiento {
+.sections-medicamento, .tratamiento {
     font-size: 10px;
     display: grid;
     grid-template-columns:  119px 75px 102px 139px 56px;

@@ -1,0 +1,44 @@
+{% extends 'contabilidad/home-contabilidad.html' %}
+{% load static %}
+{% load contabilidad %}
+{% load crispy_forms_tags %}
+{% block css_script_extra %}
+    <link rel="stylesheet" href="{% static 'css/contabilidad/pagos.css' %}">
+{% endblock css_script_extra %}
+{% block section %}
+    <div class="pagina-pagos">
+        {% if paginaPagos %}
+                <a class="btn btn-crear" href="{% url 'contabilidad:pagar-servicio'  %}">Pagar servicio</a>
+            <div class="pagos-realizados">
+                <h5>Ultimos pagos</h5>
+                <div class="pagos-realizados-section">
+                    <span>Servicio</span>
+                    <span>empresa</span>
+                    <span>Pago</span>
+                    <span>Fecha</span>
+                </div>
+                <div class="pagos-realizados-section">
+                    {% for pago in pagos %}
+                        <span>{{pago.id_servicio.nombre}}</span>
+                        <span>{{pago.id_servicio.empresa}}</span>
+                        <span>{{pago.id_transaccion.monto}}</span>
+                        <span>{{pago.id_transaccion.fecha}}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        
+        {% if form %}
+            <div class="form-page">
+                <form class="card" action="" method="post">
+                    <h5>Pagando servicio</h5>
+                    {% csrf_token %}
+                    {{form|crispy}}
+                
+                    <button class="btn btn-crear" type="submit">Guardar</button>
+                </form>
+            </div>
+        {% endif %}
+            
+    </div>
+{% endblock section %}

@@ -16,7 +16,7 @@
 </head>
 <body>
 <nav class="options-dashboard">
-                <a href="/asilo/" class="">dashboard asilo</a>
+                <a href="{% url 'asilo:home'  %}" class="">dashboard asilo</a>
                 
                 <article class="search">
                     <form action="{% url 'usuarios:buscar-expediente' %}" method="get">

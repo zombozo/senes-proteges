@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'usuarios',
     'asilo',
     'crispy_forms',
-    'contabilidad'
+    'contabilidad',
+    'notifications',
 ]
 
 MIDDLEWARE = [

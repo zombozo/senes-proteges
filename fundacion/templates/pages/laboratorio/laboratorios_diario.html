@@ -38,25 +38,35 @@
                         <th>Tipo</th>
                         <th>Descripcion</th>
                         <th>Fecha</th>
+                        <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for cita in citas %}
+                        {% if cita.laboratorio_solicitudDetalle.all %}
                         <tr>
                         <td>{{cita.id_solicitudCita.id_expediente.id_datosPersonales.get_nombreCompleto}}</td>
                         <td>{{cita.id_especialidad.especialidad}}</td>
                         <td>{{cita.descripcion}}</td>
                         <td>{{cita.fecha_hora}}</td>
                         <td>
-                            
-                            {% if cita.laboratorio_solicitudDetalle.all %}
+                            {% for laboratorio in cita.laboratorio_solicitudDetalle.all %}
+                            {% if laboratorio.finalizado %}
+                                Resultado agregado
+                                {% else %}
+                                Pendiente resultado
+                            {% endif %}
+                            {% endfor %}
+                                
+                        </td>
+                        <td>
                                 {% for laboratorio in cita.laboratorio_solicitudDetalle.all %}
                                     <a href="{% url 'fundacion:editar-laboratorio' laboratorio.id_laboratorio %}" class="btn">ver</a>
                                 {% endfor %}
-                            {% endif %}
                         </td>
                         </tr>
+                        {% endif %}
                     {% endfor %}
                 
                 </tbody>

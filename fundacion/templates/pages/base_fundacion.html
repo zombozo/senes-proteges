@@ -25,9 +25,14 @@
                     <img src="{% static 'imagenes/gh_icon.svg' %}" alt="">
                     <span>senes proteges</span>
                 </a>
-            <aside class="cuenta">
-                Acceder a la cuenta
-            </aside>
+            <div class="dropdown dropdown-perfil">
+                <button class=" toggle-perfil" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="{% static 'imagenes/person.svg' %}" alt="">
+                </button>
+                <div class="menu-perfil" style="display:none">
+                    <a class="dropdown-item" href="{% url 'usuarios:logout' %}">Cerrar sesion</a>
+                </div>
+            </div>
         </nav>
     </header>
     <div class="body-recepcion">
