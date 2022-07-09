@@ -131,12 +131,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
-# EMAIL_HOST_USER = "gerson.olivares543@gmail.com"
-# EMAIL_HOST_PASSWORD = "accesorestringido 1417"
+
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-# CAMBIARA A .ENV PARA OCULTAR LOS SIGUIENTES DATOS
 
 LOGIN_URL = "/usuarios/iniciar-sesion/"
 LOGOUT_REDIRECT_URL = "/usuarios/iniciar-sesion/"

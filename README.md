@@ -42,9 +42,10 @@ pip install  gunicorn psycopg2-binary
 
 ### Solucionar problemas de gunicorn
 
-```sudo systemctl status gunicorn.socket
-    sudo systemctl daemon-reload
-    sudo systemctl restart gunicorn
+```
+sudo systemctl status gunicorn.socket
+sudo systemctl daemon-reload
+sudo systemctl restart gunicorn
 ```
 
 
@@ -59,7 +60,7 @@ sudo ln -s /etc/nginx/sites-available/senes-proteges /etc/nginx/sites-enabled
  ```
 
 
-###  ruta del archvivo de configuracion de ginicorn 
+###  ruta del archvivo de configuracion de gunicorn 
 ```
 /etc/systemd/system/gunicorn.service
 
@@ -67,5 +68,10 @@ sudo ln -s /etc/nginx/sites-available/senes-proteges /etc/nginx/sites-enabled
 ```
 
 
+sudo systemctl restart nginx
+
 ### verificar el log de gunicorn
-```sudo journalctl -u gunicorn.socket```
+```
+sudo journalctl -u gunicorn.socket
+
+```
