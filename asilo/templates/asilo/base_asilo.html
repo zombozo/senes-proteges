@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-    
     {% block css_script %}{% endblock css_script %}
+    {% block css_script_extra %}{% endblock css_script_extra %}
     <title>
         {% block tile_page %}Asilo{% endblock tile_page %}
     </title>
@@ -37,36 +37,50 @@
                 </article>
                 <a href="{% url 'asilo:dashboard-medico' %}" class="">dashboard Medico</a>
                 <a href="{% url 'contabilidad:dashboard-contabilidad' %}" class="">Contabilidad</a>
+                    <div class="dropdown dropdown-perfil">
+                        <button class=" toggle-perfil" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="{% static 'imagenes/person.svg' %}" alt="">
+                        </button>
+                        <div class="menu-perfil" style="display:none">
+                            <a class="dropdown-item" href="{% url 'usuarios:logout' %}">Cerrar sesion</a>
+                        </div>
+                    </div>
 
             </nav>
         {% endblock nav %}
         <section class="dashboard-sections">
             <aside class="dashboard-aside">
                 <a class="clientes " href="{% url 'asilo:dashboard-recepcion' %}?pagina=clientes"><img class="ico" src="{% static 'imagenes/people.svg' %}" alt="">  clientes</a>
-                <a class="solicitudes" href="http://"><img class="ico" src="{% static 'imagenes/paste.svg' %}" alt="">solicitudes</a>
+                <a class="solicitudes" href="{% url 'asilo:lista-solicitudes' %}"><img class="ico" src="{% static 'imagenes/paste.svg' %}" alt="">solicitudes</a>
                 <a class="empleados" href="http://"><img class="ico" src="{% static 'imagenes/people.svg' %}" alt="">empleados</a>
                 {% block aside %}
                 
                 {% endblock aside %}
             </aside>
             <article class="dashboard-body">
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
                 {% block section %}
                     
                 {% endblock section %}
             </article>
         
         </section>
-        
     </div>
-    
-    
 </body>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-    
 <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'js/asilo/base.js' %}"></script>
+
+
+
 <script type="text/javascript">
         $(document).ready(()=> {
         $(".table").DataTable({
@@ -76,5 +90,8 @@
         {% block script_js %}
             
         {% endblock script_js %}
+        
 </script>
+
+{% block script_js_extra %}{% endblock script_js_extra %}
 </html>

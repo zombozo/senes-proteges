@@ -53,7 +53,7 @@
 
 .options a {
     height: 5vh;
-    width: 20vw;
+    width:2vw;
     text-decoration: none;
 }
 
@@ -86,7 +86,8 @@
 }
 
 .card-medicamentos,
-.card-laboratorios {
+.card-laboratorios, 
+.card-consultas {
     width: 40vw;
     height: 35vh;
     margin-bottom: 1rem;
@@ -129,7 +130,7 @@
 
 /* medicamentos */
 
-.sections, .tratamiento {
+.sections-medicamento, .tratamiento {
     font-size: 10px;
     display: grid;
     grid-template-columns:  119px 75px 102px 139px 56px;
@@ -151,4 +152,29 @@ font-weight: bold;
     border:1px solid var(--text-color);
     margin-bottom: 10px;
     border-radius: 5px;
+}
+
+
+
+/* laboratorios */
+
+.section-laboratorios, .detalle-solicitudes {
+    display: grid;
+    grid-template-columns: 187px 1fr;
+
+}
+
+.section-laboratorios span {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.detalle-solicitudes {
+    border: 1px solid var(--text-color);
+    margin-top: 0.5rem;
+    border-radius: 5px;
+    padding-left: 0.5rem;
+}
+.detalle-solicitudes span {
+    font-size: 12px;
 }

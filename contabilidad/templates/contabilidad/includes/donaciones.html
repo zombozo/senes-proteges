@@ -1,0 +1,48 @@
+{% extends 'contabilidad/home-contabilidad.html' %}
+{% load static %}
+{% load contabilidad %}
+{% load crispy_forms_tags %}
+{% block css_script_extra %}
+   <link rel="stylesheet" href="{% static 'css/contabilidad/donaciones.css' %}">
+{% endblock css_script_extra %}
+{% block section %}
+<div class="donaciones-card">
+    <nav class="nav-donaciones"><a class="btn bg" href="{% url 'contabilidad:crear-donacion'  %}">Crear donacion</a></nav>
+{% if form %}
+    <div class="card card-form">
+        <h5>Registrando donaciones</h5>
+        <form action="" method="post">
+        {% csrf_token %}
+            {{form|crispy}}
+            <button class="btn" type="submit">Siguiente</button>
+        </form>
+    </div>
+{% endif %}
+    
+    {% if donaciones %}
+        <div class="card card-donaciones">
+            <div class="card-header"><h4>Donaciones</h4></div>
+            <div class="card-body">
+                <div class="opciones-donacion">
+                    <span>nombre</span>
+                    <span>Entidad</span>
+                    <span>Monto</span>
+                    <span>Fecha</span>
+                </div>
+                {% for donacion in donaciones %}
+                    <div class="opciones-donacion donacion-detalle">
+                    <span>{{donacion.nombre}}</span>
+                    <span>{{donacion.id_donante.tipo}}</span>
+                    <span>{{donacion.id_transaccion.monto}}</span>
+                    <span>{{donacion.id_transaccion.fecha}}</span>
+                    </div>
+                {% endfor %}
+                        
+                
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+        
+{% endblock section %}

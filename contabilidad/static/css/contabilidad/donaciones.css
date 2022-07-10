@@ -1,0 +1,46 @@
+
+.donaciones-card .card-form {
+    width: 28vw;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nav-donaciones {
+    height: 10vh;
+}
+
+.donaciones-card .btn {
+    margin-top: 1rem;
+    width: 30%;
+}
+
+.card-donaciones {
+    width: 50vw;
+    padding: 0px;
+
+    
+}
+
+.card-donaciones .opciones-donacion{
+    display: grid;
+    grid-template-columns: 200px 180px 80px 200px;
+}
+.card-donaciones .opciones-donacion:first-of-type span {
+    font-weight: bold;
+}
+
+.donacion-detalle {
+    border-radius: 8px;
+    margin-top: 1rem;
+    height: 10vh;
+    background-color: var(--border-page);
+}
+
+.donacion-detalle span {
+    display: flex;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+}

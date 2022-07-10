@@ -1,0 +1,177 @@
+{% extends 'contabilidad/home-contabilidad.html' %}
+{% load static %}
+{% load contabilidad %}
+{% load crispy_forms_tags %}
+{% block css_script_extra %}
+    <link rel="stylesheet" href="{% static 'css/contabilidad/facturas.css' %}">
+{% endblock css_script_extra %}
+{% block section %}
+
+{% if form %}
+<div class="form-pagar">
+            <div class="card factura">
+                <div class="card-header detalle-factura">
+
+                        <span><strong>Paciente:</strong>{{factura.id_ficha.id_expediente.id_datosPersonales.get_nombreCompleto}}</span>
+                        <span><strong>Codigo expediente: </strong>{{factura.id_ficha.id_expediente.codigo_expediente}}</span>
+                        <span><strong>Edad:</strong> {{factura.id_ficha.id_expediente.id_datosPersonales.fecha_nacimiento}}</span>
+                        <span><strong>Total:</strong> <h4>{{total}}</h4></span>
+
+                </div>
+                <div class="card-body">
+                        {% if factura.factura_detalle.all %}
+                            <div class="card">
+                                <div class="card-header"><h5>Detalle especialidad</h5></div>
+                                <div class="card-body">
+                                    <div class="detalle-especialidades">
+                                        <span>Especialidad</span>
+                                        <span>costo</span>
+                                    </div>
+                                    {% for especialidad in factura.factura_detalle.all %}
+                                        <div class="detalle-especialidades">
+                                            <span>{{especialidad.id_solicitudCitaDetalle.id_especialidad.especialidad}}</span>
+                                            <span>{{especialidad.costo}}</span>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if factura.farmacia_detalle.all %}
+                            <div class="card">
+                                <div class="card-header detalle-farmacia">
+                                    <h5>Detalle farmacia</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="sections-farmacia">
+                                        <span>Medicamento</span>
+                                        <span>Cantidad</span>
+                                        <span>Precio</span>
+                                    </div>
+                                    {% for detalle in factura.farmacia_detalle.all %}
+                                        <div class="content-detalle-farmacia">
+                                            <span>{{detalle.id_tratamiento.medicamento.nombre}}</span>
+                                            <span>{{detalle.cantidad}}</span>
+                                            <span>{{detalle.precio_unitario}}</span>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if factura.transaccion_factura.all %}
+                            <div class="card">
+                                <div class="card-header">
+                                    <span>Cuenta</span>
+                                    <span>Monto</span>
+                                    <span>Descripcion</span>
+                                </div>
+                                {% for transaccion in factura.transaccion_factura.all %}
+                                    <div class="detalle-transaccion">
+                                        <span>{{transaccion.id_cuenta}}</span>
+                                        <span>{{transaccion.monto}}</span>
+                                        <span>{{transaccion.descripcion}}</span>
+                                    </div>
+                                {% endfor %}
+                             </div>
+                        {% endif %}
+                    
+                </div>
+            </div>
+            <div class="card pagar">
+                <h4>Pagar</h4>
+                <form action="" method="post">
+                    {{form|crispy}}
+                    <button class="btn" type="submit">Pagar</button>
+                </form>
+            </div>
+</div>
+    
+{% endif %}
+
+{% if facturas %}
+    <article class="facturas-pendientes">
+            <h4>Facturas Pendientes</h4>
+            {% for factura in facturas %}
+            <div class="card facturas">
+                <div class="card-header detalle-factura">
+
+                        <span><strong>Paciente:</strong>{{factura.id_ficha.id_expediente.id_datosPersonales.get_nombreCompleto}}</span>
+                        <span><strong>Codigo expediente: </strong>{{factura.id_ficha.id_expediente.codigo_expediente}}</span>
+                        <span><strong>Edad:</strong> {{factura.id_ficha.id_expediente.id_datosPersonales.fecha_nacimiento}}</span>
+                        <span><strong>correo(s) de contacto: </strong>
+                            {% for contacto in factura.id_ficha.id_expediente.contacto_expediente.all %}
+                                    <span>{{contacto.correo_electronico}}</span>
+                            {% endfor %}
+                        </span>
+                        <span><strong>Total:</strong> {{factura|total:""}}</span>
+                        <span><a class="btn" href="{% url 'contabilidad:pagar-factura' factura.id_factura %}">Pagar</a>
+                                <a href="http://">Notificar por correo</a>
+                        </span>
+
+                </div>
+                <div class="card-body">
+                        {% if factura.factura_detalle.all %}
+                            <div class="card">
+                                <div class="card-header"><h5>Detalle especialidad</h5></div>
+                                <div class="card-body">
+                                    <div class="detalle-especialidades">
+                                        <span>Especialidad</span>
+                                        <span>costo</span>
+                                    </div>
+                                    {% for especialidad in factura.factura_detalle.all %}
+                                        <div class="detalle-especialidades">
+                                            <span>{{especialidad.id_solicitudCitaDetalle.id_especialidad.especialidad}}</span>
+                                            <span>{{especialidad.costo}}</span>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if factura.farmacia_detalle.all %}
+                            <div class="card">
+                                <div class="card-header detalle-farmacia">
+                                    <h5>Detalle farmacia</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="sections-farmacia">
+                                        <span>Medicamento</span>
+                                        <span>Cantidad</span>
+                                        <span>Precio</span>
+                                    </div>
+                                    {% for detalle in factura.farmacia_detalle.all %}
+                                        <div class="content-detalle-farmacia">
+                                            <span>{{detalle.id_tratamiento.medicamento.nombre}}</span>
+                                            <span>{{detalle.cantidad}}</span>
+                                            <span>{{detalle.precio_unitario}}</span>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if factura.cobro_factura.all %}
+                            <div class="card cobros">
+                                <div class="card-header">
+                                    <h5>Pagos realizados</h5>
+                                </div>
+                                <div class="card-body">
+                                            <div class="sections-cobro">
+                                                <span>Monto</span>
+                                                <span>Fecha</span>
+                                            </div>
+                                {% for cobros in factura.cobro_factura.all %}
+                                            <div class="sections-cobro">
+                                                <span>{{cobros.id_transaccion.monto}}</span>
+                                                <span>{{cobros.id_transaccion.fecha}}</span>
+                                            </div>
+                                {% endfor %}
+                                </div>
+                             </div>
+                        {% endif %}
+                    
+                </div>
+            </div>
+            {% endfor %}
+</article>
+{% endif %}
+     
+
+{% endblock section %}

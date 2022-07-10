@@ -5,7 +5,7 @@
 {% endblock script_css %}
 {% block body %}
 <span class="pagina-activa" data-pagina="clinica" hidden></span>
-<link rel="stylesheet" href="{% static 'css/medico/dashboard.css' %}">
+
 <div class="base-dashboard-medico">
         <h4>Citas del dia</h4>
         <table class=" table tabla-citas-medicas">
@@ -29,12 +29,19 @@
                             <td>{{cita.descripcion}}</td>
                             <td>{{cita.fecha_hora}}</td>
                             <td>
-                                {% for consulta in cita.consulta_SolicitudDetalle.all  %}
-                                    <a class="btn" href="">Ver</a>
-                                {% endfor %}
-                                <a class="btn btn-crear-consulta" href="{% url 'fundacion:crear-consulta' cita.id_solicitudCita.id_expediente.id_expediente %}?detalle={{cita.solicitudCitaDetalle}}">
-                                    Atender
-                                </a>
+                                
+                                {% if cita.consulta_SolicitudDetalle.all %}
+                                    {% for consulta in cita.consulta_SolicitudDetalle.all  %}
+                                        <a class="btn" href="">Ver</a>
+                                    {% endfor %}
+                                    {% else %}
+                                    <a class="btn btn-crear-consulta" href="{% url 'fundacion:crear-consulta' cita.id_solicitudCita.id_expediente.id_expediente %}?detalle={{cita.solicitudCitaDetalle}}">
+                                        Atender
+                                    </a>
+                                {% endif %}
+                                    
+                                
+                                
                             </td>
                         </tr>
                     {% endfor %}

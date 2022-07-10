@@ -1,0 +1,65 @@
+{% load static %}
+{% block css_script_extra %}
+    <link rel="stylesheet" href="{% static 'css/includes/expediente.css' %}">
+    <link rel="stylesheet" href="{% static 'css/includes/consultas.css' %}">
+    <link rel="stylesheet" href="{% static 'css/includes/laboratorios.css' %}">
+    <link rel="stylesheet" href="{% static 'css/includes/tratamientos.css' %}">
+    <link rel="stylesheet" href="{% static 'css/includes/enfermedades.css' %}">
+{% endblock css_script_extra %}
+<section class="base-expediente">
+        <article class="expediente-detalle">
+            {% comment %} consultas {% endcomment %}
+                <div class="expediente-item consulta" >
+                    {% include 'asilo/includes/consultas.html' with fichas=expediente.ficha_expediente.all %}
+
+                </div>
+                <div class="expediente-item laboratorios" style="display:none">
+                    {% include 'asilo/includes/laboratorios.html' with fichas=expediente.ficha_expediente.all %}
+
+                </div>
+                <div class="expediente-item tratamientos" style="display:none">
+                    {% include 'asilo/includes/tratamientos.html' with fichas=expediente.ficha_expediente.all %}
+                
+                </div>
+                <div class="expediente-item enfermedades" style="display:none">
+                    {% include 'asilo/includes/enfermedades.html' with fichas=expediente.ficha_expediente.all %}
+                
+                </div>
+                <div class="expediente-item facturas" style="display:none">
+                    {% include 'asilo/includes/facturas.html' with fichas=expediente.ficha_expediente.all %}
+                </div>
+        </article>
+        <article class="expediente-opciones ">
+            <h4>Expediente clinico</h4>
+            <div class="card card-consultas-expediente card-select" data-card="consulta">
+                <img src="{% static 'imagenes/repo-forked.svg' %}" alt="">
+                <span>
+                    <h5>consultas medicas</h5>
+                </span>
+            </div>
+            <div class="card card-laboratorio-expediente"  data-card="laboratorios">
+                <img src="{% static 'imagenes/beaker.svg' %}" alt="">
+                <span>
+                    <h5>Laboratorios</h5>
+                </span>
+            </div>
+            <div class="card card-tratamiento-expediente"  data-card="tratamientos">
+                <img src="{% static 'imagenes/container.svg' %}" alt="">
+                <span>
+                    <h5>Tratamientos</h5>
+                </span>
+            </div>
+            <div class="card card-enfermedad-expediente"  data-card="enfermedades">
+                <img src="{% static 'imagenes/.svg' %}" alt="">
+                <span>
+                    <h5>Enfermedades</h5>
+                </span>
+            </div>
+            <div class="card card-facturas-expediente"  data-card="facturas">
+                <img src="{% static 'imagenes/note.svg' %}" alt="">
+                <span>
+                    <h5>Facturas</h5>
+                </span>
+            </div>
+        </article >
+    </section>

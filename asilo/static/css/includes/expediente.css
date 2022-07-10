@@ -1,0 +1,43 @@
+.base-expediente {
+    display: grid;
+    grid-template-columns: 58% 40%;
+    width: 100%;
+}
+
+
+/* derecho */
+
+.expediente-opciones {
+    padding: 1rem;
+}
+.expediente-opciones > .card {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    background-color: transparent;
+    cursor: pointer;
+}
+.expediente-opciones .card:hover {
+    transform: scale(1.05);
+}
+
+.base-expediente .card img {
+
+    height:5rem;
+    width:100%;
+}
+.card span {
+    display: flex;
+    justify-content:center;
+}
+.card h5 {
+    color: gray;
+}
+.expediente-detalle {
+    padding: 1rem;
+}
+
+.card-select {
+    box-shadow: 1px 5px 18px 1px rgb(63, 173, 114);
+}

@@ -1,0 +1,21 @@
+{% extends 'asilo/base_asilo.html' %}
+{% load static %}
+{% block section %}
+{% block css_script_extra %}
+    <link rel="stylesheet" href="{% static 'css/medico/solicitudes.css' %}">
+{% endblock css_script_extra %}
+<br>
+    <article class="tabla-solicitudes">
+        {% include 'includes/lista_solicitudes.html' with fichas=fichas %}
+    </article>
+{% endblock section %}
+{% block script_js_extra %}
+<script type='text/javascript' src="{% static 'js/fundacion/includes/lista_solicitudes.js' %}"></script>
+{% endblock %}
+
+{% block script_js %}
+    
+        $(document).ready(()=>{
+            $(".solicitudes").addClass("selected");
+        })
+{% endblock script_js %}

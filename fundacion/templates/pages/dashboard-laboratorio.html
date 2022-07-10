@@ -14,33 +14,17 @@
             <input type="search" name="codigo" id="codigo">
             <a class="btn" href="http://">Buscar Laboratorio</a>
         </article>
+        {% comment %} pagina de citas {% endcomment %}
         
-        <article class="detalle-citas">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Cliente</th>
-                        <th>Tipo</th>
-                        <th>Descripcion</th>
-                        <th>Fecha</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for cita in citas %}
-                        <tr>
-                        <td>{{cita.id_solicitudCita.id_expediente.id_datosPersonales.get_nombreCompleto}}</td>
-                        <td>{{cita.id_especialidad.especialidad}}</td>
-                        <td>{{cita.descripcion}}</td>
-                        <td>{{cita.fecha_hora}}</td>
-                        <td>
-                            <a class="btn" href="{% url 'fundacion:crear-laboratorio' cita.solicitudCitaDetalle %}">Atender</a>
-                        </td>
-                        </tr>
-                    {% endfor %}
-                
-                </tbody>
-            </table>
-        </article>
+        {% if citas %}
+            {% include 'pages/laboratorio/laboratorios_diario.html' with citas=citas %}
+        {% endif %}
+        
+        {% if form %}
+
+            {% include 'pages/forms.html' with form=form %}
+        {% endif %}
+            
+        
     </section>
 {% endblock body %}

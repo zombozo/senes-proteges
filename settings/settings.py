@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'usuarios',
     'asilo',
     'crispy_forms',
-    'contabilidad'
+    'contabilidad',
+    'notifications',
 ]
 
 MIDDLEWARE = [
@@ -104,7 +105,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-STATICFILES_DIRS = ( os.path.join('static'), )
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -120,7 +121,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = '/static/'
-
+STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
@@ -129,14 +131,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
-# EMAIL_HOST_USER = "gerson.olivares543@gmail.com"
-# EMAIL_HOST_PASSWORD = "accesorestringido 1417"
+
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-# CAMBIARA A .ENV PARA OCULTAR LOS SIGUIENTES DATOS
-EMAIL_HOST_USER = "gerson.olivares543@gmail.com"
-EMAIL_HOST_PASSWORD = "iswmjaaentxorncc" #iswmjaaentxorncc
-LOGIN_URL = "/usuarios/iniciar-sesion/"
 
+LOGIN_URL = "/usuarios/iniciar-sesion/"
+LOGOUT_REDIRECT_URL = "/usuarios/iniciar-sesion/"
 AUTH_USER_MODEL = "usuarios.usuario"

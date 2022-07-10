@@ -5,6 +5,10 @@
     padding-top: 1rem;
 }
 
+
+.expediente {
+    width: 100%;
+}
 .sectionA {
     display: grid;
     grid-template-columns: 1fr;
@@ -19,7 +23,7 @@
 }
 
 .form-solicitud {
-    height: 65vh;
+    /* height: 65vh; */
 }
 
 .card-solicitud {

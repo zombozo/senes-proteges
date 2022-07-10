@@ -7,21 +7,22 @@
 {% endblock script_css %}
 {% block body %}
         <nav class="options-medico">
-            <a class="selected" href="">Crear consulta medica</a>
-            <a class=" " href="">Expediente clinico</a>
+            <a class="selected" href="http://" data-item="base_crear_consulta">Crear consulta medica</a>
+            <a class=" " href="http://" data-item="section-solicitud">Expediente clinico</a>
         </nav>
-    <section class="base_crear_consulta">
+
+    <section class="base_crear_consulta options">
         
         <article class="sectionA">
             <article class="card detalle-solicitud">
                 <label for="">Nombre:</label>
-                <span>{{solicitud.id_expediente.get_nombreCompleto}}</span>
+                <span>{{solicitud_detalle.id_solicitudCita.id_expediente.id_datosPersonales.get_nombreCompleto}}</span>
                 <label for="">Enfermero: </label>
-                <span>{{solicitud.id_enfermero.id_datosPersonales.primer_nombre}}</span>
+                <span>{{solicitud_detalle.id_solicitudCita.id_enfermero.id_datos_personales.primer_nombre}}</span>
                 <label for="">Descripcion:</label>
-                <span>{{solicitud.descripcion}}</span>
+                <span>{{solicitud_detalle.descripcion}}</span>
                 <label for="">Fecha de la solicitud: </label>
-                <span>{{solicitud.creado_en}}</span>
+                <span>{{solicitud_detalle.fecha_hora}}</span>
             </article>
             <form action="" class="form-ficha" method="post">
                 {% csrf_token %}
@@ -30,18 +31,17 @@
             </form>
         </article>
         <article class="sectionB">
-            <section class="card card-laboratorios">
+            <section class="card card-medicamentos">
                 <div class="header-card">
                     <img class="icon-card"  src="{% static 'imagenes/container.svg' %}" alt="">
                     <span class="text">Medicamentos</span>
-                    <a  href="{% url 'fundacion:crear-tratamiento' solicitud.solicitudCitaDetalle %}" class="icon-add"><img src="{% static 'imagenes/plus.svg' %}" alt=""></a>
+                    <a  href="{% url 'fundacion:crear-tratamiento' solicitud_detalle.solicitudCitaDetalle %}" class="icon-add"><img src="{% static 'imagenes/plus.svg' %}" alt=""></a>
                 </div>
                 <div class="body-card">
                     {% if tratamientos %}
-                            <div class="sections">
+                            <div class="sections-medicamento">
                                 <span>Medicamento</span>
                                 <span>Cantidad</span>
-                                <span>Enfermedad</span>
                                 <span>Descripcion</span>
                                 <span>Estado</span>
                             </div>
@@ -54,13 +54,16 @@
                                         {{tratamiento.cantidad}}
                                     </span>
                                     <span>
-                                        {{tratamiento.id_enfermedad.nombre}}
-                                    </span>
-                                    <span>
                                         {{tratamiento.descripcion}}
                                     </span>
                                     <span>
-                                        {{tratamiento.estado}}
+                                        
+                                        {% if tratamiento.estado == 1 %}
+                                            Pendiente
+                                            {% else %}
+                                            Entregado
+                                        {% endif %}
+                                            
                                     </span>
                                 </div>
                             {% endfor %}
@@ -69,7 +72,7 @@
                     {% endif %}
                 </div>
             </section>
-            <section class="card card-medicamentos">
+            <section class="card card-laboratorios">
                 <div class="header-card">
                     <img class="icon-card" src="{% static 'imagenes/beaker.svg' %}" alt="">
                     <span class="text">Laboratorios</span>
@@ -77,14 +80,63 @@
                 </div>
                 <div class="body-card">
                     
-                    {% if laboratorios %}
-                        {% else %}
+                    {% if solicitud_detalle.get_solicitudes_de_laboratorio|length > 0 %}
+                        <div class='section-laboratorios'>
+                            <span>Especialidad</span>
+                            <span>Descripcion</span>
+                            <span></span>
+                        </div>
+                        {% for detalle in solicitud_detalle.get_solicitudes_de_laboratorio %}
+                            <div class="detalle-solicitudes">
+                                <span>{{detalle.id_especialidad}}</span>
+                                <span>{{detalle.descripcion}}</span>
+                            </div>
+                            
+                            {% if detalle.laboratorio_solicitudDetalle.all %}
+                                se encontraron laboratorios asociados
+                            {% endif %}
+                                
+                        {% endfor %}       
+                    {% else %}
                         <div class="alert alert-info">No se ha agregado ninguna solicitud de laboratorio</div>
                     {% endif %}
-                        
+                </div>
+            </section>
+            <section class="card card-consultas">
+                <div class="header-card">
+                    <img class="icon-card"  src="{% static 'imagenes/container.svg' %}" alt="">
+                    <span class="text">Consultas Medicas</span>
+                    <a  href="#" class="icon-add"></a>
+                </div>
+                <div class="body-card">
+                    <div class='section-laboratorios'>
+                            <span>Especialidad</span>
+                            <span>Descripcion</span>
+                            <span></span>
+                        </div>
+                    {% for consulta in solicitud_detalle.get_solicitudes_consulta_medica %}
+                        <div class="detalle-solicitudes">
+                                <span>{{consulta.id_especialidad}}</span>
+                                <span>{{consulta.descripcion}}</span>
+                            </div>
+                    {% endfor %}
                 </div>
             </section>
         </article>
     </section>
-
+    <div class="section-solicitud expediente options" style="display:none">
+        {% include 'asilo/includes/expediente.html' with expediente=expediente  %}
+    </div>
 {% endblock body %}
+{% block js_code %}
+   $('.options-medico a').click(function(){
+        var item = $(this).data("item");
+        $('.options-medico a').removeClass('selected');
+        $(this).addClass('selected');
+        $('.options').hide();
+        $('.'+item).slideToggle();
+   })
+{% endblock js_code %}
+{% block script_js_extra %}
+        <script src="{% static 'js/asilo/expediente.js' %}"></script>
+    {% endblock script_js_extra %}

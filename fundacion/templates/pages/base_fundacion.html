@@ -25,12 +25,14 @@
                     <img src="{% static 'imagenes/gh_icon.svg' %}" alt="">
                     <span>senes proteges</span>
                 </a>
-            <a href="{% url 'asilo:home' %}">dashboard asilo</a>
-            <a href="/fundacion/">dashboard fundacion</a>
-            
-            <aside class="cuenta">
-                Acceder a la cuenta
-            </aside>
+            <div class="dropdown dropdown-perfil">
+                <button class=" toggle-perfil" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="{% static 'imagenes/person.svg' %}" alt="">
+                </button>
+                <div class="menu-perfil" style="display:none">
+                    <a class="dropdown-item" href="{% url 'usuarios:logout' %}">Cerrar sesion</a>
+                </div>
+            </div>
         </nav>
     </header>
     <div class="body-recepcion">
@@ -59,9 +61,10 @@
                 "language": {"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"}
             })
         })
-        
+        {% block js_code %}{% endblock js_code %}
 </script>
 {% block script_js %}
             
 {% endblock script_js %}
+{% block script_js_extra %}{% endblock script_js_extra %}
 </html>

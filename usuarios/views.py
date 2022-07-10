@@ -1,12 +1,15 @@
 from audioop import reverse
 from curses.ascii import NUL
 from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
 from django.views.generic import ListView
 from django.shortcuts import render
 from django.contrib.auth.views import LoginView
+from notifications.signals import notify
+from django.contrib import messages
 
 from asilo.models import expediente
-from asilo.views import dashboardRecepcionView
+from asilo.views import HomeTemplateView, dashboardRecepcionView
 from usuarios.models import empleado
 
 # Create your views here.
@@ -21,9 +24,10 @@ class expedienteSearch(ListView):
         expedientes = {}
         if opcion == "1":
             _search = int(search)
-            print(f"-- {_search}")
-            expedientes = expediente.objects.filter(id_datosPersonales__dni=_search)
-            print(expedientes)
+            try:
+                expedientes = expediente.objects.filter(id_datosPersonales__dni=_search)
+            except Exception as e:
+                messages.debug(request, "los parametros ingresados no son un Numero de DPI valido, intente ingresando solo numeros! ")
         if opcion == "2":
             expedientes = expediente.objects.filter(id_datosPersonales__primer_nombre__startswith=search )
         if opcion == "3":
@@ -33,15 +37,21 @@ class expedienteSearch(ListView):
         context = {
             "expedientes": expedientes
         }
-        print(context)
         return render(request, self.template_name, context)
         
 class AdminLogin(LoginView):
     template_name = "usuarios/iniciar-sesion.html"
+    success_url  = '/'
     
     def get_success_url(self) -> str:
         print("Usuario logeado exitosamente")
         _empleado = empleado.objects.get(usuario=self.request.user)
         if _empleado.empresa=="2" and _empleado.id_empleado_especialidad==2:
             return HttpResponseRedirect(reverse(dashboardRecepcionView,args=[self.request.user]))
-        return super().get_success_url()
+        return reverse_lazy("asilo:home")
+    
+    
+    
+class logout(LoginView):
+    def get(self, request, *args, **kwargs):
+        logout(request)
