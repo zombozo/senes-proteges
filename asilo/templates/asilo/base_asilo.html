@@ -35,8 +35,9 @@
                         <button class="btn" type="submit">buscar</button>
                     </form>
                 </article>
-                <a href="{% url 'asilo:dashboard-medico' %}" class="">dashboard Medico</a>
+                <a href="{% url 'asilo:dashboard-medico' %}" class="">Medico</a>
                 <a href="{% url 'contabilidad:dashboard-contabilidad' %}" class="">Contabilidad</a>
+                <a href="{% url 'reportes:fichas' %}" class="">Reportes</a>
                     <div class="dropdown dropdown-perfil">
                         <button class=" toggle-perfil" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img src="{% static 'imagenes/person.svg' %}" alt="">
@@ -50,9 +51,12 @@
         {% endblock nav %}
         <section class="dashboard-sections">
             <aside class="dashboard-aside">
-                <a class="clientes " href="{% url 'asilo:dashboard-recepcion' %}?pagina=clientes"><img class="ico" src="{% static 'imagenes/people.svg' %}" alt="">  clientes</a>
-                <a class="solicitudes" href="{% url 'asilo:lista-solicitudes' %}"><img class="ico" src="{% static 'imagenes/paste.svg' %}" alt="">solicitudes</a>
-                <a class="empleados" href="http://"><img class="ico" src="{% static 'imagenes/people.svg' %}" alt="">empleados</a>
+                {% block asideHeader %}
+                    <a class="clientes " href="{% url 'asilo:dashboard-recepcion' %}?pagina=clientes"><img class="ico" src="{% static 'imagenes/people.svg' %}" alt="">  clientes</a>
+                    <a class="solicitudes" href="{% url 'asilo:lista-solicitudes' %}"><img class="ico" src="{% static 'imagenes/paste.svg' %}" alt="">solicitudes</a>
+                    <a class="empleados" href="http://"><img class="ico" src="{% static 'imagenes/people.svg' %}" alt="">empleados</a>
+                {% endblock asideHeader %}
+                
                 {% block aside %}
                 
                 {% endblock aside %}

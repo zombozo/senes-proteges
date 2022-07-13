@@ -1,5 +1,5 @@
 from django import forms
-from .models import consultaMedica,  solicitudCita, solicitudCitaDetalle, tratamiento
+from .models import consultaMedica,  solicitudCita, solicitudCitaDetalle, solicitudLaboratorio, tratamiento
 
 
 class consultaMedicaForm( forms.ModelForm):
@@ -48,3 +48,10 @@ class solicitudCitaDetalleFechaForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(solicitudCitaDetalleFechaForm, self).__init__(*args, **kwargs)
+
+
+class solicitudLaboratorioForm(forms.ModelForm):
+    class Meta: 
+        model = solicitudLaboratorio
+        fields = ["id_tipoLaboratorio","descripcion"]
+        

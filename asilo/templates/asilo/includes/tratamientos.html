@@ -5,14 +5,28 @@
         <span>Cantidad</span>
         <span>Descripcion</span>
     </div>
-    {% for ficha in fichas %}
-        {% for tratamiento in ficha.tratamiento_ficha.all %}
-            <div class="content-tratamientos">
-                <span>{{tratamiento.fecha}}</span>
-                <span>{{tratamiento.medicamento}}</span>
-                <span>{{tratamiento.cantidad}}</span>
-                <span>{{tratamiento.descripcion}}</span>
-            </div>
+    
+    {% if fichas %}
+        {% for ficha in fichas %}
+            {% for tratamiento in ficha.tratamiento_ficha.all %}
+                <div class="content-tratamientos">
+                    <span>{{tratamiento.fecha}}</span>
+                    <span>{{tratamiento.medicamento}}</span>
+                    <span>{{tratamiento.cantidad}}</span>
+                    <span>{{tratamiento.descripcion}}</span>
+                </div>
+            {% endfor %}
         {% endfor %}
-    {% endfor %}
+    {% endif %}
+        
+    {% if ficha %}
+            {% for tratamiento in ficha.tratamiento_ficha.all %}
+                <div class="content-tratamientos">
+                    <span>{{tratamiento.fecha}}</span>
+                    <span>{{tratamiento.medicamento}}</span>
+                    <span>{{tratamiento.cantidad}}</span>
+                    <span>{{tratamiento.descripcion}}</span>
+                </div>
+            {% endfor %}
+    {% endif %}
 </div>

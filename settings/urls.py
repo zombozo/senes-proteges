@@ -21,5 +21,6 @@ urlpatterns = [
     path('fundacion/', include('fundacion.urls', namespace='fundacion')),
     path('', include('asilo.urls', namespace='asilo')),
     path('usuarios/', include('usuarios.urls', namespace="usuarios")),
-    path('contabilidad/',include('contabilidad.urls', namespace="contabilidad"))
+    path('contabilidad/',include('contabilidad.urls', namespace="contabilidad")),
+    path('reportes/', include('reportes.urls', namespace="reportes"))
 ]

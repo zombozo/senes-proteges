@@ -23,10 +23,10 @@ class expedienteSearch(ListView):
         search = request.GET.get("search")
         expedientes = {}
         if opcion == "1":
-            _search = int(search)
             try:
+                _search = int(search)
                 expedientes = expediente.objects.filter(id_datosPersonales__dni=_search)
-            except Exception as e:
+            except ValueError as e:
                 messages.debug(request, "los parametros ingresados no son un Numero de DPI valido, intente ingresando solo numeros! ")
         if opcion == "2":
             expedientes = expediente.objects.filter(id_datosPersonales__primer_nombre__startswith=search )

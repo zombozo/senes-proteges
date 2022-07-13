@@ -170,3 +170,4 @@ class solicitudesListaView(LoginRequiredMixin, ListView):
         context = super(solicitudesListaView, self).get_context_data(**kwargs)
         context["citas"] = solicitudCita.objects.filter(solicitud_finalizada=False)
         return context
+    

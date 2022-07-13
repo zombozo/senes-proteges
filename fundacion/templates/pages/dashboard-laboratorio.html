@@ -16,8 +16,8 @@
         </article>
         {% comment %} pagina de citas {% endcomment %}
         
-        {% if citas %}
-            {% include 'pages/laboratorio/laboratorios_diario.html' with citas=citas %}
+        {% if solicitudesLaboratorio or laboratoriosPendientes %}
+            {% include 'pages/laboratorio/laboratorios_diario.html' with solicitudesLaboratorio=solicitudesLaboratorio laboratoriosPendientes=laboratoriosPendientes %}
         {% endif %}
         
         {% if form %}

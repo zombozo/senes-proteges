@@ -1,14 +1,13 @@
 import datetime
-from multiprocessing import context
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView, CreateView, UpdateView, ListView
 from django.contrib import messages
-from asilo.models import expediente
+from usuarios.models import empleado
 from django.urls import reverse
 from fundacion.mixins import consultaMedicaMixin, facturaMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import  consultaMedicaForm, solicitudCitaDetalleFechaForm, tratamientoForm
+from .forms import  solicitudCitaDetalleFechaForm, solicitudLaboratorioForm,  tratamientoForm
 
 from .models import *
 
@@ -47,9 +46,12 @@ class dashboardLaboratorio(LoginRequiredMixin, TemplateView):
     template_name = "pages/dashboard-laboratorio.html"
     
     def get(self, request, *args, **kwargs):
-        citas = solicitudCitaDetalle.objects.filter(id_especialidad__id_area__nombre="Laboratorio", aceptada=True)
+        solicitudes = solicitudLaboratorio.objects.filter(aceptado=None)
+        date = datetime.datetime.now()
+        _laboratorio = laboratorio.objects.filter(finalizado=False)
         context = {
-            "citas": citas
+            "solicitudesLaboratorio": solicitudes,
+            "laboratoriosPendientes": _laboratorio
         }
         return render(request, self.template_name, context)
 
@@ -65,16 +67,18 @@ class examenLaboratorioCreateView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(examenLaboratorioCreateView, self).get_context_data(**kwargs)
         context["titulo"] = "Examen de laboratorio"
-        context["detalle"] = solicitudCitaDetalle.objects.get(solicitudCitaDetalle=self.kwargs['id_solicitudDetalle'])
+        context["detalle"] = solicitudLaboratorio.objects.get(id_solicitudLaboratorio=self.kwargs['id_solicitudLaboratorio'])
         return context
         
     
     def form_valid(self, form):
-        id_solicitudCitaDetalle = solicitudCitaDetalle.objects.get(solicitudCitaDetalle=self.kwargs["id_solicitudDetalle"])
-        form.instance.id_solicitudCitaDetalle = id_solicitudCitaDetalle
-        form.instance.id_ficha = ficha.get_ficha(_solicitudCitaDetalle=id_solicitudCitaDetalle)
+        _solicitudLaboratorio = solicitudLaboratorio.objects.get(id_solicitudLaboratorio=self.kwargs["id_solicitudLaboratorio"])
+        _solicitudLaboratorio.aceptado=True
+        _solicitudLaboratorio.save()
+        form.instance.id_solicitudLaboratorio = _solicitudLaboratorio
+        form.instance.id_ficha = ficha.get_ficha(_solicitudCitaDetalle=_solicitudLaboratorio)
         form.save()
-        facturaDetalleEspecialidad.save_factura_detalle(form.instance)
+        facturaDetalleLaboratorio.save_factura_detalleLaboratorio(form.instance)
         return super().form_valid(form)
 
 class editLaboratorioCreateView(LoginRequiredMixin, UpdateView):
@@ -115,7 +119,7 @@ class consultaMedicaCreateView(LoginRequiredMixin,consultaMedicaMixin, CreateVie
 
 class tratamientoCreateView(LoginRequiredMixin, CreateView):
     template_name = "pages/medico/consulta_crear.html"
-    success_url = "/crear-consulta/"
+    success_url = "/fundacion/crear-consulta/"
     fields = ["medicamento", "cantidad","descripcion"]
     model = tratamiento
     # tratamientoForm
@@ -136,6 +140,31 @@ class tratamientoCreateView(LoginRequiredMixin, CreateView):
         id_solicitud = self.kwargs["solicitud"]
         solicitud = solicitudCitaDetalle.objects.get(solicitudCitaDetalle=id_solicitud)
         form.instance.id_ficha = ficha.get_ficha(_solicitudCitaDetalle=solicitud)
+        self.success_url = self.success_url+f"{solicitud.id_solicitudCita.id_expediente.id_expediente}/?detalle={solicitud.solicitudCitaDetalle}"
+        return super().form_valid(form)
+    
+class laboratorioSolicitudCreate(LoginRequiredMixin, CreateView):
+    template_name = "pages/medico/consulta_crear.html"
+    success_url = "/fundacion/crear-consulta/"
+    fields = ["id_tipoLaboratorio","descripcion"]
+    model = solicitudLaboratorio
+
+    def get(self, request: HttpRequest, *args, **kwargs):
+        form = solicitudLaboratorioForm()
+        id_solicitud = kwargs["solicitud"]
+        solicitud = solicitudCitaDetalle.objects.get(solicitudCitaDetalle=id_solicitud)
+        context = {}
+        context["form"]=form
+        context["solicitud_detalle"] = solicitud
+        return render(request, self.template_name,context )
+    
+    
+    def form_valid(self, form) -> HttpResponse:
+        _user = self.request.user
+        id_solicitud = self.kwargs["solicitud"]
+        solicitud = solicitudCitaDetalle.objects.get(solicitudCitaDetalle=id_solicitud)
+        form.instance.id_empleado = empleado.objects.get(usuario=_user.id_usuario)
+        form.instance.id_solicitudCita = solicitud.id_solicitudCita
         self.success_url = self.success_url+f"{solicitud.id_solicitudCita.id_expediente.id_expediente}/?detalle={solicitud.solicitudCitaDetalle}"
         return super().form_valid(form)
     
@@ -217,3 +246,14 @@ class facturaCrear(LoginRequiredMixin, facturaMixin, CreateView):
         form.save()
         self.crear_detalle(form.instance.id_factura, self.kwargs['id_ficha'])
         return super().form_valid(form)
+    
+class facturasListView(LoginRequiredMixin, TemplateView):
+    template_name = "pages/dashboard-facturas.html"
+    
+    
+    
+    def get(self, request: HttpRequest, *args, **kwargs):
+        context = {}
+        _facturas = factura.objects.all()
+        context["facturas"]=_facturas
+        return render(request, self.template_name, context)

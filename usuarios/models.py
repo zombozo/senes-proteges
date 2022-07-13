@@ -8,6 +8,8 @@ from django.db import models
 from django.contrib.auth.models import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 # Create your models here.
+
+
 class datosPersonales(models.Model):
     id_datosPersonales = models.BigAutoField(primary_key=True)
     primer_nombre = models.CharField(max_length=20, blank=False, null=False)

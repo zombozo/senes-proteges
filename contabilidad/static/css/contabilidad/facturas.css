@@ -23,23 +23,23 @@
 
 .facturas > .card-body {
     display: grid;
-    grid-template-columns: 331px 306px;
+    grid-template-columns: 400px 250px;
     gap: 1rem;
 }
 
 .card .card {
-    width: 24vw;
+    width: 28vw;
 }
 
 .sections-farmacia, 
 .content-detalle-farmacia {
     display: grid;
-    grid-template-columns: 150px 80px 50px;
+    grid-template-columns: 118px 76px 56px 97px;
 }
 
 .detalle-especialidades {
-    grid-template-columns: 200px 50px;
-display: grid;
+    grid-template-columns: 150px 83px 112px;
+    display: grid;
 }
 
 
@@ -80,4 +80,39 @@ display: grid;
 .sections-cobro {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    
 }
+
+/* navs */
+
+.nav-facturas {
+    display: grid;
+    grid-template-columns: repeat(2, 200px);
+    border: 1px solid black;
+    margin-top: 2rem;
+    background-color: var(--text-color);
+    color: white;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+
+.nav-facturas span {
+    height: 6vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+.nav-facturas span:hover {
+    background-color: white;
+    color:var(--text-color);
+}
+
+.seleccionado {
+    background-color: white;
+    color: var(--text-color);
+}
+
+

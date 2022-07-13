@@ -1,5 +1,3 @@
-
-
 from django.conf import settings
 from asilo.models import contacto
 from reportes.controlErrores import get_loggerSenes

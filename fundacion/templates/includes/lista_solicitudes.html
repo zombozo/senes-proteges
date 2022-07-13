@@ -9,11 +9,13 @@
             <span>Enfermero</span>
             <span>Descripcion General</span>
             <span>Solicitado el</span>
-            <span># areas solicitadas</span>
+            <span># areas pendientes</span>
             <span>Opciones</span>
         </nav>
         {% if citas %}
             {% for cita in citas %}
+            
+            {% if cita.get_solicitudesDetalle|length > 0 %}
                 <section class="solicitud">
                     <article class="solicitud-general" data-id="{{cita.id_solicitudCita}}">
                         <span>{{cita.id_expediente.id_datosPersonales.get_nombreCompleto }}</span>
@@ -22,7 +24,7 @@
                         <span>{{cita.descripcion}}</span>
                         <span>{{cita.creado_en}}</span>
                         <span>
-                            {{cita.detalle_cita.all|length}}
+                            {{cita.get_solicitudesDetalle|length}}
                         </span>
                         <span class="last options">
                             
@@ -31,7 +33,7 @@
                             </span>
                         </span>
                     </article>
-                    {% if cita.detalle_cita.all|length > 0 %}
+                    {% if cita.get_solicitudesDetalle|length > 0 %}
                     <article class= "card card-general {{cita.id_solicitudCita}}" style="display:none">
                         {% for detalle in cita.detalle_cita.all %}
                             <div class= "card card-especialidad" >
@@ -90,6 +92,7 @@
                     </article>
                     {% endif %}
                 </section>
+            {% endif %}
             {% endfor %}
         {% endif %}
     </section>

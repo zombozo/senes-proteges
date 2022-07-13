@@ -9,7 +9,7 @@ from reportes.controlErrores import get_loggerSenes
 
 class factura(models.Model):
     id_factura = models.BigAutoField(primary_key=True)
-    fecha = models.DateTimeField(auto_now=True)
+    fecha = models.DateField(auto_now=True)
     id_ficha = models.ForeignKey("fundacion.ficha", verbose_name=("ficha"), unique=True, related_name="factura_ficha", on_delete=models.CASCADE)
     direccion = models.CharField(max_length=50, blank=True, null=True)
     nit = models.CharField(max_length=50, blank=True, null=True)
@@ -31,6 +31,7 @@ class facturaDetalleEspecialidad(models.Model):
     id_factura = models.ForeignKey("fundacion.factura", related_name=("factura_detalle"), on_delete=models.CASCADE)
     id_solicitudCitaDetalle = models.ForeignKey("fundacion.solicitudCitaDetalle", unique=True, verbose_name=("especialidad"), related_name="detalleSolicitud_factura", on_delete=models.CASCADE)
     costo = models.FloatField()
+    descuento = models.IntegerField(blank=True, null=True)
     
     def __str__(self) -> str:
         return f"{self.id_solicitudCitaDetalle.id_especialidad.especialidad} Q.{self.costo}"
@@ -41,6 +42,36 @@ class facturaDetalleEspecialidad(models.Model):
         factura_detalle.id_factura = _factura
         factura_detalle.id_solicitudCitaDetalle = consulta.id_solicitudCitaDetalle
         factura_detalle.costo = consulta.id_solicitudCitaDetalle.id_especialidad.costo
+        try:
+            descuento = descuentoArea.objects.get(id_area__nombre="clinica")
+            factura_detalle.descuento = descuento.porcentaje
+        except Exception as e:
+            logger = get_loggerSenes()
+            logger.error("No se encontro un descuento valido para agregar")
+        factura_detalle.save()
+
+class facturaDetalleLaboratorio(models.Model):
+    id_facturaDetalleLaboratorio = models.BigAutoField(primary_key=True)
+    id_factura = models.ForeignKey("fundacion.factura", related_name=("factura_detalleLaboratorio"), on_delete=models.CASCADE)
+    id_solicitudLaboratorio = models.ForeignKey("fundacion.solicitudLaboratorio", unique=True, verbose_name=("tipo de laboratorio"), related_name="detalleSolicitudLaboratorio_factura", on_delete=models.CASCADE)
+    costo = models.FloatField()
+    descuento = models.IntegerField(blank=True, null=True)
+    
+    def __str__(self) -> str:
+        return f"{self.id_solicitudLaboratorio.id_tipoLaboratorio.nombre} Q.{self.costo}"
+
+    def save_factura_detalleLaboratorio(consulta):
+        _factura, status=factura.get_factura(consulta.id_ficha)
+        factura_detalle = facturaDetalleLaboratorio()
+        factura_detalle.id_factura = _factura
+        factura_detalle.id_solicitudLaboratorio = consulta.id_solicitudLaboratorio
+        factura_detalle.costo = consulta.id_solicitudLaboratorio.id_tipoLaboratorio.precio
+        try:
+            descuento = descuentoArea.objects.get(id_area__nombre="laboratorio")
+            factura_detalle.descuento = descuento.porcentaje
+        except Exception as e:
+            logger = get_loggerSenes()
+            logger.error("No se encontro un descuento valido para agregar")
         factura_detalle.save()
 
 class facturaDetalleFarmacia(models.Model):
@@ -49,6 +80,7 @@ class facturaDetalleFarmacia(models.Model):
     id_tratamiento = models.ForeignKey("fundacion.tratamiento", verbose_name=("tratamiento"), related_name="facturaDetalle_tratamiento", on_delete=models.CASCADE)
     cantidad = models.IntegerField()
     precio_unitario = models.FloatField()
+    descuento = models.IntegerField(blank=True, null=True)
 
     def set_detalleFactura(tratamiento):
         _factura, status= factura.get_factura(tratamiento.id_ficha)
@@ -58,6 +90,12 @@ class facturaDetalleFarmacia(models.Model):
         detalle.id_tratamiento = tratamiento
         detalle.cantidad = tratamiento.cantidad
         detalle.precio_unitario = tratamiento.medicamento.precio
+        try:
+            descuento = descuentoArea.objects.get(id_area__nombre="laboratorio")
+            detalle.descuento = descuento.porcentaje
+        except Exception as e:
+            logger = get_loggerSenes()
+            logger.error("No se encontro un descuento valido para agregar")
         detalle.save()
 
 estados = [
@@ -139,7 +177,7 @@ class especialidad(models.Model):
 class laboratorio(models.Model):
     id_laboratorio = models.BigAutoField(primary_key=True)
     id_ficha = models.ForeignKey("fundacion.ficha", verbose_name=("Ficha"), related_name="laboratorio_ficha", on_delete=models.CASCADE)
-    id_solicitudCitaDetalle = models.ForeignKey("fundacion.solicitudCitaDetalle", unique=True, verbose_name=("solicitud: "), related_name="laboratorio_solicitudDetalle", on_delete=models.CASCADE)
+    id_solicitudLaboratorio = models.ForeignKey("fundacion.solicitudLaboratorio", unique=True, verbose_name=("solicitud: "), related_name="laboratorio_solicitudDetalle", on_delete=models.CASCADE)
     fecha_hora = models.DateField(("Fecha y hora"), auto_now=True)
     tipo_muestra = models.ForeignKey('fundacion.tipoMuestra', verbose_name='tipo de muestra', related_name='tipo_muestra_laboratorio',null=True, blank=True, on_delete=models.CASCADE, )
     resultado = models.CharField(max_length=50, null=True, blank=True)
@@ -147,7 +185,7 @@ class laboratorio(models.Model):
     finalizado = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.resultado
+        return f"{self.resultado}"
 
 class tipoMuestra(models.Model):
     id_tipoMuestra = models.BigAutoField(primary_key=True)
@@ -156,15 +194,22 @@ class tipoMuestra(models.Model):
     def __str__(self) -> str:
         return self.muestra
     
+class tipoLaboratorio(models.Model):
+    id_tipoLaboratorio = models.BigAutoField(primary_key=True)
+    nombre = models.CharField(max_length=100)
+    precio = models.IntegerField()
+    
+    def __str__(self) -> str:
+        return self.nombre
+    
 class solicitudLaboratorio(models.Model):
-        id_solicitudLaboratorio = models.BigAutoField(primary_key=True)
-        id_empleado = models.ForeignKey("usuarios.empleado", null=True, verbose_name=("Medico solicitante"), on_delete=models.CASCADE)
-        id_ficha = models.ForeignKey("fundacion.ficha", verbose_name=("ficha"),on_delete=models.CASCADE)
-        id_especialidad = models.ForeignKey('fundacion.especialidad', related_name='especialidad_Sollaboratorio', verbose_name="Especialidad: ", on_delete=models.CASCADE)
-        descripcion = models.TextField(null=True, blank=True)
-        fecha_hora = models.DateField(("fecha y hora"), auto_now=True)
-        creado_en= models.DateTimeField(auto_now=True)
-        aceptado = models.BooleanField(default=False)
+    id_solicitudLaboratorio = models.BigAutoField(primary_key=True)
+    id_solicitudCita = models.ForeignKey("fundacion.solicitudCita", verbose_name=("Asociada a la solicitud:"), on_delete=models.CASCADE)
+    id_empleado = models.ForeignKey("usuarios.empleado", null=True, verbose_name=("Medico solicitante"), on_delete=models.CASCADE)
+    id_tipoLaboratorio = models.ForeignKey('fundacion.tipoLaboratorio', related_name='solicitud_tipoLaboratorio', verbose_name="Tipo de laboratorio: ", on_delete=models.CASCADE)
+    descripcion = models.TextField(null=True,verbose_name="Describa la solicitud:" ,blank=True)
+    creado_en= models.DateTimeField(auto_now=True)
+    aceptado = models.BooleanField(blank=True, null=True)
 
 class ficha(models.Model):
     id_ficha = models.BigAutoField(primary_key=True)
@@ -219,14 +264,25 @@ class solicitudCita(models.Model):
     
     def get_solicitudes_consulta_medica(self):
         return solicitudCitaDetalle.objects.filter(id_solicitudCita=self.id_solicitudCita, id_especialidad__id_area__nombre="clinica")
+    
+    def get_solicitudesDetalle(self):
+        _detalles = solicitudCitaDetalle.objects.filter(id_solicitudCita=self.id_solicitudCita, aceptada=None)
+        return _detalles
 
 class solicitudCitaDetalle(models.Model):
     solicitudCitaDetalle = models.BigAutoField(primary_key=True)
     id_solicitudCita = models.ForeignKey("fundacion.solicitudCita", verbose_name=("solicitud"), related_name="detalle_cita", on_delete=models.CASCADE)
+    id_empleado = models.ForeignKey("usuarios.empleado", null=True, blank=True, verbose_name=("Empleado"),related_name="empleado_solicitud", on_delete=models.CASCADE)
     id_especialidad = models.ForeignKey("fundacion.especialidad", verbose_name="Especialidad: ",related_name='especialidad_detalle',  on_delete=models.CASCADE)
     descripcion = models.TextField(("Descripcion de la solicitud"))
     fecha_hora = models.DateTimeField(("horario de la cita"), null=True, blank=True)
     aceptada = models.BooleanField(null=True, blank=True)
+    
+    def get_pendientes(self):
+        solicitudes = solicitudCitaDetalle.objects.filter(aceptada=False)
+        print(solicitudes)
+        print("pase por solicitudes")
+        return solicitudes
     
 class motivoRechazo(models.Model):
     id_motivoRechazo = models.BigAutoField(primary_key=True)
@@ -240,3 +296,10 @@ class consultaMedica(models.Model):
     diagnostico = models.TextField()
     creado_en = models.DateTimeField(auto_now=True)
 
+class descuentoArea(models.Model):
+    id_descuento = models.BigAutoField(primary_key=True)
+    id_area = models.OneToOneField("fundacion.area", verbose_name=("area"), unique=True, on_delete=models.CASCADE)
+    porcentaje =models.IntegerField(verbose_name="Porcentaje de descuento para esta area")
+    
+    def __str__(self) -> str:
+        return f"{self.id_area.nombre} - {self.porcentaje}%"
