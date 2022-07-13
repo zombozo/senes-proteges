@@ -1,0 +1,33 @@
+{% extends 'reportes/base.html' %}
+{% load static %}
+{% load contabilidad %}
+{% block css_script_extra %}
+    
+{% endblock css_script_extra %}
+{% block section %}
+    <section class="consultasMedicas">
+        <div class="card">
+            <div class="card-header">
+            </div>
+            <div class="card-body">
+                <div class="section header-consulta">
+                    <span>Ficha</span>
+                    <span>Detalle de la solicitud</span>
+                    <span>Atendido por</span>
+                    <span>Diagnostico medico</span>
+                    <span>Fecha</span>
+                </div>
+                {% for consulta in consultas  %}
+                <div class="section body-consulta">
+                    <span>{{consulta.id_ficha.id_ficha}}</span>
+                    <span>{{consulta.id_solicitudCitaDetalle.descripcion}}</span>
+                    <span>{{consulta.id_solicitudCitaDetalle.id_empleado.id_datosPersonales.get_nombreCompleto}}</span>
+                    <span>{{consulta.diagnostico}}</span>
+                    <span>{{consulta.creado_en}}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

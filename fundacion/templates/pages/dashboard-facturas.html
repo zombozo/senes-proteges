@@ -1,0 +1,33 @@
+{% extends 'pages/base_fundacion.html' %}
+{% load static %}
+{% load contabilidad %}
+{% block script_css %}
+    <link rel="stylesheet" href="{% static 'css/contabilidad/facturas.css' %} ">
+    <link rel="stylesheet" href="{% static 'css/fundacion/dashboard-facturas.css' %} ">
+{% endblock script_css %}
+{% block body %}
+<div class="canva">
+    <nav class=" secciones-facturas">
+        <span class="seleccionado" data-pagina="facturas-pendientes">Facturas pendientes</span>
+        <span class="" data-pagina="facturas-pagadas">Facturas pagadas</span>
+    </nav>
+    <section class="secciones facturas-pendientes">
+        {% for factura in facturas %}
+            {% if factura|total:"" > 0 %}
+                {% include 'includes/facturas.html' %}
+            {% endif %}
+        {% endfor %}
+    </section>
+    <section class="secciones facturas-pagadas" style="display:none">
+        {% for factura in facturas %}
+            {% if factura|total:"" <= 0 %}
+                {% include 'includes/facturas.html' %}
+            {% endif %}
+        {% endfor %}
+    </section>
+</div>
+{% endblock %}
+
+{% block script_js %}
+    <script src="{% static 'js/fundacion/dashboard-facturas.js' %}"></script>
+{% endblock script_js %}

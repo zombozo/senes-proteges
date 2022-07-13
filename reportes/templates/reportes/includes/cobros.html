@@ -1,0 +1,69 @@
+{% extends 'reportes/base.html' %}
+{% load static %}
+{% load contabilidad %}
+{% block css_script_extra %}
+    <link rel="stylesheet" href="{% static 'css/contabilidad/cobros.css' %}">
+    <link rel="stylesheet" href="{% static 'css/includes/consultas.css' %}">
+    <link rel="stylesheet" href="{% static 'css/includes/laboratorios.css' %}">
+    <link rel="stylesheet" href="{% static 'css/includes/tratamientos.css' %}">
+{% endblock css_script_extra %}
+{% block section %}
+    <section class="cobros-body"> 
+        <article class=" cobro-cliente">
+            <div class="body-card">
+                <nav class="opcion-buscar">
+                    <form class="" action="" method="get">
+                        Del: <input type="date" name="dateInit" id="DateInit" required> al:
+                        <input type="date" name="dateFin" id="dateFin" required>
+                        <button class="btn btn-outline-success" type="submit">Buscar</button>
+                    </form>
+                    <form class="form" action="" method="get">
+                        <select name="cliente" id="cliente">
+                            <option value="1">DPI</option>
+                            <option value="2">Expediente</option>
+                        </select>
+                        <input name="value" id="value" type="text" required>
+                        <button class="btn btn-outline-success" type="submit">Buscar</button>
+                    </form>
+                </nav>
+                {% for factura in facturas %}
+                    <div class="card cobro secciones-cobro">
+                        <div class="card-header">
+                            <span><strong>Cliente: </strong>{{factura.id_ficha.id_expediente.id_datosPersonales.get_nombreCompleto}}</span>
+                            <span><strong>Total: </strong>Q.{{factura|totalFactura:""}}</span>
+                            <span><strong>Fecha: </strong> {{factura.fecha}} </span>
+                        </div>
+                        <div class="card-body">
+                                {% if factura.id_ficha.consulta_ficha.all %}
+                                <article class="card especialidades">
+                                    <h6>Consultas medicas</h6>
+                                    {% include 'asilo/includes/consultas.html' with ficha=factura.id_ficha %}
+                                </article>
+                                {% endif %}
+                            
+                                {% if factura.id_ficha.laboratorio_ficha.all %}
+                                    
+                                    <article class="card laboratorios">
+                                        <h6>Laboratorios</h6>
+                                    {% include 'asilo/includes/laboratorios.html' with ficha=factura.id_ficha %}
+                                    </article>
+                                {% endif %}
+                            
+                            
+                                {% if factura.id_ficha.tratamiento_ficha.all %}
+                                
+                                <article class="card tratamientos">
+                                    <h6>Medicamentos</h6>
+                                    {% include 'asilo/includes/tratamientos.html' with ficha=factura.id_ficha %}
+                                </article>
+                                {% endif %}
+                            
+                        </div>
+                    </div>
+                {% endfor %}
+                
+
+            </>
+        </article>
+    </section>
+{% endblock section %}
