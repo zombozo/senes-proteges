@@ -19,7 +19,7 @@
                 <tbody>
                     {% for cliente in clientes %}
                         <tr>
-                            <td>{{cliente.expediente}}</td>
+                            <td>SP-{{cliente.id_expediente}}</td>
                             <td>{{cliente.id_datosPersonales.get_nombreCompleto}}</td>
                             <td>{{cliente.id_datosPersonales.fecha_nacimiento}}</td>
                             <td>{{cliente.id_datosPersonales.dni}}</td>

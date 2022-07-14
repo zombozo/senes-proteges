@@ -76,6 +76,14 @@ class expedienteDetailView(LoginRequiredMixin, DetailView):
 
 class medicoGeneralView(LoginRequiredMixin, TemplateView):
     template_name = "asilo/medico/dashboard.html"
+    
+    
+    def get(self, request):
+        context = {}
+        _solicitudes = solicitudCita.objects.all().order_by("creado_en")[:15]
+        context["solicitudes"] = _solicitudes
+        
+        return render(request, self.template_name, context)
 
 class solicitudCreateView(LoginRequiredMixin, CreateView):
     template_name = "asilo/includes/forms.html"
@@ -171,3 +179,5 @@ class solicitudesListaView(LoginRequiredMixin, ListView):
         context["citas"] = solicitudCita.objects.filter(solicitud_finalizada=False)
         return context
     
+    
+

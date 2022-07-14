@@ -34,67 +34,72 @@
                         </span>
                     </article>
                     {% if cita.get_solicitudesDetalle|length > 0 %}
-                    <article class= "card card-general {{cita.id_solicitudCita}}" style="display:none">
-                        {% for detalle in cita.detalle_cita.all %}
-                            <div class= "card card-especialidad" >
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item"><strong>Especialidad:</strong> {{detalle.id_especialidad}}</li>
-                                    <li class="list-group-item"> <strong>Motivo: </strong> {{detalle.descripcion}}</li>
-                                    
-                                    {% if activar_edicion %}
-                                        <li class="list-group-item">
-                                            {% if detalle.aceptada == None %}
-                                                <h6>Asignar fecha</h6>
-                                                <form class="datetime" action="{% url 'fundacion:actualizar-detalle-solicitud' detalle.solicitudCitaDetalle %}" method="post">
-                                                {% csrf_token %}
-                                                    <input class="" type="date" name="fecha_hora" id="fecha_hora">
-                                                    <input class="" type="time" name="fecha_hora" id="fecha_hora">
-                                                    <button class="asignar-fecha" type="submit"><img src="{% static 'imagenes/check.svg' %}" alt=""></button>
-                                                </form>
-                                                {% else %}
-                                                <span>Fecha:</span>
-                                                {{detalle.fecha_hora}}
-                                            {% endif %}
-                                        </li>
-                                        {% if detalle.aceptada == None %}
+                        <article class= "card card-general {{cita.id_solicitudCita}}" style="display:none">
+                            {% for detalle in cita.detalle_cita.all %}
+                                <div class= "card card-especialidad" >
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item"><strong>Especialidad:</strong> {{detalle.id_especialidad}}</li>
+                                        <li class="list-group-item"> <strong>Motivo: </strong> {{detalle.descripcion}}</li>
+                                        
+                                        {% if activar_edicion %}
                                             <li class="list-group-item">
-                                                <h6>rechazar</h6>
-                                                <form class="form-rechazar" action="{% url 'fundacion:rechazar-solicitud-detalle' detalle.solicitudCitaDetalle %}" method="post">
-                                                        {% csrf_token %}
-                                                        <input class="" name="motivo" placeholder="motivo " required type="text">
-                                                        <button type="submit" class="asignar-fecha"><img src="{% static 'imagenes/check.svg' %}" alt=""></button>
+                                                {% if detalle.aceptada == None %}
+                                                    <h6>Asignar fecha</h6>
+                                                    <form class="datetime" action="{% url 'fundacion:actualizar-detalle-solicitud' detalle.solicitudCitaDetalle %}" method="post">
+                                                    {% csrf_token %}
+                                                        <input class="" type="date" name="fecha_hora" id="fecha_hora">
+                                                        <input class="" type="time" name="fecha_hora" id="fecha_hora">
+                                                        <button class="asignar-fecha" type="submit"><img src="{% static 'imagenes/check.svg' %}" alt=""></button>
                                                     </form>
+                                                    {% else %}
+                                                    <span>Fecha:</span>
+                                                    {{detalle.fecha_hora}}
+                                                {% endif %}
                                             </li>
-                                        {% endif %}
-                                        <li class="list-group-item">
-                                            {% if detalle.aceptada %}
-                                                <span class="text-success">
-                                                    Aceptado
-                                                </span>
-                                                {% elif detalle.aceptada == False %}
-                                                    <span class="text-warning">Rechazada</span>
-                                                {% else %}
-                                                <span class="text-warning">Pendiente</span>
+                                            {% if detalle.aceptada == None %}
+                                                <li class="list-group-item">
+                                                    <h6>rechazar</h6>
+                                                    <form class="form-rechazar" action="{% url 'fundacion:rechazar-solicitud-detalle' detalle.solicitudCitaDetalle %}" method="post">
+                                                            {% csrf_token %}
+                                                            <input class="" name="motivo" placeholder="motivo " required type="text">
+                                                            <button type="submit" class="asignar-fecha"><img src="{% static 'imagenes/check.svg' %}" alt=""></button>
+                                                        </form>
+                                                </li>
                                             {% endif %}
-                                        </li>
-                                        {% if detalle.aceptada == False %}
                                             <li class="list-group-item">
-                                                    <h6>motivo rechazo:</h6>
-                                                    {% for motivo in detalle.motivo_rechazo_detalleSolicitud.all %}
-                                                        {{motivo.motivo}}
-                                                    {% endfor %}
-                                            <li>
+                                                {% if detalle.aceptada %}
+                                                    <span class="text-success">
+                                                        Aceptado
+                                                    </span>
+                                                    {% elif detalle.aceptada == False %}
+                                                        <span class="text-warning">Rechazada</span>
+                                                    {% else %}
+                                                    <span class="text-warning">Pendiente</span>
+                                                {% endif %}
+                                            </li>
+                                            {% if detalle.aceptada == False %}
+                                                <li class="list-group-item">
+                                                        <h6>motivo rechazo:</h6>
+                                                        {% for motivo in detalle.motivo_rechazo_detalleSolicitud.all %}
+                                                            {{motivo.motivo}}
+                                                        {% endfor %}
+                                                <li>
+                                            {% endif %}
                                         {% endif %}
-                                    {% endif %}
-                                </ul>
-                            </div>
-                        {% endfor %}
-                    </article>
+                                    </ul>
+                                </div>
+                            {% endfor %}
+                        </article>
                     {% endif %}
                 </section>
             {% endif %}
             {% endfor %}
         {% endif %}
+        
+        {% if solicitudes %}
+            
+        {% endif %}
+            
     </section>
     {% block script_js_extra %}
         <script type='text/javascript' src="{% static 'js/fundacion/includes/lista_solicitudes.js' %}"></script>

@@ -9,23 +9,7 @@
     <div class="pagina-pagos">
         {% if paginaPagos %}
                 <a class="btn btn-crear" href="{% url 'contabilidad:pagar-servicio'  %}">Pagar servicio</a>
-            <div class="pagos-realizados">
-                <h5>Ultimos pagos</h5>
-                <div class="pagos-realizados-section">
-                    <span>Servicio</span>
-                    <span>empresa</span>
-                    <span>Pago</span>
-                    <span>Fecha</span>
-                </div>
-                <div class="pagos-realizados-section">
-                    {% for pago in pagos %}
-                        <span>{{pago.id_servicio.nombre}}</span>
-                        <span>{{pago.id_servicio.empresa}}</span>
-                        <span>{{pago.id_transaccion.monto}}</span>
-                        <span>{{pago.id_transaccion.fecha}}</span>
-                    {% endfor %}
-                </div>
-            </div>
+                {% include 'asilo/includes/pagos.html' with pagos=pagos title="ultimos pagos" %}
         {% endif %}
         
         {% if form %}

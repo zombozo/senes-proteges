@@ -198,3 +198,18 @@ right: -26px;
     margin-top: 1rem;
 
 }
+
+/* buscador */
+
+
+.opcion-buscar {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+.opcion-buscar {
+    display: flex;
+    flex-direction: row;
+    width: 95%;
+    justify-content: space-between;
+}

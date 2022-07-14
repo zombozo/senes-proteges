@@ -1,0 +1,21 @@
+.canva {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 1rem;
+}
+
+.canva .card-bienvenida {
+    width: 80vw;
+    height: 18vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+h6 {
+    align-self: self-start;
+}

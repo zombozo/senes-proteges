@@ -3,11 +3,12 @@
 .card-tratamientos {
     display: flex;
     flex-direction: column;
+    padding: 1rem;
 }
 
 .sections-tratamientos, .content-tratamientos {
     display: grid;
-    grid-template-columns: 100px 200px 91px 245px;
+    grid-template-columns: 100px 200px 150px 74px 160px;
     border: 1px solid var(--text-color);
     border-radius: 5px;
 }

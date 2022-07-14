@@ -18,17 +18,17 @@
 
 .detalle-factura {
     display: grid !important;
-    grid-template-columns: 181px 107px 108px 184px 104px 100px;
+    grid-template-columns: 118px 107px 108px 178px 104px 100px;
 }
 
 .facturas > .card-body {
     display: grid;
-    grid-template-columns: 400px 250px;
+    grid-template-columns: 363px 250px;
     gap: 1rem;
 }
 
 .card .card {
-    width: 28vw;
+    width: 24vw;
 }
 
 .sections-farmacia, 

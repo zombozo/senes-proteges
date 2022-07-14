@@ -1,0 +1,34 @@
+{% extends 'reportes/base.html' %}
+{% load static %}
+{% load contabilidad %}
+{% block css_script_extra %}
+    <link rel="stylesheet" href="{% static 'css/includes/tratamientos.css' %}">
+{% endblock css_script_extra %}
+{% block section %}
+    <nav class="opcion-buscar">
+            <form action="" method="get">
+                Del: <input type="date" name="dateInit" id="dateInit" required>
+                Al: 
+                <input type="date" name="dateFin" id="dateFin" required>
+                <button class="btn btn-outline-success" type="submit">Buscar</button>
+            </form>
+            <form action="" method="get">
+                cliente:
+                <select name="opcion" id="opcion">
+                    <option value="1">DPI</option>
+                    <option value="2">Expediente</option>
+                </select>
+                <input type="text" name="cliente" id="cliente" required>
+                <button class="btn btn-outline-success" type="submit">Buscar</button>
+            </form>
+        </nav>
+    
+    <section>
+        {% if tratamientos %}
+            <h5>Tratamientos</h5>
+            {% include 'asilo/includes/tratamientos.html' with tratamientos=tratamientos %}
+            {% else %}
+            <div class="alert alert-info">No se encontraron resultados para los parametros de busqueda ingresados</div>
+        {% endif %}
+    </section>
+{% endblock %}

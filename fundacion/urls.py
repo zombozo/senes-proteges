@@ -20,7 +20,8 @@ urlpatterns = [
     path("actualizar-tratamiento/<int:pk>/", view=tratamientoUpdateview.as_view(), name="actualizar-tratamiento"),
     path("fichas/", view=fichasListView.as_view(), name="fichas"),
     path("crear-factura/<int:id_ficha>/", view=facturaCrear.as_view(), name="crear-factura"),
-    path("facturas/", view=facturasListView.as_view(), name="facturas")
-]
+    path("facturas/", view=facturasListView.as_view(), name="facturas"),
+    path("enfermedad/<int:solicitud>/", view=enfermedadCreateView.as_view(), name="enfermedad")
+]   
 
 # <int:id_cliente>/

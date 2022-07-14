@@ -26,7 +26,9 @@
                         <button class="btn btn-outline-success" type="submit">Buscar</button>
                     </form>
                 </nav>
-                {% for factura in facturas %}
+                
+                {% if facturas %}
+                    {% for factura in facturas %}
                     <div class="card cobro secciones-cobro">
                         <div class="card-header">
                             <span><strong>Cliente: </strong>{{factura.id_ficha.id_expediente.id_datosPersonales.get_nombreCompleto}}</span>
@@ -61,6 +63,11 @@
                         </div>
                     </div>
                 {% endfor %}
+                {% else %}
+                    <div class="alert alert-info">No se encontraron resultados</div>
+                {% endif %}
+                
+                
                 
 
             </>

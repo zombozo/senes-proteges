@@ -1,5 +1,5 @@
 from django import forms
-from .models import consultaMedica,  solicitudCita, solicitudCitaDetalle, solicitudLaboratorio, tratamiento
+from .models import clienteEnfermedad, consultaMedica, enfermedad,  solicitudCita, solicitudCitaDetalle, solicitudLaboratorio, tratamiento
 
 
 class consultaMedicaForm( forms.ModelForm):
@@ -55,3 +55,8 @@ class solicitudLaboratorioForm(forms.ModelForm):
         model = solicitudLaboratorio
         fields = ["id_tipoLaboratorio","descripcion"]
         
+
+class enfermedadForm(forms.ModelForm):
+    class Meta:
+        model = clienteEnfermedad
+        fields = ["id_enfermedad", "descripcion", "estado"]

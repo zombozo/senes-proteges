@@ -7,7 +7,7 @@ from usuarios.models import empleado
 from django.urls import reverse
 from fundacion.mixins import consultaMedicaMixin, facturaMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import  solicitudCitaDetalleFechaForm, solicitudLaboratorioForm,  tratamientoForm
+from .forms import  enfermedadForm, solicitudCitaDetalleFechaForm, solicitudLaboratorioForm,  tratamientoForm
 
 from .models import *
 
@@ -79,6 +79,28 @@ class examenLaboratorioCreateView(LoginRequiredMixin, CreateView):
         form.instance.id_ficha = ficha.get_ficha(_solicitudCitaDetalle=_solicitudLaboratorio)
         form.save()
         facturaDetalleLaboratorio.save_factura_detalleLaboratorio(form.instance)
+        return super().form_valid(form)
+
+class enfermedadCreateView(LoginRequiredMixin, CreateView):
+    template_name = "pages/medico/consulta_crear.html"
+    success_url = "/fundacion/crear-consulta/"
+    model = clienteEnfermedad
+    fields = ["id_enfermedad", "descripcion","estado"]
+    
+    def get(self, request, *args, **kwargs):
+        context = {}
+        form = enfermedadForm()
+        id_solicitud = kwargs["solicitud"]
+        solicitud = solicitudCitaDetalle.objects.get(solicitudCitaDetalle=id_solicitud)
+        context["form"]=form
+        context["solicitud_detalle"] = solicitud
+        return render(request, self.template_name, context)
+    
+    def form_valid(self, form):
+        id_solicitud = self.kwargs["solicitud"]
+        solicitud = solicitudCitaDetalle.objects.get(solicitudCitaDetalle=id_solicitud)
+        form.instance.id_expediente = solicitud.id_solicitudCita.id_expediente
+        self.success_url = self.success_url+f"{solicitud.id_solicitudCita.id_expediente.id_expediente}/?detalle={solicitud.solicitudCitaDetalle}"
         return super().form_valid(form)
 
 class editLaboratorioCreateView(LoginRequiredMixin, UpdateView):

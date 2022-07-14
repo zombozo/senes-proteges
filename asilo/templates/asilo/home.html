@@ -1,8 +1,42 @@
 {% extends 'asilo/base_asilo.html' %}
+{% load static %}
+{% block css_script %}
+   <link rel="stylesheet" href="{% static 'css/home.css' %}">
+       <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+        <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+        <script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
+        <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+        <script src="{% static 'js/asilo/home.js' %}"></script>
+{% endblock css_script %}
 {% block section %}
-    <section class="body-recepcion">
-        <article class="card card-recepcion">
-            <h5>Area de recepcion</h5>
+    <section class="body-home">
+        <article class="card card-home">
+            <h5>Asilo</h5>
         </article>
+        <div class="graficas">
+            <article class="card">
+            <div class="card-header">
+                Enfermedades mas comunes
+            </div>
+            <div class="card-body">
+                <div id="chartdiv"></div>
+            </div>
+            
+        </article>
+        <article class="card">
+            <div class="card-header">
+                flujo de caja
+            </div>
+            <div class="card-body">
+                <div id="chartCaja"></div>
+            </div>
+            
+        </article>
+        </div>
+        
     </section>
 {% endblock section %}
+
+{% block script_js_extra %}
+
+{% endblock script_js_extra %}

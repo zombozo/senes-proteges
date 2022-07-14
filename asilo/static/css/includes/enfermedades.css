@@ -5,9 +5,10 @@
     flex-direction: column;
 }
 
-.sections-header-enfermedades, .setions-body-enfermedades {
+.sections-header-enfermedades, .sections-body-enfermedades {
     display: grid;
     grid-template-columns: auto auto auto;
     border: 1px solid var(--text-color);
     border-radius: 5px;
+    margin-top: 1rem;
 }

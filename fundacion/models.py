@@ -2,7 +2,7 @@
 import uuid
 from django.db import models
 
-from asilo.models import expediente, transaccion
+from asilo.models import expediente
 from reportes.controlErrores import get_loggerSenes
 
 # Create your models here.
@@ -18,7 +18,7 @@ class factura(models.Model):
         return factura.objects.get_or_create(id_ficha=id_ficha)
 
     def __str__(self):
-        return f"{self.nit} {self.fecha}"
+        return f"{self.id_factura} - cliente: {self.id_ficha.id_expediente.id_datosPersonales.get_nombreCompleto()} Nit:{self.nit} Fecha: {self.fecha}"
         
     def get_facturas_por_cliente(_expediente):
         pass
@@ -117,6 +117,9 @@ class tratamiento(models.Model):
         def __str__(self):
             return self.medicamento.nombre
         
+        def get_nombreCliente(self):
+            return expediente.objects.get(id_expediente=self.id_ficha.id_expediente)
+        
 class clienteEnfermedad(models.Model):
     id_clienteEnfermedad = models.BigAutoField(primary_key=True)
     id_expediente = models.ForeignKey("asilo.expediente", related_name=("expediente_enfermedad"), on_delete=models.CASCADE)
@@ -124,11 +127,23 @@ class clienteEnfermedad(models.Model):
     descripcion = models.TextField(null=True, blank=True)
     fecha = models.DateTimeField(auto_now=True)
     
+    
+class clienteEnfermedad(models.Model):
+    id_clienteEnfermedad = models.BigAutoField(primary_key=True)
+    id_expediente = models.ForeignKey("asilo.expediente", related_name=("expediente_enfermedad"), on_delete=models.CASCADE)
+    id_enfermedad = models.ForeignKey("fundacion.enfermedad", related_name=("enfermedad_cliente"), on_delete=models.CASCADE)
+    fecha = models.DateField(auto_now=True)
+    descripcion = models.TextField()
+    estado = models.BooleanField(default=True)
+
 class enfermedad(models.Model):
     id_enfermedad = models.BigAutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField(null=True, blank=True)
 
+    def __str__(self):
+        return f"{self.nombre}"
+    
 class medicamento(models.Model):
         id_medicamento = models.BigAutoField(primary_key=True)
         nombre = models.CharField(max_length=50, null=False, blank=False)
@@ -217,6 +232,10 @@ class ficha(models.Model):
     fecha = models.DateField( auto_now=True)
     id_solicitudCita = models.ForeignKey('fundacion.solicitudCita', related_name='ficha_solicitud', unique=True, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f"{self.id_expediente.id_datosPersonales.get_nombreCompleto()} el {self.fecha}"
+    
+    
     def get_ficha(_solicitudCitaDetalle=None):
         _ficha = ficha()
         if _solicitudCitaDetalle != None:
