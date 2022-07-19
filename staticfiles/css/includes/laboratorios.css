@@ -1,0 +1,21 @@
+
+.card-laboratorios-expediente {
+    display:flex;
+    flex-direction:column;
+}
+.sections-laboratorio, .laboratorios-section {
+    border: 1px solid var(--text-color);
+    display: grid;
+    grid-template-columns: 100px 150px 100px auto 100px auto;
+    font-size: 12px;
+}
+
+.sections-laboratorio {
+    font-weight: bold;
+}
+.laboratorios-section {
+    margin-top: 1rem;
+    border-radius: 5px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}

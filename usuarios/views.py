@@ -10,6 +10,7 @@ from django.contrib import messages
 
 from asilo.models import expediente
 from asilo.views import HomeTemplateView, dashboardRecepcionView
+from fundacion.views import dashboardRecepcion
 from usuarios.models import empleado
 
 # Create your views here.
@@ -48,9 +49,9 @@ class AdminLogin(LoginView):
         _empleado = empleado.objects.get(usuario=self.request.user)
         if _empleado.empresa=="2" and _empleado.id_empleado_especialidad==2:
             return HttpResponseRedirect(reverse(dashboardRecepcionView,args=[self.request.user]))
+        elif _empleado.empresa=='1':
+            return HttpResponseRedirect(reverse(dashboardRecepcion, args=[self.request.user]))
         return reverse_lazy("asilo:home")
-    
-    
     
 class logout(LoginView):
     def get(self, request, *args, **kwargs):

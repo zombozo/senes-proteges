@@ -52,7 +52,7 @@ class contabilidadMixin:
             total += sub_total
 
         for item in laboratorios:
-            sub_total = item['costo']*item['cantidad']
+            sub_total = item['costo']
             total += sub_total
         return total
     

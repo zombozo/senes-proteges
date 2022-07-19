@@ -1,0 +1,39 @@
+.canva {
+    display: flex;
+    flex-direction: column;
+}
+
+.secciones-facturas {
+    margin-top: 1rem;
+    width: 30vw;
+    align-self: center;
+    border: 1px solid black;
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    background-color: var(--text-color);
+    color: white;
+}
+.secciones-facturas span {
+    display: flex;
+    height: 6vh;
+    justify-content: center;
+    align-items: center;
+    cursor:pointer;
+}
+
+.secciones-facturas span:last-of-type:hover {
+    border-left: 1px solid black;
+}
+.secciones-facturas span:first-of-type:hover {
+    border-right: 1px solid black;
+}
+.secciones-facturas span:hover {
+    background-color: white;
+    color:black;
+}
+
+.seleccionado {
+    background-color: white;
+    color: black;
+}

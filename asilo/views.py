@@ -1,7 +1,8 @@
+from urllib import request
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from asilo.mixins import medicoMixin
+from asilo.mixins import asiloMixin, medicoMixin
 from django.urls import reverse
 from asilo.models import expediente, contacto
 from fundacion.forms import solicitudCitaDetalleForm, solicitudCitaForm
@@ -10,13 +11,19 @@ from fundacion.models import solicitudCita, solicitudCitaDetalle
 from reportes.correoElectronico import correo
 from usuarios.forms import datosPersonalesForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from usuarios.models import datosPersonales
+from usuarios.models import datosPersonales, empleado
+from django.contrib import messages
 from django.views.generic import TemplateView, CreateView,ListView,  DetailView, DeleteView, UpdateView
 
 # Create your views here.
 
-class HomeTemplateView(LoginRequiredMixin, TemplateView):
+class HomeTemplateView(LoginRequiredMixin,asiloMixin, TemplateView):
     template_name = "asilo/home.html"
+    
+    def get(self, request, *args, **kwargs):
+        context = {}
+        context =self.get_context_for_home()
+        return render(request, self.template_name, context)
 
 class dashboardRecepcionView(LoginRequiredMixin,recepcionMixin, TemplateView):
     template_name = "asilo/recepcion/dashboard.html"
@@ -40,8 +47,7 @@ class datosPersonalesCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.save()
-        _expediente= expediente.objects.create(id_datosPersonales=form.instance)
-        print(f"{_expediente.id_expediente}")
+        _expediente= expediente.get_expediente(form.instance)
         self.success_url= reverse('asilo:contacto', kwargs={'pk':_expediente.id_expediente})
         return super().form_valid(form)
 
@@ -59,8 +65,8 @@ class contactoCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.id_expediente=expediente.objects.get(id_expediente=self.kwargs['pk'])
         form.save()
-        print(self.kwargs['pk'])
         self.success_url = reverse("asilo:expediente", kwargs={'pk':self.kwargs['pk']})
+        messages.sucess(self.request, "Expediente creado con exito!")
         return super().form_valid(form)
 
 class expedienteDetailView(LoginRequiredMixin, DetailView):
@@ -86,15 +92,17 @@ class medicoGeneralView(LoginRequiredMixin, TemplateView):
         return render(request, self.template_name, context)
 
 class solicitudCreateView(LoginRequiredMixin, CreateView):
-    template_name = "asilo/includes/forms.html"
+    template_name = "asilo/medico/crear_solicitud.html"
     model = solicitudCita
     fields = ["id_enfermero", "descripcion"]
     success_url = "/detalle-solicitud/"
 
     def get(self, request, *args, **kwargs):
         id_expediente = kwargs["id_expediente"]
+        
         form = solicitudCitaForm()
         context = {"form":form}
+        context['title']="Agregue los datos generales de la solicitud"
         context['expediente'] = expediente.objects.get(id_expediente=id_expediente)
         solicitud_pendiente, id_solicitud = solicitudCita.get_solicitud(id_expediente=id_expediente)
         if solicitud_pendiente:
@@ -126,6 +134,7 @@ class solicitudCitaDetalleCreateView(LoginRequiredMixin,medicoMixin, CreateView)
             "form":form,
             "pagina": "detalle"
         }
+        context['title']="Especialidades disponibles"
         detalles = solicitudCitaDetalle.objects.filter(id_solicitudCita=_solicitud)
         if len(detalles) > 0:
             context["detalles"] = detalles
@@ -145,6 +154,7 @@ class solicitudCitaDetalleCreateView(LoginRequiredMixin,medicoMixin, CreateView)
                 _solicitudCita.solicitud_finalizada=True
                 _solicitudCita.save()
                 self.enviar_correo(_solicitudCita)
+                messages.success(self.request, f"Se ha creado una nueva solicitud para el paciente, {_solicitud.id_expediente.id_datosPersonales.get_nombreCompleto()}")
                 return HttpResponseRedirect('/dashboard-medico/')
         else:
             return HttpResponseRedirect(reverse('asilo:detalle-solicitud', kwargs={'id_solicitud':self.kwargs['id_solicitud']}))
@@ -168,6 +178,7 @@ class solicitudDeleteView(LoginRequiredMixin, DeleteView):
     def form_valid(self, form):
         # page navegara a finalizar la solicitud
         self.success_url= self.success_url+f"{self.object.id_solicitudCita.id_solicitudCita}/"
+        messages.success(self.request, "la solicitud se ha eliminado  correctamente")
         return super().form_valid(form)
 
 class solicitudesListaView(LoginRequiredMixin, ListView):
@@ -179,5 +190,5 @@ class solicitudesListaView(LoginRequiredMixin, ListView):
         context["citas"] = solicitudCita.objects.filter(solicitud_finalizada=False)
         return context
     
-    
+
 

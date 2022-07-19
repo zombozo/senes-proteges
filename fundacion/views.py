@@ -79,6 +79,7 @@ class examenLaboratorioCreateView(LoginRequiredMixin, CreateView):
         form.instance.id_ficha = ficha.get_ficha(_solicitudCitaDetalle=_solicitudLaboratorio)
         form.save()
         facturaDetalleLaboratorio.save_factura_detalleLaboratorio(form.instance)
+        messages.info(self.request, "Examen de laboratorio guardado!")
         return super().form_valid(form)
 
 class enfermedadCreateView(LoginRequiredMixin, CreateView):
@@ -94,6 +95,7 @@ class enfermedadCreateView(LoginRequiredMixin, CreateView):
         solicitud = solicitudCitaDetalle.objects.get(solicitudCitaDetalle=id_solicitud)
         context["form"]=form
         context["solicitud_detalle"] = solicitud
+        messages.info(self.request, f"enfermedad {form.instance.id_enfermedad.nombre} registrada para el paciente {solicitud.id_solicitudCita.id_expediente.get_nombreCompleto()}")
         return render(request, self.template_name, context)
     
     def form_valid(self, form):
@@ -112,6 +114,7 @@ class editLaboratorioCreateView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         if form.instance.resultado !="" or form.instance.resultado != None:
             form.finalizado=True
+        messages.info(self.request, "Laboratorio actualizado correctamente")
         return super(editLaboratorioCreateView, self).form_valid(form)
     
 class consultaMedicaCreateView(LoginRequiredMixin,consultaMedicaMixin, CreateView):
@@ -137,6 +140,7 @@ class consultaMedicaCreateView(LoginRequiredMixin,consultaMedicaMixin, CreateVie
         form.instance.id_ficha = _ficha
         form.save()
         facturaDetalleEspecialidad.save_factura_detalle(form.instance)
+        messages.info(self.request, "Consulta medica guardada y agregada a la factura")
         return super().form_valid(form)
 
 class tratamientoCreateView(LoginRequiredMixin, CreateView):
@@ -154,7 +158,7 @@ class tratamientoCreateView(LoginRequiredMixin, CreateView):
             "form":form,
             "solicitud_detalle":solicitud
         }
-
+        messages.info(self.request, f"Se agrego el medicamento {form.instance.medicamento.nombre} con {form.instance.cantidad} unidades, se hara entrega en farmacia.")
         return render(request, self.template_name, context)
     
     
@@ -188,6 +192,7 @@ class laboratorioSolicitudCreate(LoginRequiredMixin, CreateView):
         form.instance.id_empleado = empleado.objects.get(usuario=_user.id_usuario)
         form.instance.id_solicitudCita = solicitud.id_solicitudCita
         self.success_url = self.success_url+f"{solicitud.id_solicitudCita.id_expediente.id_expediente}/?detalle={solicitud.solicitudCitaDetalle}"
+        messages.info(self.request, f"Se ha solicitado un laboratorio de {form.instance.id_tipoLaboratorio.nombre}, el paciente debe pasar al area de laboratorios para ser atendido.")
         return super().form_valid(form)
     
 class tratamientoUpdateview(LoginRequiredMixin, UpdateView):
@@ -201,6 +206,7 @@ class tratamientoUpdateview(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         form.save()
         facturaDetalleFarmacia.set_detalleFactura(form.instance)
+        messages.info(self.request, f"Confirmaste la entrega del medicamento {form.instance.medicamento.nombre} con {form.instance.cantidad} unidades")
         return super(tratamientoUpdateview, self).form_valid(form)
     
 class solicitudDetalleUpdateDatetimeView(LoginRequiredMixin, UpdateView):
@@ -219,6 +225,7 @@ class solicitudDetalleUpdateDatetimeView(LoginRequiredMixin, UpdateView):
             _solicitudCitaDetalle.fecha_hora = form.cleaned_data["fecha_hora"]
             _solicitudCitaDetalle.aceptada=True
             _solicitudCitaDetalle.save()
+            messages.info(self.request, f"Haz aceptado la solicitud del servicio {_solicitudCitaDetalle.id_especialidad.especialidad}, el paciente sera atendido en el area correspondiente en la fecha {form.instance.fecha_hora}")
         else:
             print(f"errores: {form.errors}")
             messages.error(request, form.errors)
@@ -235,6 +242,7 @@ class rechazarDetalleRechazarView(LoginRequiredMixin, CreateView):
         
         detalle.aceptada=False
         detalle.save()
+        messages.info(self.request, f"Haz rechazado la solicitud para la especialidad {detalle.id_especialidad.especialidad}")
         return HttpResponseRedirect(reverse("fundacion:dashboard-recepcion"))
 
 class fichasListView(LoginRequiredMixin, ListView):

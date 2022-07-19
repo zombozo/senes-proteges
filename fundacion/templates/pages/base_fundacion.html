@@ -44,6 +44,13 @@
             <a class="facturas" href="{% url 'fundacion:facturas' %}"><img src="{% static 'imagenes/note.svg' %}" alt="">  Facturas</a>
         </aside>
         <section class="principal">
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
             {% block body %}
                     
             {% endblock body %}

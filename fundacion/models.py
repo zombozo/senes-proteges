@@ -119,14 +119,6 @@ class tratamiento(models.Model):
         
         def get_nombreCliente(self):
             return expediente.objects.get(id_expediente=self.id_ficha.id_expediente)
-        
-class clienteEnfermedad(models.Model):
-    id_clienteEnfermedad = models.BigAutoField(primary_key=True)
-    id_expediente = models.ForeignKey("asilo.expediente", related_name=("expediente_enfermedad"), on_delete=models.CASCADE)
-    id_enfermedad = models.ForeignKey("fundacion.enfermedad", related_name="enfermedad_expediente", verbose_name=("enfermedad:"), on_delete=models.CASCADE)
-    descripcion = models.TextField(null=True, blank=True)
-    fecha = models.DateTimeField(auto_now=True)
-    
     
 class clienteEnfermedad(models.Model):
     id_clienteEnfermedad = models.BigAutoField(primary_key=True)
@@ -266,7 +258,7 @@ class solicitudCita(models.Model):
     id_solicitudCita = models.BigAutoField(primary_key=True)
     id_expediente = models.ForeignKey('asilo.expediente', related_name='expediente_solicitudCita', on_delete=models.CASCADE)
     id_enfermero = models.ForeignKey("usuarios.empleado", verbose_name="Asignar Enfermero: ", on_delete=models.CASCADE)
-    descripcion = models.TextField(verbose_name="Descripcion de la consulta General: ")
+    descripcion = models.TextField(verbose_name="diagnostico de pre-consulta:")
     creado_en = models.DateTimeField(auto_now=True)
     solicitud_finalizada = models.BooleanField(default=False)
 

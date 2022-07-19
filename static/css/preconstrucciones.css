@@ -213,3 +213,10 @@ right: -26px;
     width: 95%;
     justify-content: space-between;
 }
+
+
+/* alerts */
+
+.messages {
+    margin-top: 1rem;
+}

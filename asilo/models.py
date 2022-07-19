@@ -1,6 +1,7 @@
 
 import uuid
 from django.db import models
+from django.template.defaultfilters import slugify
 
 
 
@@ -16,10 +17,18 @@ class expediente(models.Model):
     def __str__(self):
         return f"{self.id_datosPersonales.primer_nombre}"
 
-    def save(self):
+    def save(self, *args, **kwargs):
+        super(expediente, self).save(*args, **kwargs)
         if self.codigo_expediente is None:
-            pass
-        return super().save()
+            self.codigo_expediente = slugify(f"SP-{self.id_expediente}")
+            self.save()
+
+    def get_expediente(datosPersonales):
+        exp = expediente()
+        exp.id_datosPersonales = datosPersonales
+        exp.save()
+        return exp
+
 class contacto(models.Model):
     id_contacto = models.BigAutoField(primary_key=True)
     id_expediente = models.ForeignKey("asilo.expediente", related_name="contacto_expediente", verbose_name=("expediente"), on_delete=models.CASCADE)

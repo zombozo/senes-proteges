@@ -1,4 +1,6 @@
 from django import forms
+
+from usuarios.models import empleado
 from .models import clienteEnfermedad, consultaMedica, enfermedad,  solicitudCita, solicitudCitaDetalle, solicitudLaboratorio, tratamiento
 
 
@@ -25,6 +27,8 @@ class solicitudCitaForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(solicitudCitaForm, self).__init__(*args, **kwargs)
+        choices = [(empleado.id_empleado, empleado.id_datos_personales.get_nombreCompleto()) for empleado in  empleado.objects.filter(id_empleado_especialidad__nombre__icontains="Enfermeria")]
+        self.fields["id_enfermero"].choices = choices
         self.fields["pagina"].initial = "solicitud"
 
 

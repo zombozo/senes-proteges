@@ -1,0 +1,29 @@
+.body-home {
+    padding: 1rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-home {
+    width: 80vw;
+    height: 12vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.graficas {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    padding-top: 1rem;
+}
+
+#chartdiv, #chartCaja {
+    width: 38vw;
+    height: 331px;
+}

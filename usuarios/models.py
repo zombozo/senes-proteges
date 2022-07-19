@@ -60,7 +60,7 @@ class UserManager(BaseUserManager):
             raise ValueError("No se agrego correo electronico")
         now = timezone.now()
         email = self.normalize_email(email)
-        print(f"{now} {email} {password} {is_staff} {is_superuser} {is_admin}")
+    
         user = self.model(
             email=email,
             is_staff=is_staff,
