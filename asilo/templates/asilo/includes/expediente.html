@@ -5,28 +5,32 @@
     <link rel="stylesheet" href="{% static 'css/includes/laboratorios.css' %}">
     <link rel="stylesheet" href="{% static 'css/includes/tratamientos.css' %}">
     <link rel="stylesheet" href="{% static 'css/includes/enfermedades.css' %}">
+    <link rel="stylesheet" href="{% static 'css/contabilidad/facturas.css' %}">
 {% endblock css_script_extra %}
 <section class="base-expediente">
         <article class="expediente-detalle">
-            {% comment %} consultas {% endcomment %}
                 <div class="expediente-item consulta" >
                     {% include 'asilo/includes/consultas.html' with fichas=expediente.ficha_expediente.all %}
-
                 </div>
                 <div class="expediente-item laboratorios" style="display:none">
                     {% include 'asilo/includes/laboratorios.html' with fichas=expediente.ficha_expediente.all %}
-
                 </div>
                 <div class="expediente-item tratamientos" style="display:none">
                     {% include 'asilo/includes/tratamientos.html' with fichas=expediente.ficha_expediente.all %}
-                
                 </div>
                 <div class="expediente-item enfermedades" style="display:none">
-                    {% include 'asilo/includes/enfermedades.html' with fichas=expediente.ficha_expediente.all %}
+                    <a class="btn btn-outline-success" href="">Registrar enfermedad</a>
+                    <br>
+                    {% include 'asilo/includes/enfermedades.html' with enfermedades=expediente.expediente_enfermedad.all %}
                 
                 </div>
-                <div class="expediente-item facturas" style="display:none">
-                    {% include 'asilo/includes/facturas.html' with fichas=expediente.ficha_expediente.all %}
+                <div class="expediente-item facturas-item" style="display:none">
+                    {% for ficha in expediente.ficha_expediente.all %}
+                        {% for factura in ficha.factura_ficha.all %}
+                            {% include 'includes/facturas.html' with factura=factura %}
+                        {% endfor %}
+                    {% endfor %}
+                    
                 </div>
         </article>
         <article class="expediente-opciones ">
@@ -50,12 +54,12 @@
                 </span>
             </div>
             <div class="card card-enfermedad-expediente"  data-card="enfermedades">
-                <img src="{% static 'imagenes/.svg' %}" alt="">
+                <img src="{% static 'imagenes/bug.svg' %}" alt="">
                 <span>
                     <h5>Enfermedades</h5>
                 </span>
             </div>
-            <div class="card card-facturas-expediente"  data-card="facturas">
+            <div class="card card-facturas-expediente"  data-card="facturas-item">
                 <img src="{% static 'imagenes/note.svg' %}" alt="">
                 <span>
                     <h5>Facturas</h5>
@@ -63,3 +67,4 @@
             </div>
         </article >
     </section>
+

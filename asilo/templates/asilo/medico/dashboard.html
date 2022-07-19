@@ -1,7 +1,35 @@
 {% extends 'asilo/base_asilo.html' %}
-{% block section %}
-    <nav>
+{% load static %}
+{% load recepcion %}
 
-    </nav>
-    dashboard medico general
+{% block css_script %}
+    <link rel="stylesheet" href="{% static 'css/medico/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/medico/solicitudes.css' %}">
+{% endblock css_script %}
+{% block section %}
+<div class="canva">
+        <nav>
+
+        </nav>
+        <div class="card card-bienvenida">
+            <h5>Bienvenido {{request.user.id_usuario|especialidad:""}}</h5>
+        </div>
+        
+        {% if solicitudes %}
+        
+        <article class="tabla-solicitudes">
+            <h6>Ultimas solicitudes</h6>
+            {% include 'includes/lista_solicitudes.html' with citas=solicitudes  %}
+        </article>
+           
+        {% endif %}
+            
+        <div>
+
+        </div>
+</div>
+
 {% endblock section %}
+{% block script_js_extra %}
+        <script type='text/javascript' src="{% static 'js/fundacion/includes/lista_solicitudes.js' %}"></script>
+    {% endblock script_js_extra %}

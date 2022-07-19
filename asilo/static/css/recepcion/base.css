@@ -9,53 +9,9 @@
 }
 
 
-/* dashboard */
-.options-dashboard {
-    width: 100vw;
-    height: 10vh;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    background: var(--text-color);
-    color: white;
-}
-
-.options-dashboard a {
-    text-decoration: none;
-    height: 6vh;
-    width: 12vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-weight: bold;
-}
-
-.options-dashboard button {
-    border: 1px solid white !important;
-    color: var(--text-color);
-}
-
-.options-dashboard button:hover {
-    color: var(--text-color);
-    background: white;
-}
 
 
-/* select */
 
-.options-search {
-    height: 5vh;
-    background-color: white;
-    border-radius: 5px;
-}
-
-
-.search button {
-    color:white;
-    border:1px solid white;
-}
 
 /* dashboard */
 

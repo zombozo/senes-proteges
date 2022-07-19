@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from asilo.models import cuenta, expediente
 from fundacion.models import factura
+from django.contrib import messages
 from .models import *
 from . import mixins
 from .forms import *
@@ -48,6 +49,7 @@ class pagarFactura(LoginRequiredMixin, mixins.contabilidadMixin, CreateView):
     def form_valid(self, form):
         form.save()
         cobro.set_cobro(form.instance, self.kwargs['pk'])
+        messages.success(self.request, "Pago realizado correctamente!")
         return super().form_valid(form)
 
 class donacionesTemplateView(LoginRequiredMixin, TemplateView):
@@ -77,10 +79,12 @@ class crearDonacionCreateView(LoginRequiredMixin, TemplateView):
             _transaccion = transaccion.objects.create(monto=monto)
             form.instance.id_transaccion = _transaccion
             form.save()
+            messages.success(self.request, f"Nueva donacion creada con exito!, {form.instance.nombre} Q.{_transaccion.monto}")
             return HttpResponseRedirect('/contabilidad/donaciones/')
         else:
+            context = {}
             context["form"] = form
-
+            messages.error(self.request, "Algunos elementos no son correctos! intente de nuevo.")
             return render(request, self.template_name, context)
         return HttpResponseRedirect('/contabilidad/donaciones/')
 
@@ -115,6 +119,7 @@ class pagosCreateView(LoginRequiredMixin, CreateView):
             _transaccion = transaccion.objects.create(monto=monto)
             form.instance.id_transaccion = _transaccion
             form.save()
+            messages.success(self.request, f"Servicio pagado correctamente, {form.instance.id_servicio.nombre} por Q.{_transaccion.monto}")
         else:
             return render(request, self.template_name, {"form":form})
 

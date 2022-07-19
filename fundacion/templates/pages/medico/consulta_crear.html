@@ -31,10 +31,14 @@
             </form>
         </article>
         <article class="sectionB">
+            <span>
+                <a class="btn btn-outline-success" href="{% url 'fundacion:enfermedad' solicitud_detalle.solicitudCitaDetalle %}">Registrar enfermedad</a>
+            </span>
+
             <section class="card card-medicamentos">
                 <div class="header-card">
                     <img class="icon-card"  src="{% static 'imagenes/container.svg' %}" alt="">
-                    <span class="text">Medicamentos</span>
+                    <span class="text">Medicamentos asignados</span>
                     <a  href="{% url 'fundacion:crear-tratamiento' solicitud_detalle.solicitudCitaDetalle %}" class="icon-add"><img src="{% static 'imagenes/plus.svg' %}" alt=""></a>
                 </div>
                 <div class="body-card">
@@ -75,27 +79,21 @@
             <section class="card card-laboratorios">
                 <div class="header-card">
                     <img class="icon-card" src="{% static 'imagenes/beaker.svg' %}" alt="">
-                    <span class="text">Laboratorios</span>
-                    <a href="#" class="icon-add"><img src="{% static 'imagenes/plus.svg' %}" alt=""></a>
+                    <span class="text">Solicutudes de Laboratorio</span>
+                    <a href="{% url 'fundacion:solicitar-laboratorio' solicitud_detalle.solicitudCitaDetalle %}" class="icon-add"><img src="{% static 'imagenes/plus.svg' %}" alt=""></a>
                 </div>
                 <div class="body-card">
-                    
-                    {% if solicitud_detalle.get_solicitudes_de_laboratorio|length > 0 %}
+                    {% if solicitudLaboratorio|length > 0 %}
                         <div class='section-laboratorios'>
                             <span>Especialidad</span>
                             <span>Descripcion</span>
                             <span></span>
                         </div>
-                        {% for detalle in solicitud_detalle.get_solicitudes_de_laboratorio %}
+                        {% for detalle in solicitudLaboratorio %}
                             <div class="detalle-solicitudes">
-                                <span>{{detalle.id_especialidad}}</span>
+                                <span>{{detalle.id_tipoLaboratorio.nombre}}</span>
                                 <span>{{detalle.descripcion}}</span>
                             </div>
-                            
-                            {% if detalle.laboratorio_solicitudDetalle.all %}
-                                se encontraron laboratorios asociados
-                            {% endif %}
-                                
                         {% endfor %}       
                     {% else %}
                         <div class="alert alert-info">No se ha agregado ninguna solicitud de laboratorio</div>
@@ -106,7 +104,7 @@
                 <div class="header-card">
                     <img class="icon-card"  src="{% static 'imagenes/container.svg' %}" alt="">
                     <span class="text">Consultas Medicas</span>
-                    <a  href="#" class="icon-add"></a>
+                    <a></a>
                 </div>
                 <div class="body-card">
                     <div class='section-laboratorios'>
@@ -114,7 +112,7 @@
                             <span>Descripcion</span>
                             <span></span>
                         </div>
-                    {% for consulta in solicitud_detalle.get_solicitudes_consulta_medica %}
+                    {% for consulta in solicitud.detalle_cita.all %}
                         <div class="detalle-solicitudes">
                                 <span>{{consulta.id_especialidad}}</span>
                                 <span>{{consulta.descripcion}}</span>

@@ -41,9 +41,16 @@
             <a class="recepcion" href="{% url 'fundacion:dashboard-recepcion' %}"><img src="{% static 'imagenes/history.svg' %}" alt=""> Recepcion</a>
             <a class="laboratorio" href="{% url 'fundacion:dashboard-laboratorio' %}"><img src="{% static 'imagenes/beaker.svg' %}" alt=""> Laboratorio</a>
             <a class="farmacia" href="{% url 'fundacion:dashboard-farmacia' %}"><img src="{% static 'imagenes/container.svg' %}" alt=""> Farmacia</a>
-            <a class="Laboratorio" href="http://"><img src="{% static 'imagenes/note.svg' %}" alt="">  Facturas</a>
+            <a class="facturas" href="{% url 'fundacion:facturas' %}"><img src="{% static 'imagenes/note.svg' %}" alt="">  Facturas</a>
         </aside>
         <section class="principal">
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
             {% block body %}
                     
             {% endblock body %}

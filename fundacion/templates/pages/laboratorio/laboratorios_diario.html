@@ -1,5 +1,5 @@
             <article class="detalle-citas">
-            <h4>Laboratorios Pendientes</h4>
+            <h4>Solicitudes Pendientes</h4>
             <table class="table">
                 <thead>
                     <tr>
@@ -11,64 +11,53 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for cita in citas %}
-                        {% if cita.laboratorio_solicitudDetalle.all %}
-                            {% else %}
+                    {% for solicitud in solicitudesLaboratorio %}
                             <tr>
-                            <td>{{cita.id_solicitudCita.id_expediente.id_datosPersonales.get_nombreCompleto}}</td>
-                            <td>{{cita.id_especialidad.especialidad}}</td>
-                            <td>{{cita.descripcion}}</td>
-                            <td>{{cita.fecha_hora}}</td>
+                            <td>{{solicitud.id_solicitudCita.id_expediente.id_datosPersonales.get_nombreCompleto}}</td>
+                            <td>{{solicitud.id_tipoLaboratorio.nombre}}</td>
+                            <td>{{solicitud.descripcion}}</td>
+                            <td>{{solicitud.creado_en}}</td>
                             <td>
-                                <a class="btn" href="{% url 'fundacion:crear-laboratorio' cita.solicitudCitaDetalle %}">crear</a>
+                                <a class="btn" href="{% url 'fundacion:crear-laboratorio' solicitud.id_solicitudLaboratorio %}">crear</a>
                             </td>
                             </tr>
-                        {% endif %}
                     {% endfor %}
                 
                 </tbody>
             </table>
         </article>
         <article class="detalle-citas">
-            <h4>Laboratorios Realizados</h4>
+            <h4>Laboratorios con resultado pendiente</h4>
             <table class="table">
                 <thead>
                     <tr>
                         <th>Cliente</th>
                         <th>Tipo</th>
-                        <th>Descripcion</th>
+                        <th>Descripcion de la solicitud</th>
                         <th>Fecha</th>
                         <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for cita in citas %}
-                        {% if cita.laboratorio_solicitudDetalle.all %}
+                    {% for laboratorio in laboratoriosPendientes %}
                         <tr>
-                        <td>{{cita.id_solicitudCita.id_expediente.id_datosPersonales.get_nombreCompleto}}</td>
-                        <td>{{cita.id_especialidad.especialidad}}</td>
-                        <td>{{cita.descripcion}}</td>
-                        <td>{{cita.fecha_hora}}</td>
+                        <td>{{laboratorio.id_solicitudLaboratorio.id_solicitudCita.id_expediente.id_datosPersonales.get_nombreCompleto}}</td>
+                        <td>{{laboratorio.id_solicitudLaboratorio.id_tipoLaboratorio.nombre}}</td>
+                        <td>{{laboratorio.id_solicitudLaboratorio.descripcion}}</td>
+                        <td>{{laboratorio.fecha_hora}}</td>
                         <td>
-                            {% for laboratorio in cita.laboratorio_solicitudDetalle.all %}
                             {% if laboratorio.finalizado %}
-                                Resultado agregado
+                                Finalizado
                                 {% else %}
-                                Pendiente resultado
+                                Resultado pendiente
                             {% endif %}
-                            {% endfor %}
-                                
                         </td>
                         <td>
-                                {% for laboratorio in cita.laboratorio_solicitudDetalle.all %}
-                                    <a href="{% url 'fundacion:editar-laboratorio' laboratorio.id_laboratorio %}" class="btn">ver</a>
-                                {% endfor %}
+                            <a href="{% url 'fundacion:editar-laboratorio' laboratorio.id_laboratorio %}" class="btn">agregar</a>
                         </td>
                         </tr>
-                        {% endif %}
                     {% endfor %}
-                
                 </tbody>
             </table>
         </article>

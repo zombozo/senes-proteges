@@ -75,3 +75,5 @@ sudo systemctl restart nginx
 sudo journalctl -u gunicorn.socket
 
 ```
+
+docker run -d -p 1433:1433  -v /home/ubuntu/senes-proteges/backups:/var/opt/mssql/data/backups --name mssqlserverV2 mssqlserver-bak

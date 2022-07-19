@@ -1,0 +1,19 @@
+<div class="card card-donaciones">
+            <div class="card-header"><h4>{{title}}</h4></div>
+            <div class="card-body">
+                <div class="opciones-donacion">
+                    <span>nombre</span>
+                    <span>Entidad</span>
+                    <span>Monto</span>
+                    <span>Fecha</span>
+                </div>
+                {% for donacion in donaciones %}
+                    <div class="opciones-donacion donacion-detalle">
+                    <span>{{donacion.nombre}}</span>
+                    <span>{{donacion.id_donante.tipo}}</span>
+                    <span>{{donacion.id_transaccion.monto}}</span>
+                    <span>{{donacion.id_transaccion.fecha}}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>

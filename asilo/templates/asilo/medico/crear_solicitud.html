@@ -14,6 +14,7 @@
         <section class="sectionA">
                 {% if solicitud %}
                     <article class="card ">
+                        <h6>Datos de preconsulta</h6>
                         <ul class="list-group descripcion-general">
                             <li class=""><label>Cliente: </label><span>{{solicitud.id_expediente.id_datosPersonales.get_nombreCompleto}}</span></li>
                             <li class=""><label>Enfermero asignado: </label><span>{{solicitud.id_enfermero}}</span></li>
@@ -22,7 +23,8 @@
                     </article>
                 {% endif %}
             {% if form %}
-                <form class="card form-solicitud" action="" method="post">
+                <form class="form-solicitud" action="" method="post">
+                    <h5>{{title}}</h5>
                     {% csrf_token %}
                     {{form|crispy}}
                     
@@ -31,8 +33,10 @@
                         <div class="btns-options">
                             <button class="btn btn-guardar" name="proximo_paso" value="guardar_y_repetir" type="submit">Guardar y Agregar otra</button>
                             <button class="btn btn-guardar" name="proximo_paso" value="guardar_y_enviar" type="submit">Guardar y enviar</button>
+                        </div>
                         {% else %}
                         <br>
+                        <div class="btns-options">
                         <button class="btn" type="submit">Siguiente</button>
                         </div>
                     {% endif %}

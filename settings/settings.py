@@ -26,7 +26,6 @@ SECRET_KEY = 'django-insecure-e5mb0*h01@f+1h!)(4k-dkr8%uozi#i8^u(2n4cgu%(($w&jgq
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 ALLOWED_HOSTS = ["*"]
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -43,6 +42,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'contabilidad',
     'notifications',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -122,7 +122,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
-STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
+# STATIC_ROOT = "static"
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
@@ -134,7 +135,8 @@ EMAIL_HOST = "smtp.gmail.com"
 
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-
+EMAIL_HOST_USER=os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD=os.getenv("EMAIL_HOST_PASSWORD")
 
 LOGIN_URL = "/usuarios/iniciar-sesion/"
 LOGOUT_REDIRECT_URL = "/usuarios/iniciar-sesion/"

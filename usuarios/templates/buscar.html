@@ -15,23 +15,7 @@
     <link rel="stylesheet" href="{% static 'css/usuarios/search.css'  %}">
 </head>
 <body>
-<nav class="options-dashboard">
-                <a href="{% url 'asilo:home'  %}" class="">dashboard asilo</a>
-                
-                <article class="search">
-                    <form action="{% url 'usuarios:buscar-expediente' %}" method="get">
-                        <select name="opcion" class="options-search">
-                            <option value="1">DPI</option>
-                            <option value="2">Nombre</option>
-                            <option value="3">Primer Apellido</option>
-                            <option value="4">Codigo Expediente</option>
-                        </select>
-                        <input type="search" name="search" id="search">
-                        <button class="btn" type="submit">buscar</button>
-                    </form>
-                </article>
-                <a href="/fundacion/" class="">dashboard fundacion</a>
-            </nav>
+{% include 'asilo/includes/nav.html' %}
      <section class="lista-expedientes">
         <section class="cards">
         {% for expediente in  expedientes %}

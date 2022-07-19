@@ -1,0 +1,51 @@
+{% extends 'reportes/base.html' %}
+{% load static %}
+{% load contabilidad %}
+{% block css_script_extra %}
+    
+{% endblock css_script_extra %}
+{% block section %}
+    <section class="consultasMedicas">
+        <nav class="opcion-buscar">
+            <form action="" method="get">
+                Del: <input type="date" name="dateInit" id="dateInit" required>
+                Al: 
+                <input type="date" name="dateFin" id="dateFin" required>
+                <button class="btn btn-outline-success" type="submit">Buscar</button>
+            </form>
+            <form action="" method="get">
+                cliente:
+                <select name="opcion" id="opcion">
+                    <option value="1">DPI</option>
+                    <option value="2">Expediente</option>
+                </select>
+                <input type="text" name="cliente" id="cliente" required>
+                <button class="btn btn-outline-success" type="submit">Buscar</button>
+            </form>
+        </nav>
+        <div class="card">
+            <div class="card-header">
+                <h5>Consultas medicas</h5>
+            </div>
+            <div class="card-body">
+                <div class="section header-consulta">
+                    <span>Cliente</span>
+                    <span>Detalle de la solicitud</span>
+                    <span>Atendido por</span>
+                    <span>Diagnostico medico</span>
+                    <span>Fecha</span>
+                </div>
+                {% for consulta in consultas  %}
+                <div class="section body-consulta">
+                    <span>{{consulta.id_ficha.id_expediente.id_datosPersonales.get_nombreCompleto}}</span>
+                    <span>{{consulta.id_solicitudCitaDetalle.descripcion}}</span>
+                    <span>{{consulta.id_solicitudCitaDetalle.id_empleado.id_datosPersonales.get_nombreCompleto}}</span>
+                    <span>{{consulta.diagnostico}}</span>
+                    <span>{{consulta.creado_en}}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

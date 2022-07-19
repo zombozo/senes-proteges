@@ -5,16 +5,17 @@
         <span>Descripcion</span>
         <span>fecha</span>
     </div>
-    {% for ficha in fichas %}
-        {% for enfermedad in ficha.expediente_enfermedad.all %}
+        {% for enfermedad in enfermedades %}
             <div class="sections-body-enfermedades">
                 <span>
-                    {{consulta.id_solicitudCitaDetalle.id_especialidad.especialidad}}
+                    {{enfermedad.id_enfermedad.nombre}}
                 </span>
                 <span>
-                    {{consulta.diagnostico}}
+                    {{enfermedad.descripcion}}
+                </span>
+                <span>
+                    {{enfermedad.fecha}}
                 </span>
             </div>
         {% endfor %}
-    {% endfor %}
 </div>

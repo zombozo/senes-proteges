@@ -1,0 +1,31 @@
+{% extends 'reportes/base.html' %}
+{% load static %}
+{% load contabilidad %}
+{% block css_script_extra %}
+    <link rel="stylesheet" href="{% static 'css/contabilidad/donaciones.css' %}">
+    <link rel="stylesheet" href="{% static 'css/reportes/donaciones.css' %}">
+{% endblock css_script_extra %}
+{% block section %}
+    <section class="seccion-donaciones">
+        <nav class="opcion-buscar">
+            <form action="" method="get">
+                Del: <input type="date" name="dateInit" id="dateInit" required>
+                Al: 
+                <input type="date" name="dateFin" id="dateFin" required>
+                <button class="btn btn-outline-success" type="submit">Buscar</button>
+
+            </form>
+            <form action="" method="get">
+                Donante: <input type="text" name="donante" id="donante" required>
+                <button class="btn btn-outline-success" type="submit">Buscar</button>
+            </form>
+        </nav>
+        
+        {% if donaciones %}
+            {% include 'asilo/includes/donaciones.html' with donaciones=donaciones title="Donaciones encontradas" %}
+            {% else %}
+            <div class="alert alert-info">No se encontraron donaciones relacionadas con el parametro de busqueda</div>
+        {% endif %}
+            
+    </section>
+{% endblock %}

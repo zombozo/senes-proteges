@@ -1,15 +1,13 @@
 
-
-
-
 import logging
 import re
 
 
-logger = logging.getLogger("Logger in reports")
-logger.setLevel(logging.DEBUG)
+# logging.basicConfig(filename='senes.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 handler = logging.FileHandler('log_senes_proteges.log')
-formater = logging.Formatter('%(astime)s - %(name)s - %(levelname)s - %(message)s')
+formater = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 handler.setFormatter(formater)
 logger.addHandler(handler)
 

@@ -1,0 +1,20 @@
+
+    <div class="pagos-realizados">
+                <h5>{{title}}</h5>
+                <div class="pagos-realizados-section">
+                    <span><strong>Servicio</strong></span>
+                    <span><strong>empresa</strong></span>
+                    <span><strong>Pago</strong></span>
+                    <span><strong>Fecha</strong></span>
+                </div>
+                
+                    {% for pago in pagos %}
+                    <div class="pagos-realizados-section">
+                        <span>{{pago.id_servicio.nombre}}</span>
+                        <span>{{pago.id_servicio.empresa}}</span>
+                        <span>{{pago.id_transaccion.monto}}</span>
+                        <span>{{pago.id_transaccion.fecha}}</span>
+                        </div>
+                    {% endfor %}
+                
+            </div>

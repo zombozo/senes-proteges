@@ -17,42 +17,16 @@
 <body>
     <div class="base">
         {% block nav %}
-            <nav class="options-dashboard">
-                <a class="logo" href="{% url 'asilo:home' %}">
-                    <img src="{% static 'imagenes/gh_icon.svg' %}" alt="">
-                    <span>senes proteges</span>
-                </a>
-                <a href="/fundacion/" class="">Fundacion</a>
-                <article class="search">
-                    <form action="{% url 'usuarios:buscar-expediente' %}" method="get">
-                        <select name="opcion" class="options-search">
-                            <option value="1">DPI</option>
-                            <option value="2">Nombre</option>
-                            <option value="3">Primer Apellido</option>
-                            <option value="4">Codigo Expediente</option>
-                        </select>
-                        <input type="search" name="search" id="search">
-                        <button class="btn" type="submit">buscar</button>
-                    </form>
-                </article>
-                <a href="{% url 'asilo:dashboard-medico' %}" class="">dashboard Medico</a>
-                <a href="{% url 'contabilidad:dashboard-contabilidad' %}" class="">Contabilidad</a>
-                    <div class="dropdown dropdown-perfil">
-                        <button class=" toggle-perfil" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="{% static 'imagenes/person.svg' %}" alt="">
-                        </button>
-                        <div class="menu-perfil" style="display:none">
-                            <a class="dropdown-item" href="{% url 'usuarios:logout' %}">Cerrar sesion</a>
-                        </div>
-                    </div>
-
-            </nav>
+            {% include 'asilo/includes/nav.html' %}
         {% endblock nav %}
         <section class="dashboard-sections">
             <aside class="dashboard-aside">
-                <a class="clientes " href="{% url 'asilo:dashboard-recepcion' %}?pagina=clientes"><img class="ico" src="{% static 'imagenes/people.svg' %}" alt="">  clientes</a>
-                <a class="solicitudes" href="{% url 'asilo:lista-solicitudes' %}"><img class="ico" src="{% static 'imagenes/paste.svg' %}" alt="">solicitudes</a>
-                <a class="empleados" href="http://"><img class="ico" src="{% static 'imagenes/people.svg' %}" alt="">empleados</a>
+                {% block asideHeader %}
+                    <a class="clientes " href="{% url 'asilo:dashboard-recepcion' %}?pagina=clientes"><img class="ico" src="{% static 'imagenes/people.svg' %}" alt="">  clientes</a>
+                    <a class="solicitudes" href="{% url 'asilo:lista-solicitudes' %}"><img class="ico" src="{% static 'imagenes/paste.svg' %}" alt="">solicitudes</a>
+                    <a class="empleados" href="http://"><img class="ico" src="{% static 'imagenes/people.svg' %}" alt="">empleados</a>
+                {% endblock asideHeader %}
+                
                 {% block aside %}
                 
                 {% endblock aside %}
@@ -61,7 +35,7 @@
                 {% if messages %}
                 <ul class="messages">
                     {% for message in messages %}
-                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    <li {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</li>
                     {% endfor %}
                 </ul>
                 {% endif %}

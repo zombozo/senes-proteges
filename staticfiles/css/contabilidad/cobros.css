@@ -1,0 +1,20 @@
+
+
+.cobros-body {
+    width: 90%;
+    padding: 1rem;
+}
+.cobro-cliente {
+    width: 95%;
+}
+.secciones-cobro .card-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.cobro .card-body .card {
+    margin-top: 1rem;
+    padding: 1rem;
+}
+

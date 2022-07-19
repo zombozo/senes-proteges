@@ -6,6 +6,7 @@
 
 {% load static %}
 {% block aside %}
+<h6>Contabilidad</h6>
 <a class="donaciones" href="{% url 'contabilidad:donaciones'  %}"><img class="ico"  src="{% static 'imagenes/gift.svg' %}" alt=""> Donaciones</a>
 <a class="pagos" href="{% url 'contabilidad:pagos'  %}"><img class="ico"  src="{% static 'imagenes/arrow-switch.svg' %}" alt=""> Pagos</a>
 <a class="facturas" href="{% url 'contabilidad:facturas'  %}"><img class="ico" src="{% static 'imagenes/note.svg' %}" alt="">facturas</a>
@@ -16,6 +17,7 @@
 
 {% block script_js_extra %}
     <script src="{% static 'js/contabilidad/home-contabilidad.js' %}"></script>
+    <script src="{% static 'js/contabilidad/factura.js' %}"></script>
 {% endblock script_js_extra %}
 {% block script_js %}
         var url = window.location.pathname.split("/")

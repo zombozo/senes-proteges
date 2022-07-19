@@ -10,6 +10,7 @@ from django.contrib import messages
 
 from asilo.models import expediente
 from asilo.views import HomeTemplateView, dashboardRecepcionView
+from fundacion.views import dashboardRecepcion
 from usuarios.models import empleado
 
 # Create your views here.
@@ -23,10 +24,10 @@ class expedienteSearch(ListView):
         search = request.GET.get("search")
         expedientes = {}
         if opcion == "1":
-            _search = int(search)
             try:
+                _search = int(search)
                 expedientes = expediente.objects.filter(id_datosPersonales__dni=_search)
-            except Exception as e:
+            except ValueError as e:
                 messages.debug(request, "los parametros ingresados no son un Numero de DPI valido, intente ingresando solo numeros! ")
         if opcion == "2":
             expedientes = expediente.objects.filter(id_datosPersonales__primer_nombre__startswith=search )
@@ -48,9 +49,9 @@ class AdminLogin(LoginView):
         _empleado = empleado.objects.get(usuario=self.request.user)
         if _empleado.empresa=="2" and _empleado.id_empleado_especialidad==2:
             return HttpResponseRedirect(reverse(dashboardRecepcionView,args=[self.request.user]))
+        elif _empleado.empresa=='1':
+            return HttpResponseRedirect(reverse(dashboardRecepcion, args=[self.request.user]))
         return reverse_lazy("asilo:home")
-    
-    
     
 class logout(LoginView):
     def get(self, request, *args, **kwargs):

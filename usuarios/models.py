@@ -8,6 +8,8 @@ from django.db import models
 from django.contrib.auth.models import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 # Create your models here.
+
+
 class datosPersonales(models.Model):
     id_datosPersonales = models.BigAutoField(primary_key=True)
     primer_nombre = models.CharField(max_length=20, blank=False, null=False)
@@ -58,7 +60,7 @@ class UserManager(BaseUserManager):
             raise ValueError("No se agrego correo electronico")
         now = timezone.now()
         email = self.normalize_email(email)
-        print(f"{now} {email} {password} {is_staff} {is_superuser} {is_admin}")
+    
         user = self.model(
             email=email,
             is_staff=is_staff,

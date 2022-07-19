@@ -4,16 +4,31 @@
         <span>Especialidad</span>
         <span>diagnostico</span>
     </div>
-    {% for ficha in fichas %}
-        {% for consulta in ficha.consulta_ficha.all %}
-            <div class="consulta-detalle">
-                <span>
-                    {{consulta.id_solicitudCitaDetalle.id_especialidad.especialidad}}
-                </span>
-                <span>
-                    {{consulta.diagnostico}}
-                </span>
-            </div>
+    
+    {% if fichas %}
+        {% for ficha in fichas %}
+            {% for consulta in ficha.consulta_ficha.all %}
+                <div class="consulta-detalle">
+                    <span>
+                        {{consulta.id_solicitudCitaDetalle.id_especialidad.especialidad}}
+                    </span>
+                    <span>
+                        {{consulta.diagnostico}}
+                    </span>
+                </div>
+            {% endfor %}
         {% endfor %}
-    {% endfor %}
+    {% endif %}
+    {% if ficha %}
+            {% for consulta in ficha.consulta_ficha.all %}
+                <div class="consulta-detalle">
+                    <span>
+                        {{consulta.id_solicitudCitaDetalle.id_especialidad.especialidad}}
+                    </span>
+                    <span>
+                        {{consulta.diagnostico}}
+                    </span>
+                </div>
+            {% endfor %}
+    {% endif %}
 </div>

@@ -6,6 +6,9 @@ class transaccion(models.Model):
     id_transaccion = models.BigAutoField(primary_key=True)
     monto = models.FloatField()
     fecha = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return f"monto: {self.monto} el: {self.fecha}"
 
 class pago(models.Model):
     id_pago = models.BigAutoField(primary_key=True)
