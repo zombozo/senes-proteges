@@ -175,7 +175,7 @@ align-items: center;
 .dropdown-perfil .menu-perfil {
     position: absolute;
 z-index: 100;
-right: -26px;
+right: -5px;
 }
 
 .dropdown-perfil .menu-perfil a {
@@ -219,4 +219,43 @@ right: -26px;
 
 .messages {
     margin-top: 1rem;
+}
+
+
+/* nav de la parte superior de las paginas */
+.nav-top {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid black;
+    margin-top: 2rem;
+    background-color: var(--text-color);
+    color: white;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    justify-self: center;
+    width: 90%;
+}
+.nav-top span {
+    height: 6vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    cursor: pointer;
+    flex: 1;
+}
+.nav-top span:hover {
+    background-color: white;
+    color:var(--text-color);
+}
+
+.seleccionado-top {
+    background-color: white;
+    color: var(--text-color);
+}
+
+.ico {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
 }

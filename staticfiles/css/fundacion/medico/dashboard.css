@@ -32,19 +32,26 @@ justify-content: center;
     border: 1px solid black;
 }
 
-.tabla-citas-medicas {
-    width: 90%;
-}
+
 
 .tabla-citas-medicas tr {
     display: grid;
     grid-template-columns: auto 100px auto 200px 100px 200px;
     border-bottom: 1px solid black;
 }
-
+.tabla-citas-medicas-historica  tr {
+    display: grid;
+    grid-template-columns: 134px 109px 200px 186px auto;
+    border-bottom: 1px solid black;
+}
 .tabla-citas-medicas tr td,
 .tabla-citas-medicas tr th {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.pagina-citas {
+    width: 90%;
+    justify-self: center;
 }

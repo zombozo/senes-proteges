@@ -1,7 +1,4 @@
-
-import uuid
 from django.db import models
-
 from asilo.models import expediente
 from reportes.controlErrores import get_loggerSenes
 
@@ -23,8 +20,6 @@ class factura(models.Model):
     def get_facturas_por_cliente(_expediente):
         pass
     
-    def pendiente_de_pagar(self):
-        transacciones = transaccion.objects.filter(id_factura=self.id_factura)
 
 class facturaDetalleEspecialidad(models.Model):
     id_facturaDetalle = models.BigAutoField(primary_key=True)

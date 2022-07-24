@@ -27,10 +27,14 @@
                             {{cita.get_solicitudesDetalle|length}}
                         </span>
                         <span class="last options">
-                            
+                            {% if activar_edicion %}
+                            {% else %}
+                                    <a href="{% url 'asilo:crear-solicitud' cita.id_expediente.id_expediente %}">Finalizar</a>
+                            {% endif %}
                             <span class="ver-especialidades" data-id="{{cita.id_solicitudCita}}"  href="">
-                            <img src="{% static 'imagenes/chevron-down.svg' %}" alt=""> Ver
+                                <img src="{% static 'imagenes/chevron-down.svg' %}" alt=""> Ver
                             </span>
+
                         </span>
                     </article>
                     {% if cita.get_solicitudesDetalle|length > 0 %}
@@ -85,6 +89,7 @@
                                                         {% endfor %}
                                                 <li>
                                             {% endif %}
+                                            
                                         {% endif %}
                                     </ul>
                                 </div>

@@ -1,7 +1,9 @@
 from urllib import request
 from django.conf import settings
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from asilo.api import BackupsDB
+from asilo.herramientas import backups
 from asilo.mixins import asiloMixin, medicoMixin
 from django.urls import reverse
 from asilo.models import expediente, contacto
@@ -188,7 +190,27 @@ class solicitudesListaView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(solicitudesListaView, self).get_context_data(**kwargs)
         context["citas"] = solicitudCita.objects.filter(solicitud_finalizada=False)
+        context["historial_citas"] = solicitudCita.objects.all().order_by("creado_en")
         return context
     
+class configuracionesView(LoginRequiredMixin, TemplateView):
+    template_name = "asilo/configuraciones.html"
 
-
+    def get(self, request, *args, **kwargs):
+        context = {}
+        backup = backups()
+        archivos = backup.get_backupsExistentes()
+        context['backups']=archivos
+        return render(request, self.template_name, context)
+    
+    
+    def descargar_bak(request, nombre):
+        backup = backups()
+        file = backup.get_bak(nombre)
+        response = HttpResponse(file, content_type='multipart/alternative')
+        response['Content-Disposition'] = f'attachment; filename={nombre}'
+        return response
+    
+class empleadoCreateView(LoginRequiredMixin, CreateView):
+    model = empleado
+    

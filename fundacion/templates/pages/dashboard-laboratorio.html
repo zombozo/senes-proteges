@@ -6,25 +6,25 @@
 {% block body %}
 <span class="pagina-activa" data-pagina="laboratorio" hidden></span>
     <section class="base">
-        <article class="elementos-inline buscar">
-            <select name="tipo" id="tipo">
-                <option value="1">Expediente</option>
-                <option value="2">Codigo de laboratorio</option>
-            </select>
-            <input type="search" name="codigo" id="codigo">
-            <a class="btn" href="http://">Buscar Laboratorio</a>
-        </article>
+            
         {% comment %} pagina de citas {% endcomment %}
         
         {% if solicitudesLaboratorio or laboratoriosPendientes %}
+            <nav class="nav-top">
+                <span class="seleccionado-top" data-pagina="solicitudes">Solicitudes</span>
+                <span class=""  data-pagina="pendientes">Resultado pendiente</span>
+                <span class=""  data-pagina="historial">Historial</span>
+            </nav>
             {% include 'pages/laboratorio/laboratorios_diario.html' with solicitudesLaboratorio=solicitudesLaboratorio laboratoriosPendientes=laboratoriosPendientes %}
         {% endif %}
         
         {% if form %}
-
             {% include 'pages/forms.html' with form=form %}
         {% endif %}
             
         
     </section>
 {% endblock body %}
+{% block script_js %}
+    <script src="{% static 'js/fundacion/dashboard-laboratorio.js' %}"></script>
+{% endblock script_js %}

@@ -1,0 +1,36 @@
+{% extends 'asilo/base_asilo.html' %}
+{% load static %}
+{% load recepcion %}
+
+{% block css_script %}
+    <link rel="stylesheet" href="{% static 'css/includes/configuraciones.css' %}">
+{% endblock css_script %}
+{% block section %}
+    <div class="canva">
+        <nav class="nav-top">
+            <span class="seleccionado-top">backups de base de datos</span>
+            <span>usuarios con acceso</span>
+        </nav>
+        <span class="btn btn-outline-success crear-backup">Crear backup</span>
+        <article class="backups header">
+            <div class="backups-list">
+                <span>Nombre</span>
+                <span>Fecha de creacion</span>
+                <span>Opciones</span>
+            </div>
+            {% for backup in backups %}
+            <div class="backups-body">
+                <span>{{backup.nombre}}</span>
+                <span>{{backup.fecha}}</span>
+                <span>
+                    <a class="btn btn-outline-info" href="{% url 'asilo:descargar' backup.nombre %}">Descargar</a>
+                    <a class="eliminar" data-name="{{backup.nombre}}" href="http://"><img src="{% static 'imagenes/trash.svg' %}" alt=""></a>
+                </span>
+            </div>
+            {% endfor %}
+        </article>
+    </div>
+{% endblock %}
+{% block script_js_extra %}
+    <script src="{% static 'js/asilo/configuraciones.js' %}"></script>
+{% endblock script_js_extra %}

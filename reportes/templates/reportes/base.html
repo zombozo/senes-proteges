@@ -7,12 +7,12 @@
 {% load static %}
 {% block asideHeader %}
 <h6>Reportes</h6>
-    <a class="fichas" href="{% url 'reportes:fichas'  %}"><img class="ico"  src="{% static 'imagenes/gift.svg' %}" alt="">Costo por Citas</a>
+    <a class="fichas" href="{% url 'reportes:fichas'  %}"><img class="ico"  src="{% static 'imagenes/facturas.svg' %}" alt="">Costo por Citas</a>
     <a class="medicos" href="{% url 'reportes:medicos'  %}"><img class="ico"  src="{% static 'imagenes/arrow-switch.svg' %}" alt=""> reporte medico</a>
-    <a class="cobros" href="{% url 'reportes:cobros'  %}"><img class="ico" src="{% static 'imagenes/note.svg' %}" alt="">Reporte de Cobros</a>
-    <a class="pagos" href="{% url 'reportes:pagos'  %}"><img class="ico" src="{% static 'imagenes/note.svg' %}" alt="">Reporte de pagos</a>
-    <a class="donaciones" href="{% url 'reportes:donaciones'  %}"><img class="ico" src="{% static 'imagenes/note.svg' %}" alt="">Reporte de donaciones</a>
-    <a class="medicamentos" href="{% url 'reportes:medicamentos'  %}"><img class="ico" src="{% static 'imagenes/note.svg' %}" alt="">medicamentos</a>
+    <a class="cobros" href="{% url 'reportes:cobros'  %}"><img class="ico" src="{% static 'imagenes/pagos.svg' %}" alt="">Reporte de Cobros</a>
+    <a class="pagos" href="{% url 'reportes:pagos'  %}"><img class="ico" src="{% static 'imagenes/pagos.svg' %}" alt="">Reporte de pagos</a>
+    <a class="donaciones" href="{% url 'reportes:donaciones'  %}"><img class="ico" src="{% static 'imagenes/pagosM.svg' %}" alt="">Reporte de donaciones</a>
+    <a class="medicamentos" href="{% url 'reportes:medicamentos'  %}"><img class="ico" src="{% static 'imagenes/medicina.svg' %}" alt="">medicamentos</a>
     
 {% endblock asideHeader %}
 {% block aside %}

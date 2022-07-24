@@ -27,7 +27,7 @@
     height:5rem;
     width:100%;
 }
-.card span {
+.base-expediente .card span {
     display: flex;
     justify-content:center;
 }
