@@ -2,6 +2,7 @@
 {% load static %}
 {% block css_script_extra %}
     <link rel="stylesheet" href="{% static 'css/medico/solicitudes.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modaal.css' %}">
 {% endblock css_script_extra %}
 {% block section %}
 <nav class="nav-top">
@@ -39,8 +40,10 @@
             </tbody>
         </table>
     </article>
+    
 {% endblock section %}
 {% block script_js_extra %}
+<script type="text/javascript" src="{% static 'js/modaal.js' %}"></script>
 <script type='text/javascript' src="{% static 'js/fundacion/includes/lista_solicitudes.js' %}"></script>
 {% endblock %}
 

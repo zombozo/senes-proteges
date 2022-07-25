@@ -259,3 +259,7 @@ right: -5px;
     height: 30px;
     margin-right: 5px;
 }
+
+.modal-dialog {
+    max-width: 75%;
+}

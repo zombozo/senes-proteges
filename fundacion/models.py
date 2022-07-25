@@ -256,6 +256,9 @@ class solicitudCita(models.Model):
     descripcion = models.TextField(verbose_name="diagnostico de pre-consulta:")
     creado_en = models.DateTimeField(auto_now=True)
     solicitud_finalizada = models.BooleanField(default=False)
+    
+    def  __str__(self):
+        return f"{self.id_expediente.id_datosPersonales.primer_nombre} {self.descripcion}"
 
     def get_solicitud(id_expediente):
         try:

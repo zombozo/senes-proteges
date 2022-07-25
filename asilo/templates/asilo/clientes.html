@@ -25,9 +25,9 @@
                             <td>{{cliente.id_datosPersonales.dni}}</td>
                             <td>
                                 <a href="{% url 'asilo:expediente' cliente.id_expediente %}" title="Expediente clinico del cliente" ><img src="{% static 'imagenes/repo.svg' %}" alt=""></a>
-                                {% if request.user.pk|especialidad:request.user.pk == "recepcionista" %}
+                                {% comment %} {% if request.user.pk|especialidad:request.user.pk == "recepcionista" or request.user.pk|especialidad:request.user.pk == "medico" %} {% endcomment %}
                                     <a href="{% url 'asilo:crear-solicitud' cliente.id_expediente %}" title="Crear Consulta Medica" ><img src="{% static 'imagenes/link-external.svg' %}" alt=""></a>
-                                {% endif %}
+                                {% comment %} {% endif %} {% endcomment %}
                             </td>
                         </tr>
                     {% endfor %}

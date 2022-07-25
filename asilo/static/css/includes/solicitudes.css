@@ -39,13 +39,12 @@
 }
 
 .ver-especialidades {
-    border-radius: 5px 0px 0px 0px;
+    border-radius: 5px 5px 0px 0px;
     border: 1px solid var(--border-page);
     float: right;
     display: flex;
     justify-content: space-around;
     border-bottom: none;
-    border-right: none;
 }
 
 .card-general {

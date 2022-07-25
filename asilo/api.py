@@ -25,5 +25,5 @@ class BackupsDB(APIView):
 class ver_detalle_solicitud(APIView):
     def get(self, request, *args, **kwargs):
         id_solicitud = kwargs["solicitud"]
-        detalle = list(solicitudCitaDetalle.objects.filter(id_solicitudCita=id_solicitud).values())
+        detalle = list(solicitudCitaDetalle.objects.filter(id_solicitudCita=id_solicitud).values('id_empleado__id_datos_personales__primer_nombre','id_empleado__id_datos_personales__primer_apellido', 'id_especialidad__especialidad','descripcion', 'fecha_hora', 'aceptada'))
         return JsonResponse(detalle, safe=False)

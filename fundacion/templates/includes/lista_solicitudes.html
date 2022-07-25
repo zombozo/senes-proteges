@@ -15,7 +15,7 @@
         {% if citas %}
             {% for cita in citas %}
             
-            {% if cita.get_solicitudesDetalle|length > 0 %}
+            {% comment %} {% if cita.get_solicitudesDetalle|length > 0 %} {% endcomment %}
                 <section class="solicitud">
                     <article class="solicitud-general" data-id="{{cita.id_solicitudCita}}">
                         <span>{{cita.id_expediente.id_datosPersonales.get_nombreCompleto }}</span>
@@ -97,7 +97,7 @@
                         </article>
                     {% endif %}
                 </section>
-            {% endif %}
+            {% comment %} {% endif %} {% endcomment %}
             {% endfor %}
         {% endif %}
         

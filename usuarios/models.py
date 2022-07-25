@@ -31,6 +31,11 @@ empresas = (
     ("1","fundacion"),
     ("2","asilo")
 )
+
+class organizacion(models.Model):
+    pass
+    
+    
 class empleado(models.Model):
     id_empleado = models.BigAutoField(primary_key=True)
     id_datos_personales = models.ForeignKey("usuarios.datosPersonales", blank=True, null=True , verbose_name=("Datos personales"), on_delete=models.CASCADE)
