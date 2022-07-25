@@ -15,6 +15,11 @@ Ademas puede visitar cada issue en la seccion de [ZENHUB](https://github.com/zom
 ![imagen](https://user-images.githubusercontent.com/15509293/180701455-9662a81f-873b-4731-95a0-1d52a157130e.png)
 
 
+### Arquitectura del entorno de prueba actual
+
+![arquitectura del sistema](https://user-images.githubusercontent.com/15509293/180725560-9eb14afe-469a-403b-b6d6-ea32dd584b5a.jpg)
+
+
 
 ## Como instalar en su entorno local
 > clone el proyecto desde este repositorio
