@@ -37,11 +37,11 @@
     </header>
     <div class="body-recepcion">
         <aside class="aside-recepcion">
-            <a class="clinica"  href="{% url 'fundacion:dashboard-medico' %}"><img src="{% static 'imagenes/repo-forked.svg' %}" alt=""> Clinica Medica</a>
+            <a class="clinica"  href="{% url 'fundacion:dashboard-medico' %}"><img class="ico" src="{% static 'imagenes/hospital.svg' %}" alt=""> Clinica Medica</a>
             <a class="recepcion" href="{% url 'fundacion:dashboard-recepcion' %}"><img src="{% static 'imagenes/history.svg' %}" alt=""> Recepcion</a>
             <a class="laboratorio" href="{% url 'fundacion:dashboard-laboratorio' %}"><img src="{% static 'imagenes/beaker.svg' %}" alt=""> Laboratorio</a>
-            <a class="farmacia" href="{% url 'fundacion:dashboard-farmacia' %}"><img src="{% static 'imagenes/container.svg' %}" alt=""> Farmacia</a>
-            <a class="facturas" href="{% url 'fundacion:facturas' %}"><img src="{% static 'imagenes/note.svg' %}" alt="">  Facturas</a>
+            <a class="farmacia" href="{% url 'fundacion:dashboard-farmacia' %}"><img class="ico" src="{% static 'imagenes/medicina.svg' %}" alt=""> Farmacia</a>
+            <a class="facturas" href="{% url 'fundacion:facturas' %}"><img class="ico" src="{% static 'imagenes/facturas.svg' %}" alt="">  Facturas</a>
         </aside>
         <section class="principal">
             {% if messages %}

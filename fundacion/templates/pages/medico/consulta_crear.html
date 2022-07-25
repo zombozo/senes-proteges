@@ -25,6 +25,7 @@
                 <span>{{solicitud_detalle.fecha_hora}}</span>
             </article>
             <form action="" class="form-ficha" method="post">
+                <h5>{{title}}</h5>
                 {% csrf_token %}
                 {{form|crispy}}
                 <button class="btn enviar" type="submit">Enviar</button>

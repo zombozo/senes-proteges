@@ -1,0 +1,31 @@
+
+
+.backups-list, 
+.backups-body {
+    display: grid;
+    grid-template-columns: 258px 252px 229px;
+    border-radius: 8px;
+}
+
+.backups-body span {
+    height: 10vh;
+    display: flex;
+    align-items: center;
+}
+.backups-body span:last-of-type {
+    justify-content: space-around;
+}
+.backups-list {
+    border: 1px solid var(--text-color);
+}
+.backups-list span {
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 5vh;
+}
+
+.crear-backup {
+    margin-bottom: 1rem;
+}

@@ -1,12 +1,12 @@
 .citas {
-width: 97%;
+    width: 100%;
 
 }
 .citas-options,
 .solicitud-general {
     display: grid;
     padding-left: 1rem;
-    grid-template-columns: 175px 111px 125px 228px 186px 100px 108px;
+    grid-template-columns: 175px 111px 125px 228px 131px 100px 139px;
 }
 
 .citas-options {
@@ -39,13 +39,12 @@ width: 97%;
 }
 
 .ver-especialidades {
-    border-radius: 5px 0px 0px 0px;
+    border-radius: 5px 5px 0px 0px;
     border: 1px solid var(--border-page);
     float: right;
     display: flex;
     justify-content: space-around;
     border-bottom: none;
-    border-right: none;
 }
 
 .card-general {
@@ -79,7 +78,7 @@ width: 97%;
     align-self: flex-end;
     display: flex;
     flex-direction: column;
-    width: 79px;
+    width: 100%;
 }
 
 strong {
@@ -91,4 +90,8 @@ strong {
 .form-rechazar {
     display: grid;
     grid-template-columns: 14vw 50px;
+}
+
+.historial {
+    width: 90%;
 }

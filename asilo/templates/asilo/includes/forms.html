@@ -3,7 +3,9 @@
 {% load crispy_forms_tags %}
 {% block section %}
     <link rel="stylesheet" href="{% static 'css/recepcion/forms.css' %}">
+    
     <h4>{{titulo}}</h4>
+    <h6>{{subtitulo}}</h6>
     <form class="form card" action="" method="post">
         {% csrf_token %}
             {{form|crispy}}

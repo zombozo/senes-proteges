@@ -23,7 +23,8 @@
 }
 
 .form-solicitud {
-    /* height: 65vh; */
+    display: flex;
+    flex-direction: column;
 }
 
 .card-solicitud {

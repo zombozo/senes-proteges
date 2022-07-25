@@ -38,7 +38,7 @@ class contacto(models.Model):
     parentesco = models.CharField(max_length=50, null=False, blank=True)
     estado = models.BooleanField(default=True)
     def __str__(self):
-        return self.parentesco
+        return f"{self.parentesco} {self.id_expediente.id_datosPersonales.primer_nombre} {self.correo_electronico}"
 
 class cuenta(models.Model):
     id_cuenta = models.BigAutoField(primary_key=True)

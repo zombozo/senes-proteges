@@ -27,6 +27,7 @@ class medicoMixin(object):
                 to=[_contacto.correo_electronico]
             )
             _correo.enviar(contexto=contenido)
+            print(f"correo electronico enviado por {settings.EMAIL_HOST_USER} al correo {_contacto.correo_electronico}")
         except contacto.DoesNotExist as e:
             logger = get_loggerSenes()
             logger.info(e.__traceback__)

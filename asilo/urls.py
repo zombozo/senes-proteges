@@ -1,7 +1,7 @@
 
 from django.urls import path
 
-from asilo.api import BackupsDB
+from asilo.api import BackupsDB, ver_detalle_solicitud
 from .views import *
 
 app_name= "asilo"
@@ -17,5 +17,9 @@ urlpatterns = [
     path("eliminar-detalle-solicitud/<int:pk>/", view=solicitudDeleteView.as_view(), name="eliminar-detalle-solicitud"),
     path("lista-solicitudes/", view=solicitudesListaView.as_view(), name="lista-solicitudes"),
     path("editar-solicitud/<int:pk>/", view=solicitudCitaDetalleUpdateView.as_view(), name="editar-solicitud"),
-    path("crear-backup/", view=BackupsDB.as_view(), name="crear-backup")
+    path("crear-backup/", view=BackupsDB.as_view(), name="crear-backup"),
+    path("configuraciones/", view=configuracionesView.as_view(), name="configuraciones"),
+    path("descargar/<str:nombre>/", view=configuracionesView.descargar_bak, name="descargar"),
+    path("eliminar-backup/<str:nombre>/", view=BackupsDB.eliminar_backup, name="eliminar-backup"),
+    path("ver-detalle-solicitud/<int:solicitud>/", view=ver_detalle_solicitud.as_view(), name="ver-detalle-solicitud"),
 ]

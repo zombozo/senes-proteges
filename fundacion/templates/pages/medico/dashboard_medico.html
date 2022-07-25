@@ -7,49 +7,82 @@
 <span class="pagina-activa" data-pagina="clinica" hidden></span>
 
 <div class="base-dashboard-medico">
-        <h4>Citas medicas del dia</h4>
-        <table class=" table tabla-citas-medicas">
-            <thead>
-                <tr>
-                    <th>paciente</th>
-                    <th>Especialidad</th>
-                    <th>edad</th>
-                    <th>Descripcion</th>
-                    <th>hora y fecha</th>
-                    <th>opciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% if citas %}
-                    {% for cita in citas %}
-                        <tr>
-                            <td>{{cita.id_solicitudCita.id_expediente.id_datosPersonales.get_nombreCompleto}}</td>
-                            <td>{{cita.id_especialidad}}</td>
-                            <td>{{cita.id_solicitudCita.id_expediente.id_datosPersonales.fecha_nacimiento}}
-                            <td>{{cita.descripcion}}</td>
-                            <td>{{cita.fecha_hora}}</td>
-                            <td>
-                                
-                                {% if cita.consulta_SolicitudDetalle.all %}
-                                    {% for consulta in cita.consulta_SolicitudDetalle.all  %}
-                                        <a class="btn" href="">Ver</a>
-                                    {% endfor %}
-                                    {% else %}
+    <nav class="nav-top">
+        <span class="seleccionado-top" data-pagina="pendientes">Citas pendientes</span>
+        <span class=""  data-pagina="historica">Historial de citas</span>
+    </nav>
+        <article class="pagina-citas pendientes">
+            <h4>Citas medicas del dia</h4>
+            <table class=" table tabla-citas-medicas ">
+                <thead>
+                    <tr>
+                        <th>Paciente</th>
+                        <th>Especialidad</th>
+                        <th>Edad</th>
+                        <th>Motivo</th>
+                        <th>hora y fecha</th>
+                        <th>opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if citas %}
+                        {% for cita in citas %}
+                        {% if cita.consulta_SolicitudDetalle.all %}
+                            {% else %}
+                            <tr>
+                                <td>{{cita.id_solicitudCita.id_expediente.id_datosPersonales.get_nombreCompleto}}</td>
+                                <td>{{cita.id_especialidad}}</td>
+                                <td>{{cita.id_solicitudCita.id_expediente.id_datosPersonales.fecha_nacimiento}}
+                                <td>{{cita.descripcion}}</td>
+                                <td>{{cita.fecha_hora}}</td>
+                                <td>
                                     <a class="btn btn-crear-consulta" href="{% url 'fundacion:crear-consulta' cita.id_solicitudCita.id_expediente.id_expediente %}?detalle={{cita.solicitudCitaDetalle}}">
                                         Atender
                                     </a>
-                                {% endif %}
-                                    
-                                
-                                
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% endif %}
-            </tbody>
-        </table>
-
+                                </td>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </article>
+        <article class="pagina-citas historica" style="display:none">
+            <table class=" table tabla-citas-medicas-historica " >
+                <thead>
+                    <tr>
+                        <th>paciente</th>
+                        <th>Especialidad</th>
+                        <th>motivo</th>
+                        <th>hora y fecha</th>
+                        <th>Mi diagnostico</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if citas %}
+                        {% for cita in citas %}
+                        {% if cita.consulta_SolicitudDetalle.all %}
+                            <tr>
+                                <td>{{cita.id_solicitudCita.id_expediente.id_datosPersonales.get_nombreCompleto}}</td>
+                                <td>{{cita.id_especialidad}}</td>
+                                <td>{{cita.descripcion}}</td>
+                                <td>{{cita.fecha_hora}}</td>
+                                <td>
+                                        {% for consulta in cita.consulta_SolicitudDetalle.all  %}
+                                            <span>{{consulta.diagnostico}}</span>
+                                        {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </article>
     
 </div>
 
 {% endblock body %}
+{% block script_js %}
+    <script src="{% static 'js/fundacion/dashboard-medico.js' %}"></script>
+{% endblock script_js %}

@@ -1,16 +1,49 @@
 {% extends 'asilo/base_asilo.html' %}
 {% load static %}
-{% block section %}
 {% block css_script_extra %}
     <link rel="stylesheet" href="{% static 'css/medico/solicitudes.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modaal.css' %}">
 {% endblock css_script_extra %}
-<br>
-    <article class="tabla-solicitudes">
-        <h4>Solicitudes pendientes de finalizar</h4>
+{% block section %}
+<nav class="nav-top">
+    <span class="seleccionado-top" data-page="tabla-solicitudes">Solicitudes sin finalizar</span>
+    <span class="" data-page="historial">historial de solicitudes</span>
+</nav>
+    <article class="pagina tabla-solicitudes">
+        <h4>Solicitudes pendientes que no han sido enviadas</h4>
         {% include 'includes/lista_solicitudes.html' with fichas=fichas %}
     </article>
+
+    <article class="pagina historial" style="display: none">
+        <h4>historial de solicitudes</h4>
+        <small>Consulte aqui para buscar las fechas asignadas</small>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Paciente</th>
+                    <th scope="col">Enfermero</th>
+                    <th scope="col">Preconsulta</th>
+                    <th scope="col">Fecha de solicitud</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for solicitud in historial_citas %}
+                    <tr>
+                        <th scope="row">{{solicitud.id_expediente.id_datosPersonales.get_nombreCompleto}}</th>
+                        <td>{{solicitud.id_enfermero.id_expediente.id_datosPersonales.get_nombreCompleto}}</td>
+                        <td>{{solicitud.descripcion}}</td>
+                        <td>{{solicitud.creado_en}}</td>
+                        <td><span class="ver-solicitud btn btn-outline-success" data-id="{{solicitud.id_solicitudCita}}">Ver</span></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </article>
+    
 {% endblock section %}
 {% block script_js_extra %}
+<script type="text/javascript" src="{% static 'js/modaal.js' %}"></script>
 <script type='text/javascript' src="{% static 'js/fundacion/includes/lista_solicitudes.js' %}"></script>
 {% endblock %}
 

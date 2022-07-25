@@ -1,4 +1,4 @@
-            <article class="detalle-citas">
+        <article class="detalle-citas solicitudes" >
             <h4>Solicitudes Pendientes</h4>
             <table class="table">
                 <thead>
@@ -26,7 +26,7 @@
                 </tbody>
             </table>
         </article>
-        <article class="detalle-citas">
+        <article class="detalle-citas pendientes" style="display: none;">
             <h4>Laboratorios con resultado pendiente</h4>
             <table class="table">
                 <thead>
@@ -55,6 +55,37 @@
                         </td>
                         <td>
                             <a href="{% url 'fundacion:editar-laboratorio' laboratorio.id_laboratorio %}" class="btn">agregar</a>
+                        </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </article>
+        <article class="detalle-citas historial" style="display: none;">
+            <h4>Historial de laboratorios</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Tipo</th>
+                        <th>Descripcion de la solicitud</th>
+                        <th>Fecha</th>
+                        <th>Resultado</th>
+                        <th>Descripcion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for laboratorio in laboratorioFin %}
+                        <tr>
+                        <td>{{laboratorio.id_solicitudLaboratorio.id_solicitudCita.id_expediente.id_datosPersonales.get_nombreCompleto}}</td>
+                        <td>{{laboratorio.id_solicitudLaboratorio.id_tipoLaboratorio.nombre}}</td>
+                        <td>{{laboratorio.id_solicitudLaboratorio.descripcion}}</td>
+                        <td>{{laboratorio.fecha_hora}}</td>
+                        <td>
+                            {{laboratorio.resultado}}
+                        </td>
+                        <td>
+                            {{laboratorio.descripcion_resultado}}
                         </td>
                         </tr>
                     {% endfor %}

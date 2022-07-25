@@ -31,9 +31,14 @@ empresas = (
     ("1","fundacion"),
     ("2","asilo")
 )
+
+class organizacion(models.Model):
+    pass
+    
+    
 class empleado(models.Model):
     id_empleado = models.BigAutoField(primary_key=True)
-    id_datos_personales = models.ForeignKey("usuarios.datosPersonales", verbose_name=("Datos personales"), on_delete=models.CASCADE)
+    id_datos_personales = models.ForeignKey("usuarios.datosPersonales", blank=True, null=True , verbose_name=("Datos personales"), on_delete=models.CASCADE)
     id_empleado_especialidad = models.ForeignKey("usuarios.empleadoEspecialidad", verbose_name=("Especialidad"), on_delete=models.CASCADE)
     empresa = models.CharField(max_length=80, choices=empresas)
     usuario = models.ForeignKey("usuarios.usuario", unique=True, related_name="usuario_empleado", on_delete=models.CASCADE)

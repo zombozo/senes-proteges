@@ -49,9 +49,11 @@ class dashboardLaboratorio(LoginRequiredMixin, TemplateView):
         solicitudes = solicitudLaboratorio.objects.filter(aceptado=None)
         date = datetime.datetime.now()
         _laboratorio = laboratorio.objects.filter(finalizado=False)
+        _laboratorioFin = laboratorio.objects.filter(finalizado=True)
         context = {
             "solicitudesLaboratorio": solicitudes,
-            "laboratoriosPendientes": _laboratorio
+            "laboratoriosPendientes": _laboratorio,
+            "laboratorioFin": _laboratorioFin
         }
         return render(request, self.template_name, context)
 
@@ -94,8 +96,9 @@ class enfermedadCreateView(LoginRequiredMixin, CreateView):
         id_solicitud = kwargs["solicitud"]
         solicitud = solicitudCitaDetalle.objects.get(solicitudCitaDetalle=id_solicitud)
         context["form"]=form
+        context["title"]="Registre la enfermedad detectada"
         context["solicitud_detalle"] = solicitud
-        messages.info(self.request, f"enfermedad {form.instance.id_enfermedad.nombre} registrada para el paciente {solicitud.id_solicitudCita.id_expediente.get_nombreCompleto()}")
+        
         return render(request, self.template_name, context)
     
     def form_valid(self, form):
@@ -103,6 +106,7 @@ class enfermedadCreateView(LoginRequiredMixin, CreateView):
         solicitud = solicitudCitaDetalle.objects.get(solicitudCitaDetalle=id_solicitud)
         form.instance.id_expediente = solicitud.id_solicitudCita.id_expediente
         self.success_url = self.success_url+f"{solicitud.id_solicitudCita.id_expediente.id_expediente}/?detalle={solicitud.solicitudCitaDetalle}"
+        messages.info(self.request, f"enfermedad {form.instance.id_enfermedad.nombre} registrada para el paciente {solicitud.id_solicitudCita.id_expediente.id_datosPersonales.get_nombreCompleto()}")
         return super().form_valid(form)
 
 class editLaboratorioCreateView(LoginRequiredMixin, UpdateView):
@@ -158,7 +162,7 @@ class tratamientoCreateView(LoginRequiredMixin, CreateView):
             "form":form,
             "solicitud_detalle":solicitud
         }
-        messages.info(self.request, f"Se agrego el medicamento {form.instance.medicamento.nombre} con {form.instance.cantidad} unidades, se hara entrega en farmacia.")
+        
         return render(request, self.template_name, context)
     
     
@@ -167,6 +171,7 @@ class tratamientoCreateView(LoginRequiredMixin, CreateView):
         solicitud = solicitudCitaDetalle.objects.get(solicitudCitaDetalle=id_solicitud)
         form.instance.id_ficha = ficha.get_ficha(_solicitudCitaDetalle=solicitud)
         self.success_url = self.success_url+f"{solicitud.id_solicitudCita.id_expediente.id_expediente}/?detalle={solicitud.solicitudCitaDetalle}"
+        messages.info(self.request, f"Se agrego el medicamento {form.instance.medicamento.nombre} con {form.instance.cantidad} unidades, se hara entrega en farmacia.")
         return super().form_valid(form)
     
 class laboratorioSolicitudCreate(LoginRequiredMixin, CreateView):

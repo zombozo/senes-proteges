@@ -9,13 +9,14 @@ class datosPersonalesForm(ModelForm):
     class Meta:
         model = datosPersonales
         fields = "__all__"
-        # widgets = {
-        #     'fecha_nacimiento': DateInput(attrs={
-        #                     "class":"form-control",
-        #                     "type":"date"
-        #                 })
-        # }
-        
+        widgets = {
+            'fecha_nacimiento': DateInput(
+                        format=('%d %B, %Y'),
+                        attrs={
+                            "class":"datepicker",
+                        })
+        }
+        # "type":"date"
     def __init__(self, *args, **kwargs):
         super(datosPersonalesForm, self).__init__(*args, **kwargs)
         print("init form")
