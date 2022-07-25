@@ -1,4 +1,4 @@
-# ![senes-proteges](/static/imagenes/grasshopperIcon.png) Senes proteges # ![senes-proteges](/static/imagenes/grasshopperIcon.png)
+# ![senes-proteges](/static/imagenes/grasshopperIcon.png) Senes proteges ![senes-proteges](/static/imagenes/grasshopperIcon.png)
 senes-salutem-proteges - hogar para ancianos
 
 
