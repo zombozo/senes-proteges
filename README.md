@@ -42,9 +42,27 @@ una ves dentro del entorno virtual instale las dependencias del proyecto
   pip install -r requirements.txt
 ```
 
+> configure la base de datos o utilize la version portatil sqlite para pruebas
+> cree los modelos de la base de datos con el ORM de django 
+```
+ python3 manage.py makemigrations
+ python3 manage.py migrate --settings=settings.setttings
+ 
+```
+> Cree un superusuario para acceder a las paginas del sitio y al administrador
+```
+python3 manage.py createsuperuser --settings=settings.settings
+```
+
+> ejecute el proyecto
+```
+ python3 manage.py runserver --settings=settings.settings 127.0.0.1:8083
+```
+
+> Acceda al sitio en su entorno local en la url: http://localhost:8083
 
 
-# configuracion del servidor web senes proteges
+# configuracion de MSSQL SERVER 
 
 
 ## ejecutar docker con mssql server 
