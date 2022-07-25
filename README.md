@@ -10,7 +10,10 @@ esto permitira un mejor control del estado de salud de los residentes.
 Visite la seccion [WIKI](https://github.com/zombozo/senes-proteges/wiki) de este repositorio para conocer todos los detalles del proyecto.
 
 Ademas puede visitar cada issue en la seccion de [ZENHUB](https://github.com/zombozo/senes-proteges/wiki#workspaces/senes-proteges-62b5c7814d85c1001a6af6b9/board?repos=496660399) para conocer la documentacion  y el proceso implementado para el desarrollo de este proyecto.
-![imagen](https://user-images.githubusercontent.com/15509293/180701173-643c073e-ae3d-42a6-8833-05e70d15aa51.png)
+###### debera instalar la extension de zenhub para poder ver la pestana disponible.
+
+![imagen](https://user-images.githubusercontent.com/15509293/180701455-9662a81f-873b-4731-95a0-1d52a157130e.png)
+
 
 
 ## Como instalar en su entorno local
