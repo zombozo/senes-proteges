@@ -1,5 +1,7 @@
-# senes-proteges
+# ![senes-proteges](/static/imagenes/grasshopperIcon.png) Senes proteges # ![senes-proteges](/static/imagenes/grasshopperIcon.png)
 senes-salutem-proteges - hogar para ancianos
+
+
 
 Es un proyecto pensado para gestionar las actividades del asilo Nueva vida y proporcinara usuarios de acceso a los empleados de la fundacion buena vida, para que desde su lugar de trabajo, alimenten el expediente del residente del asilo, cada ves que este realice una visita medica.
 
